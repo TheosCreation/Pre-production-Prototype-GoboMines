@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  maxRotZCamera: 87
+  maxRotZCamera: 90
   scale: 1
   lookSensitivity: 1
   tiltStatus: 1
