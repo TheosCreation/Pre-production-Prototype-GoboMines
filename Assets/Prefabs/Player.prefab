@@ -326,7 +326,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   maxRotZCamera: 90
   scale: 1
-  lookSensitivity: 1
+  lookSensitivity: 0.25
   tiltStatus: 1
   shakeAmount: 1
   fov: 60
