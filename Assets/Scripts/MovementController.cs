@@ -157,15 +157,15 @@ public class MovementController : NetworkBehaviour
         SetFriction(frictionAgainstFloor, true);
         currentLockOnSlope = lockOnSlope;
 
-        //InputManager.Instance.playerInput.InGame.Jump.started += OnJump;
+        InputManager.Instance.Input.Player.Jump.started += OnJump;
     }
 
-    //public override void OnDestroy()
-    //{
-    //    base.OnDestroy();
-    //
-    //    InputManager.Instance.playerInput.InGame.Jump.started -= OnJump;
-    //}
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        InputManager.Instance.Input.Player.Jump.started -= OnJump;
+    }
 
     private void FixedUpdate()
     {
