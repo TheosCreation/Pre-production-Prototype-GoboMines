@@ -585,7 +585,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9165797768001435688, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -9048794901157447202, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_IsActive
@@ -633,7 +633,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8016412588606473749, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -7640558969779515294, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_IsActive
@@ -673,7 +673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6547223059409353530, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -6101978769176240396, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_LocalRotation.w
@@ -773,7 +773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1527614881612994136, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -1380561780340228826, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_LocalRotation.w
@@ -797,7 +797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -809828480950454423, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -774906645826849063, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_LocalRotation.w
@@ -825,7 +825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1823817582581819116, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2054865280442007790, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_IsActive
@@ -833,19 +833,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5074512353664290214, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5631970234333447461, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6450254094538066919, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7205140776170859923, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7223162822933195812, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_LocalRotation.w
@@ -869,7 +869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7603786706384944740, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8030707958198045491, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_IsActive
@@ -878,6 +878,10 @@ PrefabInstance:
     - target: {fileID: 8416272007918961125, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8509722215188012327, guid: bc5a8f3586bfb534f9785c6159459486, type: 3}
+      propertyPath: m_CastShadows
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
