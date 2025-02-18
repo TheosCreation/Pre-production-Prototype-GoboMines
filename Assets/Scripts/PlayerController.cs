@@ -8,6 +8,12 @@ public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private SkinnedMeshRenderer[] thirdPersonRenderers;
     public NetworkAnimator networkedAnimator;
+    public PlayerLook playerLook;
+
+    private void Awake()
+    {
+        playerLook = GetComponent<PlayerLook>();
+    }
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -22,6 +28,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     List<ItemSO> items = new List<ItemSO>();
+
     // instead of passing in ore type we do generic item
     public void AddToInventory(OreSO ore, float amount)
     {

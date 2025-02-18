@@ -1,7 +1,5 @@
-using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class Weapon : Item
 {
@@ -43,7 +41,7 @@ public class Weapon : Item
     protected BoxCollider bc;
     protected Rigidbody rb;
     protected Timer pickupTimer;
-    private PlayerController player;
+    protected PlayerController player;
 
     protected virtual void Awake()
     {
@@ -112,7 +110,7 @@ public class Weapon : Item
 
     }
 
-    public virtual void Equip()
+    public override void Equip()
     {
         player.networkedAnimator.Animator = animator;
 
@@ -159,7 +157,7 @@ public class Weapon : Item
         // if the player isnt holding to many weapons we dont add it
         if(itemHolder.Add(this))
         {
-            //SetWeaponUser(user);
+            player = user;
         
             canPickup = false;
         
@@ -175,7 +173,7 @@ public class Weapon : Item
         return 1 / attacksPerSecond;
     }
 
-    public void StartAttacking()
+    public override void StartAttacking()
     {
         if (!IsOwner) return;
 
@@ -188,7 +186,7 @@ public class Weapon : Item
 
         AttackServerRpc();
         PlayAttackSound();
-        //weaponUser.OnWeaponAttack(this);
+        player.playerLook.TriggerScreenShake(screenShakeDuration, screenShakeAmount);
 
         lastAttackTime = Time.time;
     }
@@ -206,11 +204,6 @@ public class Weapon : Item
     {
 
     }
-
-    //public void SetWeaponUser(WeaponUser user)
-    //{
-    //    weaponUser = user;
-    //}
 
     protected void PlayAttackSound()
     {

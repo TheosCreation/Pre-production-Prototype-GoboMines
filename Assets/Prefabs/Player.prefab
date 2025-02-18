@@ -681,6 +681,8 @@ MonoBehaviour:
   - {fileID: 5509966418631229225}
   - {fileID: 768162046174303868}
   - {fileID: 2255275745783359176}
+  networkedAnimator: {fileID: 0}
+  playerLook: {fileID: 0}
 --- !u!114 &1213804237299153649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,9 +945,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   currentHoldableItems:
-  - {fileID: 5942378960375973119}
+  - {fileID: 0}
   - {fileID: 404593010542188158}
-  currentItem: {fileID: 5942378960375973119}
+  currentItem: {fileID: 0}
   scrollSwitchDelay: 0.1
   leftHandIK: {fileID: 3368462683293057452}
   leftHandTarget: {fileID: 1431106229886963758}
@@ -1284,27 +1286,62 @@ PrefabInstance:
       propertyPath: m_Name
       value: Colt1911
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8808060006694993338, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8315762631109156069, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3344838063029505262}
   m_SourcePrefab: {fileID: 100100000, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
 --- !u!95 &2406686618576818099 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 661278715239675638, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
   m_PrefabInstance: {fileID: 2903433929532258629}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5942378960375973119 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8808060006694993338, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
+--- !u!1 &6569792855654311328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8315762631109156069, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
   m_PrefabInstance: {fileID: 2903433929532258629}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &3344838063029505262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569792855654311328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d1d27575d1e80f45ab19d5e46d4d898, type: 3}
+  m_Script: {fileID: 11500000, guid: d000a8cd96d8152409065c581c1cc524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  IKRightHandPos: {fileID: 0}
+  IKLeftHandPos: {fileID: 0}
+  IkLeftHandOn: 0
+  IkRightHandOn: 1
+  isEquip: 0
+  equipTime: 0.5
+  equipSound: {fileID: 0}
+  damage: 20
+  isAttacking: 0
+  attacksPerSecond: 1
+  attackingSounds: []
+  isAiming:
+    m_InternalValue: 0
+  zoomLevel: 1.1
+  cameraZoomZ: 0.1
+  isReloading:
+    m_InternalValue: 0
+  magSize: 45
+  reloadTime: 0.5
+  screenShakeDuration: 0.1
+  screenShakeAmount: 0.1
+  canPickup: 1
+  attackingAudioSource: {fileID: 0}
+  otherAudioSource: {fileID: 0}
 --- !u!4 &9006615320808097545 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6104344713988259404, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
