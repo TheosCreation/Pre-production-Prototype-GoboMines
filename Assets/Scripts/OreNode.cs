@@ -31,6 +31,7 @@ public class OreNode : MonoBehaviour, IDamageable
         {
             dustEffect.Play();
         }
+
     }
 
     public void StopMining()
