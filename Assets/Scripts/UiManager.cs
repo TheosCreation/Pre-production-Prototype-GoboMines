@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class UiManager : Singleton<UiManager>
@@ -15,4 +16,5 @@ public class UiManager : Singleton<UiManager>
     {
         //pauseScreen.SetActive(true);
     }
+
 }

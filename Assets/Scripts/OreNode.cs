@@ -7,7 +7,7 @@ public class OreNode : MonoBehaviour, IDamageable
     public float diminishingFactor = 0.9f; // Diminishing returns based on health
     public ParticleSystem sparkleEffect; // Sparkle effect when in vacinity
     public ParticleSystem dustEffect; // Dust effect when mining
-    public OreType oreType; // Type of ore this node contains
+    public OreSO ore;
 
     private float health = 100f; // Health of the node
     private bool isBeingMined = false;
@@ -81,7 +81,7 @@ public class OreNode : MonoBehaviour, IDamageable
         // Give mined ore to the player's inventory
         if (oreMined > 0)
         {
-            // playerRef.AddToInventory(new Ore(oreType, oreMined));    -- Uncomment after adding an amount value to give to the player.
+            playerRef.AddToInventory(ore, oreMined);
         }
 
         Debug.Log($"Mined {oreMined} ore. Remaining total ore: {totalOre}");
@@ -92,7 +92,6 @@ public class OreNode : MonoBehaviour, IDamageable
 
     private void DestroyOreNode()
     {
-        Debug.Log($"Ore node {oreType} destroyed!");
         // Optionally spawn an effect or play a sound here
         Destroy(gameObject);
     }
