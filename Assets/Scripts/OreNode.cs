@@ -1,30 +1,18 @@
 using UnityEngine;
 
-// Maybe modulate this so ores are items
-// Diff types of ores - Do sepereately later to include sell prices etc.
-public enum OreType
+public class OreNode : MonoBehaviour, IDamageable
 {
-    Copper,
-    Silver,
-    Gold,
-    Platinum
-};
-
-public class OreNode : MonoBehaviour
-{
-    public float totalOre = 100f; // Total ore in the node
+    public int totalOre = 100; // Total ore in the node
     public float miningSpeed = 10f; // Defines how quickly the node is mined
-    public float diminishingFactor = 0.9f; // Defines how quickly the node runs out of ore
-    public ParticleSystem sparkleEffect; // The sparkles when encountering the ore
-    public ParticleSystem dustEffect; // The dust when breaking the ore
-    public OreType oreType;
-    private float percentageMined = 0f;
+    public float diminishingFactor = 0.9f; // Diminishing returns based on health
+    public ParticleSystem sparkleEffect; // Sparkle effect when in vacinity
+    public ParticleSystem dustEffect; // Dust effect when mining
+    public OreType oreType; // Type of ore this node contains
+
+    private float health = 100f; // Health of the node
     private bool isBeingMined = false;
-
-
-    // Player Reference
-    private PlayerController PlayerRef;
-
+    private PlayerController playerRef; // Reference to the player mining this node
+    private float miningCarryover = 0f; // Fractional ore mined to be carried over (so you get full amount even with fractional damage)
 
     private void Update()
     {
@@ -37,7 +25,8 @@ public class OreNode : MonoBehaviour
     public void StartMining(PlayerController player)
     {
         isBeingMined = true;
-        PlayerRef = player;
+        playerRef = player;
+
         if (dustEffect != null)
         {
             dustEffect.Play();
@@ -48,40 +37,63 @@ public class OreNode : MonoBehaviour
     public void StopMining()
     {
         isBeingMined = false;
+
         if (dustEffect != null)
         {
             dustEffect.Stop();
         }
     }
 
-    // Re do later to do int values to the inventory and make it not constantly adjust a value in the inventory
-    // just call this function once and awhile instead of in Update thus making it easy to trigger so feedback to the player with Ui
+    public void TakeDamage(float amount)
+    {
+        health -= amount;
+        Debug.Log($"Ore node took {amount} damage. Remaining health: {health}");
+
+        if (health <= 0)
+        {
+            DestroyOreNode();
+        }
+    }
+
     private void MineOre()
     {
-        if (totalOre <= 0)
+        if (totalOre <= 0) return;
+
+        // Calculate diminishing returns based on remaining health
+        float effectiveSpeed = miningSpeed * Mathf.Pow(diminishingFactor, 1f - (health / 100f));
+
+        // Mine ore based on effective speed and delta time
+        float minedThisFrame = effectiveSpeed * Time.deltaTime;
+
+        // Add carryover to compensate for fractional mining damage
+        minedThisFrame += miningCarryover;
+
+        // Convert mined ore to an integer
+        int oreMined = (int)minedThisFrame;
+
+        // Carry over any remaining fractional ore for the next frame
+        miningCarryover = minedThisFrame - oreMined;
+
+        // Reduce total ore and clamp to avoid negative values
+        totalOre -= oreMined;
+        totalOre = Mathf.Max(totalOre, 0);
+
+        // Give mined ore to the player's inventory
+        if (oreMined > 0)
         {
-            // Destroy Node
-            return;
+            // playerRef.AddToInventory(new Ore(oreType, oreMined));    -- Uncomment after adding an amount value to give to the player.
         }
 
-        // Calculate Diminishing Returns For Ore
-        float effectiveSpeed = miningSpeed * Mathf.Pow(diminishingFactor, percentageMined);
+        Debug.Log($"Mined {oreMined} ore. Remaining total ore: {totalOre}");
 
-        // Mine Ore Based on Speed etc.
-        float minedThisFrame = effectiveSpeed * Time.deltaTime;
-        percentageMined += minedThisFrame / 100f;
+        // Have the node take damage
+        TakeDamage(oreMined);
+    }
 
-        // Remove ore from node
-        totalOre -= minedThisFrame;
-
-        // Clamp values so it doesnt over mine the node
-        totalOre = Mathf.Max(totalOre, 0f);
-        percentageMined = Mathf.Min(percentageMined, 100f);
-
-        // Mining Progress Check
-        Debug.Log($"Ore mined: {minedThisFrame}, Total Ore Left: {totalOre}");
-
-        // Give the mined ore to the player
-        PlayerRef.AddToInventory(oreType, minedThisFrame);
+    private void DestroyOreNode()
+    {
+        Debug.Log($"Ore node {oreType} destroyed!");
+        // Optionally spawn an effect or play a sound here
+        Destroy(gameObject);
     }
 }
