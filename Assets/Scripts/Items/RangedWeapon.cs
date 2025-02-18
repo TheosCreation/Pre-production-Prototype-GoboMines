@@ -1,8 +1,5 @@
-using System;
-using Unity.Burst.Intrinsics;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 using Random = UnityEngine.Random;
 
 public class RangedWeapon : Weapon
@@ -10,13 +7,10 @@ public class RangedWeapon : Weapon
 
     [Header("Recoil")]
     public float recoilResetTimeSeconds = 0.2f;
-    public float aimRecoilReduction = 0.3f;
     public Vector2 recoil;
     public Vector2[] recoilPattern;
 
     private int currentRecoilIndex = 0;
-    [Header("Weapon Spread")]
-    [SerializeField] private float spreadAmount = 0.1f;
 
     [Header("Projectile Settings")]
     [SerializeField] protected Transform muzzleTransform;
@@ -26,7 +20,6 @@ public class RangedWeapon : Weapon
     [SerializeField] public ParticleSystem casingParticle;
 
     [SerializeField] protected AudioClip reloadSound;
-    [SerializeField] protected AudioClip aimSound;
 
     private Timer reloadTimer;
     private Vector3 shotDirection;
@@ -38,7 +31,7 @@ public class RangedWeapon : Weapon
         set
         {
             ammo = value;
-            UiManager.Instance.playerHud.UpdateAmmoCount(ammo, magSize);
+            //UiManager.Instance.playerHud.UpdateAmmoCount(ammo, magSize);
         }
     }
 
@@ -56,8 +49,8 @@ public class RangedWeapon : Weapon
 
         isReloading.Value = false;
 
-        UiManager.Instance.playerHud.SetAmmo(true);
-        UiManager.Instance.playerHud.UpdateAmmoCount(ammo, magSize);
+        //UiManager.Instance.playerHud.SetAmmo(true);
+        //UiManager.Instance.playerHud.UpdateAmmoCount(ammo, magSize);
     }
 
 
@@ -71,7 +64,7 @@ public class RangedWeapon : Weapon
 
         ApplyRecoil();
 
-        weaponUser.networkedAnimator.SetTrigger("Attack1");
+        player.networkedAnimator.SetTrigger("Attack");
 
 
         muzzleFlashParticle.Play();
@@ -81,7 +74,6 @@ public class RangedWeapon : Weapon
         {
             casingParticle.Play();
         }
-        //animator.SetTrigger("Attack1");
     }
 
     [ClientRpc]
@@ -110,27 +102,9 @@ public class RangedWeapon : Weapon
     [ServerRpc]
     private void FireProjectileServerRpc()
     {
-        Vector3 firePosition = weaponUser.GetFirePoint();
-        if (firePosition == Vector3.zero)
-        {
-            firePosition = transform.position;
-        }
+        Vector3 firePosition = player.playerLook.playerCamera.transform.position;
 
-        Vector3 direction = transform.forward;
-        if (weaponUser is PlayerController)
-        {
-            direction = weaponUser.GetForwardDirection();
-        }
-
-        // If not aiming, add spread
-        if (!isAiming.Value)
-        {
-            float spread = spreadAmount;
-            direction.x += Random.Range(-spread, spread);
-            direction.y += Random.Range(-spread, spread);
-            direction.z += Random.Range(-spread, spread);
-            direction.Normalize();
-        }
+        Vector3 direction = player.playerLook.playerCamera.transform.forward;
 
         // Spawn the projectile on the server
         Projectile projectile = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
@@ -138,25 +112,21 @@ public class RangedWeapon : Weapon
         projectileNetworkObject.Spawn(true); // Spawn the projectile on the network
 
         // Initialize the projectile
-        projectile.owner = gameObject;
-        projectile.ownerLayer = gameObject.layer;
         projectile.Initialize(firePosition, direction, player, damage);
     }
 
     private void ApplyRecoil()
     {
-        float aimingReduction = isAiming.Value ? aimRecoilReduction : 1f;
-
         // Ensure recoil is updated only when enough time has passed
         if (Time.time - lastAttackTime >= recoilResetTimeSeconds)
         {
             recoil = Vector2.zero;
-            recoil += recoilPattern[0] * aimingReduction;
+            recoil += recoilPattern[0];
             currentRecoilIndex = 1;
         }
         else
         {
-            recoil += recoilPattern[currentRecoilIndex] * aimingReduction;
+            recoil += recoilPattern[currentRecoilIndex];
 
             if (currentRecoilIndex + 1 < recoilPattern.Length)
             {
@@ -167,27 +137,6 @@ public class RangedWeapon : Weapon
                 currentRecoilIndex = 0;
             }
         }
-    }
-
-    public override void StartAltAction()
-    {
-        if (!IsOwner) return;
-
-        isAiming.Value = true;
-
-        //play aim in sound
-        otherAudioSource.PlayOneShot(aimSound);
-
-        //UiManager.Instance.playerHud.SetCrosshair(false);
-    }
-
-    public override void EndAltAction()
-    {
-        if (!IsOwner) return;
-
-        isAiming.Value = false;
-
-        //UiManager.Instance.playerHud.SetCrosshair(true);
     }
 
     protected override bool CanAttack()

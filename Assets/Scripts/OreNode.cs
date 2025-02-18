@@ -14,6 +14,10 @@ public class OreNode : MonoBehaviour, IDamageable
     private PlayerController playerRef; // Reference to the player mining this node
     private float miningCarryover = 0f; // Fractional ore mined to be carried over (so you get full amount even with fractional damage)
 
+    public ParticleSystem HitParticlePrefab { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public AudioClip HitSound { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool IsDead { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     private void Update()
     {
         if (isBeingMined)
@@ -94,5 +98,10 @@ public class OreNode : MonoBehaviour, IDamageable
     {
         // Optionally spawn an effect or play a sound here
         Destroy(gameObject);
+    }
+
+    public void TakeDamage(float amount, ulong attackerId)
+    {
+        throw new System.NotImplementedException();
     }
 }

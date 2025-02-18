@@ -8,6 +8,7 @@ public class Projectile : NetworkBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] protected float speed = 20.0f; // Speed of the projectile
+    [SerializeField] protected float particleSpawnOffset = 0.1f; // Z offset to spawn the hit particles
     [SerializeField] protected float alignmentDistance = 3.0f; // Distance that it takes to align with the correct projectile path
     [SerializeField] protected float headShotMultiplier = 1.5f; // Speed of the projectile
     [SerializeField] protected bool destroyOnHit = true; // Does obj destroy on hit
@@ -117,7 +118,7 @@ public class Projectile : NetworkBehaviour
             {
                 //m_weaponUser.OnHit(true); //for a hitmarker indicator
                 damageable.TakeDamage((int)(m_damage * headShotMultiplier), attackerId);
-                HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.WeakHitSound);
+                HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSound);
             }
             else
             {
@@ -138,5 +139,57 @@ public class Projectile : NetworkBehaviour
         {
             NetworkObject.Despawn();
         }
+    }
+
+
+    protected void HitDamageable(Vector3 hitPosition, Vector3 normal, ParticleSystem particleToSpawn, AudioClip audioToPlay)
+    {
+        if (!IsServer) return; // Only the server spawns particles and sounds
+
+        // Spawn hit particles
+        ParticleSystem hitParticles = Instantiate(particleToSpawn, hitPosition, Quaternion.LookRotation(-normal)).GetComponent<ParticleSystem>();
+        NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+
+        // Despawn the sound maker after the clip finishes
+        float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constantMax;
+        NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
+
+        // Play hit sound
+        //CreateHitSound(audioToPlay, hitPosition);
+    }
+
+    protected void HitOther(Vector3 hitPosition, Vector3 wallNormal, string tag)
+    {
+        if (!IsServer) return; // Only the server spawns particles and sounds
+
+        // Spawn hit particles with offset
+        Vector3 particlePositionOffset = wallNormal * particleSpawnOffset;
+        ParticleSystem hitParticles = Instantiate(GameManager.Instance.prefabs.hitWallPrefab, hitPosition + particlePositionOffset, Quaternion.LookRotation(-wallNormal)).GetComponent<ParticleSystem>();
+        NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+
+        float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constantMax;
+        NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
+
+        // Play hit sound based on tag
+        //AudioClip clipToPlay = null;
+        //switch (tag)
+        //{
+        //    case "Stone":
+        //        clipToPlay = GameManager.Instance.prefabs.stoneImpactSound;
+        //        break;
+        //    case "Wood":
+        //        clipToPlay = GameManager.Instance.prefabs.woodImpactSound;
+        //        break;
+        //    default:
+        //        Debug.Log($"Hit sounds for tag: {tag} not implemented");
+        //        break;
+        //}
+
+        //if (clipToPlay != null)
+        //{
+        //    CreateHitSound(clipToPlay, hitPosition);
+        //}
     }
 }

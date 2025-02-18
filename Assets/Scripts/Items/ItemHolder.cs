@@ -83,32 +83,6 @@ public class ItemHolder : NetworkBehaviour
         }
 
         UpdateHandTargets();
-
-        //// Determine the transform to attach the weapon
-        //Transform transformToAttachWeapon = currentWeapon.isAiming.Value && !currentWeapon.isReloading.Value ? aimingPos : idlePos;
-        //
-        //// Smoothly interpolate weapon's position and rotation to the target transform
-        //currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, transformToAttachWeapon.position, Time.deltaTime * transitionSpeed);
-        //currentWeapon.transform.rotation = Quaternion.Slerp(currentWeapon.transform.rotation, transformToAttachWeapon.rotation, Time.deltaTime * transitionSpeed);
-        //currentWeapon.transform.parent = transformToAttachWeapon;
-        //
-        //if (!IsOwner) return;
-        //
-        //// Adjust player zoom if aiming
-        //if (currentWeapon.isAiming.Value && !currentWeapon.isReloading.Value)
-        //{
-        //    if (player != null)
-        //    {
-        //        player.playerLook.SetZoomLevel(currentWeapon.zoomLevel, currentWeapon.cameraZoomZ, 0.9f);
-        //    }
-        //}
-        //else
-        //{
-        //    if (player != null)
-        //    {
-        //        player.playerLook.ResetZoomLevel();
-        //    }
-        //}
     }
 
     private void ItemSwitch(Vector2 direction)

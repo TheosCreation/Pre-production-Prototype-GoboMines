@@ -4,11 +4,18 @@ using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : NetworkBehaviour, IDamageable
 {
     [SerializeField] private SkinnedMeshRenderer[] thirdPersonRenderers;
     public NetworkAnimator networkedAnimator;
     public PlayerLook playerLook;
+    private bool isDead = false;
+    public bool IsDead { get => isDead; set => isDead = value; }
+    [SerializeField] private ParticleSystem hitParticles;
+    public ParticleSystem HitParticlePrefab { get => hitParticles; set => hitParticles = value; }
+
+    [SerializeField] private AudioClip hitSound;
+    public AudioClip HitSound { get => hitSound; set => hitSound = value; }
 
     private void Awake()
     {
@@ -29,6 +36,8 @@ public class PlayerController : NetworkBehaviour
 
     List<ItemSO> items = new List<ItemSO>();
 
+    
+
     // instead of passing in ore type we do generic item
     public void AddToInventory(OreSO ore, float amount)
     {
@@ -37,5 +46,9 @@ public class PlayerController : NetworkBehaviour
             // OreSO ore = items.Find(ore);
             //UiManager.Instance.NotifyItem(ore);
         }
+    }
+
+    public void TakeDamage(float amount, ulong attackerId)
+    {
     }
 }

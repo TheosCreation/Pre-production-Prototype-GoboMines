@@ -1,4 +1,11 @@
+using UnityEngine;
+
 interface IDamageable
 {
-    void TakeDamage(float amount);
+    ParticleSystem HitParticlePrefab { get; set; }
+    AudioClip HitSound { get; set; }
+
+    bool IsDead { get; set; }
+
+    void TakeDamage(float amount, ulong attackerId);
 }
