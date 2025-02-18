@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c960c43eb06ba40bb9cd6f3fbefb17, type: 3}
   m_Name: Diamond
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  icon: {fileID: 0}
   itemName: 
-  oreType: 0
+  saleValue: 1
