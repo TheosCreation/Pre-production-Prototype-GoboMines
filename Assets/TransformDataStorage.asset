@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: TransformDataStorage
   m_EditorClassIdentifier: 
   leftHandTransforms:
-  - localPosition: {x: -0.000909, y: -0.000253, z: 0.000158}
-    localRotation: {x: 0.07532596, y: -0.10279672, z: -0.80004567, w: 0.58624727}
+  - localPosition: {x: -0.0868, y: -0.1297, z: -0.0096}
+    localRotation: {x: -0.2914311, y: -0.58041894, z: -0.68581575, w: 0.32838777}
   - localPosition: {x: 0, y: 0, z: 0}
     localRotation: {x: 0, y: 0, z: 0, w: 0}
   - localPosition: {x: 0, y: 0, z: 0}
     localRotation: {x: 0, y: 0, z: 0, w: 0}
   rightHandTransforms:
-  - localPosition: {x: 0.00036, y: -0.00028, z: -0.00031}
-    localRotation: {x: 0.025513386, y: -0.71353, z: -0.6999006, w: 0.019057069}
+  - localPosition: {x: 0.0422, y: 0.0115, z: -0.0455}
+    localRotation: {x: 0.043285735, y: 0.6867176, z: 0.7102109, w: -0.14881419}
   - localPosition: {x: 0, y: 0, z: 0}
     localRotation: {x: 0, y: 0, z: 0, w: 0}
   - localPosition: {x: 0, y: 0, z: 0}

@@ -220,4 +220,9 @@ public class ItemHolder : NetworkBehaviour
             handTarget.rotation = ikHandPos.rotation;
         }
     }
+
+    internal bool Add(Weapon weapon)
+    {
+        throw new NotImplementedException();
+    }
 }

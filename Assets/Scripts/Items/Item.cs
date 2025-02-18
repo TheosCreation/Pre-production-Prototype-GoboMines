@@ -1,8 +1,8 @@
-using System;
+using Unity.Netcode;
 using UnityEngine;
 
 // Ingame version of the item thats why it inherits from monobehaviour
-public class Item : MonoBehaviour
+public class Item : NetworkBehaviour
 {
     public Transform IKRightHandPos;
     public Transform IKLeftHandPos;

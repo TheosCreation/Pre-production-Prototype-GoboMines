@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private SkinnedMeshRenderer[] thirdPersonRenderers;
+    public NetworkAnimator networkedAnimator;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
