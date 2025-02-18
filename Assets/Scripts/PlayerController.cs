@@ -5,14 +5,14 @@ using UnityEngine.Rendering;
 
 public class PlayerController : NetworkBehaviour
 {
-    [SerializeField] private SkinnedMeshRenderer[] thridPersonRenderers;
+    [SerializeField] private SkinnedMeshRenderer[] thirdPersonRenderers;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
         if(IsOwner)
         {
-            foreach (SkinnedMeshRenderer renderer in thridPersonRenderers)
+            foreach (SkinnedMeshRenderer renderer in thirdPersonRenderers)
             {
                 renderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
             }

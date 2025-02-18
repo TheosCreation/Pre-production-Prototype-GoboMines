@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class ItemHolder : NetworkBehaviour
 {
     [SerializeField] private List<Item> currentHoldableItems = new List<Item>();
-    private Item currentItem;
+    [SerializeField] private Item currentItem;
     private int currentItemIndex = 0;
     [SerializeField] private float scrollSwitchDelay = 0.1f;
     private NetworkVariable<int> currentItemIndexNetwork = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -34,6 +34,7 @@ public class ItemHolder : NetworkBehaviour
     private void OnAltActionCanceled(InputAction.CallbackContext ctx) => currentItem?.EndAltAction();
     private void OnCantAttackActionStarted(InputAction.CallbackContext ctx) => currentItem?.CantAttackAction();
 
+    
     private void Awake()
     {
         InputManager.Instance.Input.Player.ItemSwitch.performed += OnItemSwitch;
@@ -42,6 +43,21 @@ public class ItemHolder : NetworkBehaviour
         InputManager.Instance.Input.Player.AltAction.started += OnAltActionStarted;
         InputManager.Instance.Input.Player.AltAction.canceled += OnAltActionCanceled;
         InputManager.Instance.Input.Player.CantAttackAction.started += OnCantAttackActionStarted;
+
+    }
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        currentItemIndexNetwork.OnValueChanged += OnItemIndexChanged;
+
+        // Select the current item based on the network variable
+        SelectItem(currentItemIndexNetwork.Value);
+
+        if (IsOwner)
+        {
+            currentItem?.Equip();
+        }
     }
 
     public override void OnDestroy()
@@ -106,21 +122,27 @@ public class ItemHolder : NetworkBehaviour
     {
         isSwitching = true;
 
-        int totalItems = currentHoldableItems.Count;
-
-        if (direction.y > 0)
+        try
         {
-            currentItemIndex = (currentItemIndex + 1) % totalItems;
+            int totalItems = currentHoldableItems.Count;
+
+            if (direction.y > 0)
+            {
+                currentItemIndex = (currentItemIndex + 1) % totalItems;
+            }
+            else if (direction.y < 0)
+            {
+                currentItemIndex = (currentItemIndex - 1 + totalItems) % totalItems;
+            }
+
+            RequestWeaponSwitchServerRpc(currentItemIndex);
+
+            yield return new WaitForSeconds(scrollSwitchDelay);
         }
-        else if (direction.y < 0)
+        finally
         {
-            currentItemIndex = (currentItemIndex - 1 + totalItems) % totalItems;
+            isSwitching = false;
         }
-
-        RequestWeaponSwitchServerRpc(currentItemIndex);
-
-        yield return new WaitForSeconds(scrollSwitchDelay);
-        isSwitching = false;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -135,6 +157,23 @@ public class ItemHolder : NetworkBehaviour
         currentItemIndexNetwork.Value = newItemIndex;
     }
 
+    private void OnItemIndexChanged(int oldValue, int newValue)
+    {
+        // Update the weapon when the NetworkVariable changes
+        SelectItem(newValue);
+    }
+    private void SelectItem(int newValue)
+    {
+        if (newValue < currentHoldableItems.Count)
+        {
+            currentItem = currentHoldableItems[newValue];
+        }
+
+        foreach (var item in currentHoldableItems)
+        {
+            item.gameObject.SetActive(item == currentItem);
+        }
+    }
 
     private void UpdateHandTargets()
     {
@@ -165,18 +204,20 @@ public class ItemHolder : NetworkBehaviour
         SetLeftHandIKWeight(0);
         SetRightHandIKWeight(0);
     }
-
-    private void SetRightHandIKWeight(float weight)
+    private void SetLeftHandIKWeight(float weight)
     {
         leftHandIK.weight = weight;
     }
-
-    private void SetLeftHandIKWeight(float weight)
+    private void SetRightHandIKWeight(float weight)
     {
         rightHandIK.weight = weight;
     }
-
-    private void SetHandTarget(Transform leftHandTarget, Transform iKLeftHandPos)
+    private void SetHandTarget(Transform handTarget, Transform ikHandPos)
     {
+        if (handTarget != null && ikHandPos != null)
+        {
+            handTarget.position = ikHandPos.position;
+            handTarget.rotation = ikHandPos.rotation;
+        }
     }
 }
