@@ -897,6 +897,14 @@ PrefabInstance:
       value: room2Ldoor Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2448300978825195605, guid: 86f973bf635098f4eacb72f8f04b70d2, type: 3}
+      propertyPath: size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448300978825195605, guid: 86f973bf635098f4eacb72f8f04b70d2, type: 3}
+      propertyPath: size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448300978825195605, guid: 86f973bf635098f4eacb72f8f04b70d2, type: 3}
       propertyPath: doors.Array.size
       value: 2
       objectReference: {fileID: 0}

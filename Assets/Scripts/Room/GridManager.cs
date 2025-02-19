@@ -2,7 +2,6 @@
 
 public class GridManager : Singleton<GridManager>
 {
-
     public Vector2Int gridSize = new Vector2Int(50, 50);
     public float cellSize = 5f;
     public enum CellState { Unoccupied, Available, Occupied }
@@ -11,6 +10,7 @@ public class GridManager : Singleton<GridManager>
     protected override void Awake()
     {
         base.Awake();
+        Debug.Log("[GridManager] Initializing grid...");
         InitializeGrid();
     }
 
@@ -18,25 +18,30 @@ public class GridManager : Singleton<GridManager>
     {
         grid = new CellState[gridSize.x, gridSize.y];
         for (int x = 0; x < gridSize.x; x++)
-        {    
+        {
             for (int y = 0; y < gridSize.y; y++)
             {
                 grid[x, y] = CellState.Unoccupied;
             }
         }
+        Debug.Log($"[GridManager] Grid initialized with size {gridSize}. All cells set to Unoccupied.");
     }
 
     public Vector3 ConvertToWorldPosition(Vector2Int gridPosition)
     {
-        return new Vector3(gridPosition.x * cellSize, 0, gridPosition.y * cellSize);
+        Vector3 worldPos = new Vector3(gridPosition.x * cellSize, 0, gridPosition.y * cellSize);
+        Debug.Log($"[GridManager] Converted grid position {gridPosition} to world position {worldPos}.");
+        return worldPos;
     }
 
     public Vector2Int ConvertToGridPosition(Vector3 worldPosition)
     {
-        return new Vector2Int(
+        Vector2Int gridPos = new Vector2Int(
             Mathf.FloorToInt(worldPosition.x / cellSize),
             Mathf.FloorToInt(worldPosition.z / cellSize)
         );
+        Debug.Log($"[GridManager] Converted world position {worldPosition} to grid position {gridPos}.");
+        return gridPos;
     }
 
     public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation)
@@ -44,12 +49,24 @@ public class GridManager : Singleton<GridManager>
         Vector2Int effectiveSize = room.GetEffectiveSize(rotation);
         if (gridPosition.x < 0 || gridPosition.y < 0 ||
             gridPosition.x + effectiveSize.x > gridSize.x ||
-            gridPosition.y + effectiveSize.y > gridSize.y) return false;
+            gridPosition.y + effectiveSize.y > gridSize.y)
+        {
+            Debug.LogWarning($"[GridManager] Room {room.gameObject.name} with size {effectiveSize} cannot be placed at {gridPosition}: Out of bounds.");
+            return false;
+        }
 
         for (int x = 0; x < effectiveSize.x; x++)
+        {
             for (int y = 0; y < effectiveSize.y; y++)
+            {
                 if (grid[gridPosition.x + x, gridPosition.y + y] == CellState.Occupied)
+                {
+                    Debug.LogWarning($"[GridManager] Cannot place room {room.gameObject.name} due to occupied cell at ({gridPosition.x + x}, {gridPosition.y + y}).");
                     return false;
+                }
+            }
+        }
+        Debug.Log($"[GridManager] Room {room.gameObject.name} can be placed at {gridPosition} with size {effectiveSize}.");
         return true;
     }
 
@@ -61,24 +78,26 @@ public class GridManager : Singleton<GridManager>
             for (int y = 0; y < effectiveSize.y; y++)
             {
                 grid[gridPosition.x + x, gridPosition.y + y] = CellState.Occupied;
-                Debug.Log($"Occupied cell: ({gridPosition.x + x}, {gridPosition.y + y})");
+                Debug.Log($"[GridManager] Occupied cell ({gridPosition.x + x}, {gridPosition.y + y}) for room {room.gameObject.name}");
             }
         }
     }
-
     public void SetCellState(Vector2Int cell, CellState state)
     {
         if (cell.x >= 0 && cell.x < gridSize.x && cell.y >= 0 && cell.y < gridSize.y)
         {
             grid[cell.x, cell.y] = state;
-            Debug.Log($"Set cell ({cell.x}, {cell.y}) to {state}");
+            Debug.Log($"[GridManager] Set cell ({cell.x}, {cell.y}) to state {state}.");
+        }
+        else
+        {
+            Debug.LogWarning($"[GridManager] Attempt to set cell state for out-of-bounds cell ({cell.x}, {cell.y}).");
         }
     }
 
     void OnDrawGizmos()
     {
         if (grid == null) return;
-
         for (int x = 0; x < gridSize.x; x++)
         {
             for (int y = 0; y < gridSize.y; y++)
@@ -95,8 +114,8 @@ public class GridManager : Singleton<GridManager>
                         Gizmos.color = Color.green;
                         break;
                 }
-                Vector3 pos = ConvertToWorldPosition(new Vector2Int(x, y));
-                Gizmos.DrawWireCube(pos, new Vector3(cellSize, 0.1f, cellSize));
+                Vector3 pos =(new Vector3(x*1.1f,0, y*1.1f));
+                Gizmos.DrawCube(pos, new Vector3(cellSize, 0.1f, cellSize));
             }
         }
     }

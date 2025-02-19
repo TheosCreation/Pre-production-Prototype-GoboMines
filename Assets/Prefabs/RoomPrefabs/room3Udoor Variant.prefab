@@ -476,12 +476,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6571091272123865067, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
       propertyPath: m_Name
-      value: room3Udoor Variant Variant
+      value: room3Udoor Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7200476085473617086, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+      propertyPath: doors.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7200476085473617086, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
       propertyPath: doorList.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7200476085473617086, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+      propertyPath: 'doors.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1873690946118946553}
     - target: {fileID: 7200476085473617086, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
       propertyPath: 'doorList.Array.data[2]'
       value: 
@@ -495,6 +503,11 @@ PrefabInstance:
       addedObject: {fileID: 651500913699812390}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+--- !u!4 &1873690946118946553 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4116654950579746081, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+  m_PrefabInstance: {fileID: 2531555296587922392}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7516021052948541417 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5435740787855545393, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
