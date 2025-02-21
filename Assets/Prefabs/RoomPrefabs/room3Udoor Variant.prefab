@@ -413,7 +413,7 @@ Transform:
   m_GameObject: {fileID: 8817895775177995235}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.78, y: -0.6703589, z: 3.82}
+  m_LocalPosition: {x: 1.78, y: -0.6703589, z: 2.39}
   m_LocalScale: {x: 0.20000015, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -431,8 +431,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2981438764677048205, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2981438764677048205, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.41
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3950380894660358474, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.4369655
       objectReference: {fileID: 0}
     - target: {fileID: 5435740787855545393, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -494,12 +502,24 @@ PrefabInstance:
       propertyPath: 'doorList.Array.data[2]'
       value: 
       objectReference: {fileID: 8738061123590407425}
+    - target: {fileID: 7613966154690863253, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 7613966154690863253, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0030001402
+      objectReference: {fileID: 0}
+    - target: {fileID: 8227662937261754713, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.4700003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8400244663831975227, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5435740787855545393, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
-      insertIndex: 3
+      insertIndex: -1
       addedObject: {fileID: 651500913699812390}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}

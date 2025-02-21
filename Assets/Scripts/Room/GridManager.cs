@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GridManager : Singleton<GridManager>
 {
@@ -29,7 +30,11 @@ public class GridManager : Singleton<GridManager>
 
     public Vector3 ConvertToWorldPosition(Vector2Int gridPosition)
     {
-        Vector3 worldPos = new Vector3(gridPosition.x * cellSize, 0, gridPosition.y * cellSize);
+        Vector3 worldPos = new Vector3(
+           gridPosition.x * cellSize,
+           0,
+           gridPosition.y * cellSize
+       );
         Debug.Log($"[GridManager] Converted grid position {gridPosition} to world position {worldPos}.");
         return worldPos;
     }
@@ -43,8 +48,45 @@ public class GridManager : Singleton<GridManager>
         Debug.Log($"[GridManager] Converted world position {worldPosition} to grid position {gridPos}.");
         return gridPos;
     }
+    public void MarkAdjacentCellsAsAvailable(Vector2Int cell)
+    {
+        Vector2Int[] directions = new Vector2Int[]
+        {
+            Vector2Int.up,
+            Vector2Int.right,
+            Vector2Int.down,
+            Vector2Int.left
+        };
 
-    public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation)
+        foreach (Vector2Int dir in directions)
+        {
+            Vector2Int adjacentCell = cell + dir;
+            if (adjacentCell.x >= 0 && adjacentCell.x < gridSize.x &&
+                adjacentCell.y >= 0 && adjacentCell.y < gridSize.y &&
+                grid[adjacentCell.x, adjacentCell.y] != CellState.Occupied)
+            {
+                SetCellState(adjacentCell, CellState.Available);
+            }
+        }
+    }
+
+    public List<Vector2Int> GetAvailableCells()
+    {
+        List<Vector2Int> availableCells = new List<Vector2Int>();
+        for (int x = 0; x < gridSize.x; x++)
+        {
+            for (int y = 0; y < gridSize.y; y++)
+            {
+                if (grid[x, y] == CellState.Available)
+                {
+                    availableCells.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+        return availableCells;
+    }
+
+public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation)
     {
         Vector2Int effectiveSize = room.GetEffectiveSize(rotation);
         if (gridPosition.x < 0 || gridPosition.y < 0 ||
@@ -84,6 +126,7 @@ public class GridManager : Singleton<GridManager>
     }
     public void SetCellState(Vector2Int cell, CellState state)
     {
+        Debug.Log("STATE IS "+ state + " IN " + cell);
         if (cell.x >= 0 && cell.x < gridSize.x && cell.y >= 0 && cell.y < gridSize.y)
         {
             grid[cell.x, cell.y] = state;

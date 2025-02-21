@@ -51,12 +51,7 @@ public class Generator : MonoBehaviour
 
             // Create a copy of available doors
             List<DoorData> doorSnapshot = new List<DoorData>(allDoors);
-            if (doorSnapshot.Count == 0)
-            {
-                Debug.LogWarning("[Generator] No available doors found for new rooms. Stopping generation.");
-                break;
-            }
-
+        
             foreach (DoorData door in doorSnapshot)
             {
                 Debug.Log($"[Generator] Checking door at cell {door.cell} with direction {door.direction}.");
@@ -132,11 +127,14 @@ public class Generator : MonoBehaviour
                     Debug.Log($"[Generator] Prefab {prefab.name} has a matching door for direction {-door.direction}.");
                     if (GridManager.Instance.CanPlaceRoom(roomTemplate, targetCell, rotation))
                     {
-                        Debug.Log($"[Generator] GridManager approved placement for {prefab.name} at {targetCell} with rotation {rotation.eulerAngles}.");
+                        Debug.Log($"[GridManager] GridManager approved placement for {prefab.name} at {targetCell} with rotation {rotation.eulerAngles}.");
 
                         Room placedRoom = SpawnRoom(prefab, targetCell, rotation);
                         if (placedRoom != null)
                         {
+                            // Mark the target cell as available since it has a door pointing to it
+                            GridManager.Instance.MarkAdjacentCellsAsAvailable(door.cell);
+
                             // Add new doors from the placed room to the pool
                             foreach (Transform newDoor in placedRoom.doors)
                             {
@@ -167,10 +165,6 @@ public class Generator : MonoBehaviour
                         }
 
                         return true;
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[Generator] GridManager denied placement for {prefab.name} at {targetCell} with rotation {rotation.eulerAngles}.");
                     }
                 }
                 else
