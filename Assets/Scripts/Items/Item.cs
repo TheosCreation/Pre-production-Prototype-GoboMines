@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 
 // Ingame version of the item thats why it inherits from monobehaviour
-public class Item : MonoBehaviour
+public class Item : NetworkBehaviour
 {
     public Transform IKRightHandPos;
     public Transform IKLeftHandPos;
@@ -13,4 +14,6 @@ public class Item : MonoBehaviour
     public virtual void StartAltAction() { }
     public virtual void EndAltAction() { }
     public virtual void CantAttackAction() { }
+
+    public virtual void Equip() { }
 }

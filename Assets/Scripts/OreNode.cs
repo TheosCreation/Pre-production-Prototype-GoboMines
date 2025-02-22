@@ -5,6 +5,11 @@ public class OreNode : MonoBehaviour, IDamageable
     public int totalOre = 100; // Total ore in the node
     public ParticleSystem sparkleEffect; // Sparkle effect when in vacinity
     public ParticleSystem dustEffect; // Dust effect when mining
+    
+    public ParticleSystem HitParticlePrefab { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public AudioClip HitSound { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool IsDead { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    
     public OreSO ore;
 
     public int maxHealth = 100;
@@ -56,5 +61,10 @@ public class OreNode : MonoBehaviour, IDamageable
     private void DestroyOreNode()
     {
         Destroy(gameObject);
+    }
+
+    public void TakeDamage(float amount, ulong attackerId)
+    {
+        throw new System.NotImplementedException();
     }
 }
