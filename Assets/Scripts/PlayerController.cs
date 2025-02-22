@@ -8,7 +8,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
 {
     [SerializeField] private SkinnedMeshRenderer[] thirdPersonRenderers;
     public NetworkAnimator networkedAnimator;
-    public PlayerLook playerLook;
+    [HideInInspector] public PlayerLook playerLook;
     private bool isDead = false;
     public bool IsDead { get => isDead; set => isDead = value; }
     [SerializeField] private ParticleSystem hitParticles;

@@ -4,7 +4,6 @@ using Random = UnityEngine.Random;
 
 public class RangedWeapon : Weapon
 {
-
     [Header("Recoil")]
     public float recoilResetTimeSeconds = 0.2f;
     public Vector2 recoil;
@@ -19,6 +18,7 @@ public class RangedWeapon : Weapon
     [SerializeField] public ParticleSystem muzzleFlashParticle;
     [SerializeField] public ParticleSystem casingParticle;
 
+    [SerializeField] protected AudioClip reloadEmptySound;
     [SerializeField] protected AudioClip reloadSound;
 
     private Timer reloadTimer;
@@ -156,10 +156,18 @@ public class RangedWeapon : Weapon
         if (ammo < magSize && !isReloading.Value)
         {
             isReloading.Value = true;
-            player.networkedAnimator.SetTrigger("Reload");
             //animator.SetTrigger("Reload");
             reloadTimer.SetTimer(reloadTime, FinishReload);
-            otherAudioSource.PlayOneShot(reloadSound);
+            if (ammo == 0)
+            {
+                player.networkedAnimator.SetTrigger("ReloadEmpty");
+                otherAudioSource.PlayOneShot(reloadEmptySound);
+            }
+            else
+            {
+                player.networkedAnimator.SetTrigger("Reload");
+                otherAudioSource.PlayOneShot(reloadSound);
+            }
         }
     }
 
@@ -170,5 +178,18 @@ public class RangedWeapon : Weapon
             isReloading.Value = false;
             Ammo = magSize;
         }
+    }
+
+    public override void StartAltAction()
+    {
+        base.StartAltAction();
+
+        isAiming.Value = true;
+    }
+    public override void EndAltAction()
+    {
+        base.EndAltAction();
+
+        isAiming.Value = false;
     }
 }

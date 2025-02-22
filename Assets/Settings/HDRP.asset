@@ -16,7 +16,7 @@ MonoBehaviour:
     supportShadowMask: 1
     supportSSR: 0
     supportSSRTransparent: 0
-    supportSSAO: 1
+    supportSSAO: 0
     supportSSGI: 0
     supportSubsurfaceScattering: 1
     sssSampleBudget:
@@ -73,7 +73,7 @@ MonoBehaviour:
     supportDitheringCrossFade: 0
     supportRuntimeAOVAPI: 0
     supportTerrainHole: 0
-    lightProbeSystem: 1
+    lightProbeSystem: 0
     oldLightProbeSystem: 0
     probeVolumeMemoryBudget: 1024
     supportProbeVolumeGPUStreaming: 0

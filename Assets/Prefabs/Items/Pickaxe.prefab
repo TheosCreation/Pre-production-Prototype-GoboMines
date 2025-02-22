@@ -97,8 +97,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5428819847830291728}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2914311, y: -0.58041894, z: -0.68581575, w: 0.32838777}
-  m_LocalPosition: {x: -0.38247812, y: -0.1297, z: -0.04230173}
+  m_LocalRotation: {x: 0.15376316, y: 0.64368576, z: 0.7471302, w: -0.061822835}
+  m_LocalPosition: {x: -0.071300134, y: -0.111399814, z: -0.010400061}
   m_LocalScale: {x: 422.5481, y: 423.03177, z: 101.95408}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -128,8 +128,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9064497450792492707}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.043285735, y: 0.6867177, z: 0.7102109, w: -0.1488142}
-  m_LocalPosition: {x: 0.18595134, y: 0.0115, z: -0.20049255}
+  m_LocalRotation: {x: -0.050870743, y: -0.68200886, z: -0.7292978, w: 0.020020785}
+  m_LocalPosition: {x: 0.0179, y: -0.0429, z: 0.0012}
   m_LocalScale: {x: 408.52206, y: 440.40704, z: 101.82944}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -185,7 +185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a312803e160620841ac1a305086f818d, type: 3}
       propertyPath: m_Name
-      value: Pickaxe
+      value: Animation
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

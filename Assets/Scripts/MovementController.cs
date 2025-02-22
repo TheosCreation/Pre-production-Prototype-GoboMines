@@ -17,10 +17,8 @@ public class MovementController : NetworkBehaviour
     // -------------------- Jump Specifics --------------------
     [Header("Jump specifics")]
     public float jumpVelocity = 20f;
-    private float coyoteJumpTime = 1f; // not used
     public float jumpTime = 0.3f;
     [Range(0f, 1f)] public float frictionAgainstFloor = 0.3f;
-    [Range(0f, 0.99f)] public float frictionAgainstWall = 0.839f;
     [Space(2)]
 
     public float acceleration = 0.2f;
@@ -81,12 +79,6 @@ public class MovementController : NetworkBehaviour
 
     public bool lockOnSlope = false;
 
-    // -------------------- Wall Slide/Jump Specifics --------------------
-    [Header("Wall slide/jump specifics")]
-    public float wallCheckerThrashold = 0.8f;
-    public float hightWallCheckerChecker = 0.5f;
-    public float jumpFromWallMultiplier = 30f;
-
     // -------------------- Sprint and Crouch Specifics --------------------
     [Header("Sprint and crouch specifics")]
     public float sprintSpeed = 20f;
@@ -98,7 +90,6 @@ public class MovementController : NetworkBehaviour
     public bool isTouchingSlope = false;
     public bool isTouchingStep = false;
     public bool isTouchingStepDown = false;
-    public bool isTouchingWall = false;
     public bool isMoving = false;
     public bool isJumping = false;
     public bool isCrouch = false;
@@ -123,10 +114,8 @@ public class MovementController : NetworkBehaviour
     private Vector3 down;
     private Vector3 globalDown;
     private Vector3 reactionGlobalDown;
-    private Vector3 wallNormal;
     private Vector3 groundNormal;
     private Vector3 prevGroundNormal;
-    private Vector3 currVelocity = Vector3.zero;
 
     private bool prevGrounded;
     private bool currentLockOnSlope;
@@ -174,7 +163,6 @@ public class MovementController : NetworkBehaviour
         //local vectors
         CheckGrounded();
         CheckStep();
-        CheckWall();
         CheckSlopeAndDirections();
         CheckFalling();
 
@@ -272,16 +260,6 @@ public class MovementController : NetworkBehaviour
             jumpTimer.SetTimer(jumpTime, JumpEnd);
 
             // play sound
-        }
-        else if (isTouchingWall)
-        {
-            ResetVerticalVelocity();
-
-            m_rigidbody.AddForce(Vector3.up * jumpVelocity, ForceMode.VelocityChange);
-            m_rigidbody.AddForce(wallNormal * jumpVelocity * jumpFromWallMultiplier, ForceMode.VelocityChange);
-            isJumping = true;
-
-            jumpTimer.SetTimer(jumpTime, JumpEnd);
         }
     }
 
@@ -410,59 +388,6 @@ public class MovementController : NetworkBehaviour
         isTouchingStepDown = tmpStepDown;
     }
 
-
-    private void CheckWall()
-    {
-        bool tmpWall = false;
-        Vector3 tmpWallNormal = Vector3.zero;
-        Vector3 topWallPos = new Vector3(transform.position.x, transform.position.y + hightWallCheckerChecker, transform.position.z);
-
-        RaycastHit wallHit;
-        if (Physics.Raycast(topWallPos, globalForward, out wallHit, wallCheckerThrashold, groundMask))
-        {
-            tmpWallNormal = wallHit.normal;
-            tmpWall = true;
-        }
-        else if (Physics.Raycast(topWallPos, Quaternion.AngleAxis(45, transform.up) * globalForward, out wallHit, wallCheckerThrashold, groundMask))
-        {
-            tmpWallNormal = wallHit.normal;
-            tmpWall = true;
-        }
-        else if (Physics.Raycast(topWallPos, Quaternion.AngleAxis(90, transform.up) * globalForward, out wallHit, wallCheckerThrashold, groundMask))
-        {
-            tmpWallNormal = wallHit.normal;
-            tmpWall = true;
-        }
-        else if (Physics.Raycast(topWallPos, Quaternion.AngleAxis(135, transform.up) * globalForward, out wallHit, wallCheckerThrashold, groundMask))
-        {
-            tmpWallNormal = wallHit.normal;
-            tmpWall = true;
-        }
-        else if (Physics.Raycast(topWallPos, Quaternion.AngleAxis(180, transform.up) * globalForward, out wallHit, wallCheckerThrashold, groundMask))
-        {
-            tmpWallNormal = wallHit.normal;
-            tmpWall = true;
-        }
-        else if (Physics.Raycast(topWallPos, Quaternion.AngleAxis(225, transform.up) * globalForward, out wallHit, wallCheckerThrashold, groundMask))
-        {
-            tmpWallNormal = wallHit.normal;
-            tmpWall = true;
-        }
-        else if (Physics.Raycast(topWallPos, Quaternion.AngleAxis(270, transform.up) * globalForward, out wallHit, wallCheckerThrashold, groundMask))
-        {
-            tmpWallNormal = wallHit.normal;
-            tmpWall = true;
-        }
-        else if (Physics.Raycast(topWallPos, Quaternion.AngleAxis(315, transform.up) * globalForward, out wallHit, wallCheckerThrashold, groundMask))
-        {
-            tmpWallNormal = wallHit.normal;
-            tmpWall = true;
-        }
-
-        isTouchingWall = tmpWall;
-        wallNormal = tmpWallNormal;
-    }
-
     private Vector3 GetHorizontalVelocity()
     {
         return new Vector3(m_rigidbody.linearVelocity.x, 0, m_rigidbody.linearVelocity.z);
@@ -569,33 +494,6 @@ public class MovementController : NetworkBehaviour
 
     #region Move
 
-    private void MoveCrouch()
-    {
-        //if (crouch && isGrounded)
-        //{
-        //    isCrouch = true;
-        //    if (meshCharacterCrouch != null && meshCharacter != null) meshCharacter.SetActive(false);
-        //    if (meshCharacterCrouch != null) meshCharacterCrouch.SetActive(true);
-        //
-        //    float newHeight = originalColliderHeight * crouchHeightMultiplier;
-        //    collider.height = newHeight;
-        //    collider.center = new Vector3(0f, -newHeight * crouchHeightMultiplier, 0f);
-        //
-        //    headPoint.position = new Vector3(transform.position.x + POV_crouchHeadHeight.x, transform.position.y + POV_crouchHeadHeight.y, transform.position.z + POV_crouchHeadHeight.z);
-        //}
-        //else
-        //{
-        //    isCrouch = false;
-        //    if (meshCharacterCrouch != null && meshCharacter != null) meshCharacter.SetActive(true);
-        //    if (meshCharacterCrouch != null) meshCharacterCrouch.SetActive(false);
-        //
-        //    collider.height = originalColliderHeight;
-        //    collider.center = Vector3.zero;
-        //
-        //    headPoint.position = new Vector3(transform.position.x + POV_normalHeadHeight.x, transform.position.y + POV_normalHeadHeight.y, transform.position.z + POV_normalHeadHeight.z);
-        //}
-    }
-
     private void MoveWalk()
     {
         float crouchMultiplier = isCrouch ? crouchSpeedMultiplier : 1f;
@@ -663,9 +561,6 @@ public class MovementController : NetworkBehaviour
             if (currentSurfaceAngle > 0f && currentSurfaceAngle <= 30f) gravity = globalDown * gravityMultiplierIfUnclimbableSlope * -Physics.gravity.y;
             else if (currentSurfaceAngle > 30f && currentSurfaceAngle <= 89f) gravity = globalDown * gravityMultiplierIfUnclimbableSlope / 2f * -Physics.gravity.y;
         }
-
-        //friction when touching wall
-        if (isTouchingWall && m_rigidbody.linearVelocity.y < 0) gravity *= frictionAgainstWall;
 
         m_rigidbody.AddForce(gravity);
     }
@@ -779,7 +674,6 @@ public class MovementController : NetworkBehaviour
             m_collider = this.GetComponent<CapsuleCollider>();
 
             Vector3 bottomStepPos = stepLowerTransform.position;
-            Vector3 topWallPos = new Vector3(transform.position.x, transform.position.y + hightWallCheckerChecker, transform.position.z);
 
             // Define the positions of the corners relative to groundCheckPosition.position
             Vector3[] cornerOffsets = new Vector3[]
@@ -848,31 +742,6 @@ public class MovementController : NetworkBehaviour
             Gizmos.color = Color.blue;
             Vector3 startPos = stepDownTransform.position + (globalForward * stepdownCheckerThrashold);
             Gizmos.DrawLine(startPos, startPos + (Vector3.down * stepDownMaxGroundDistance));
-
-            //wall check
-            Gizmos.color = Color.black;
-            Gizmos.DrawLine(topWallPos, topWallPos + globalForward * wallCheckerThrashold);
-
-            Gizmos.color = Color.black;
-            Gizmos.DrawLine(topWallPos, topWallPos + Quaternion.AngleAxis(45, transform.up) * (globalForward * wallCheckerThrashold));
-
-            Gizmos.color = Color.black;
-            Gizmos.DrawLine(topWallPos, topWallPos + Quaternion.AngleAxis(90, transform.up) * (globalForward * wallCheckerThrashold));
-
-            Gizmos.color = Color.black;
-            Gizmos.DrawLine(topWallPos, topWallPos + Quaternion.AngleAxis(135, transform.up) * (globalForward * wallCheckerThrashold));
-
-            Gizmos.color = Color.black;
-            Gizmos.DrawLine(topWallPos, topWallPos + Quaternion.AngleAxis(180, transform.up) * (globalForward * wallCheckerThrashold));
-
-            Gizmos.color = Color.black;
-            Gizmos.DrawLine(topWallPos, topWallPos + Quaternion.AngleAxis(225, transform.up) * (globalForward * wallCheckerThrashold));
-
-            Gizmos.color = Color.black;
-            Gizmos.DrawLine(topWallPos, topWallPos + Quaternion.AngleAxis(270, transform.up) * (globalForward * wallCheckerThrashold));
-
-            Gizmos.color = Color.black;
-            Gizmos.DrawLine(topWallPos, topWallPos + Quaternion.AngleAxis(315, transform.up) * (globalForward * wallCheckerThrashold));
         }
     }
 
