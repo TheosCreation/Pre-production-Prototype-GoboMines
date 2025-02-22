@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class GridManager : Singleton<GridManager>
 {
+    public struct CellData
+    {
+        public CellState state;
+        public List<Vector2Int> availableConnections;
+    }
+
     public Vector2Int gridSize = new Vector2Int(50, 50);
     public float cellSize = 5f;
     public enum CellState { Unoccupied, Available, Occupied }
-    public CellState[,] grid;
+    private CellData[,] grid;
 
     protected override void Awake()
     {
@@ -17,12 +23,13 @@ public class GridManager : Singleton<GridManager>
 
     void InitializeGrid()
     {
-        grid = new CellState[gridSize.x, gridSize.y];
+        grid = new CellData[gridSize.x, gridSize.y];
         for (int x = 0; x < gridSize.x; x++)
         {
             for (int y = 0; y < gridSize.y; y++)
             {
-                grid[x, y] = CellState.Unoccupied;
+                grid[x, y].state = CellState.Unoccupied;
+                grid[x, y].availableConnections = new List<Vector2Int>();
             }
         }
         Debug.Log($"[GridManager] Grid initialized with size {gridSize}. All cells set to Unoccupied.");
@@ -48,25 +55,27 @@ public class GridManager : Singleton<GridManager>
         Debug.Log($"[GridManager] Converted world position {worldPosition} to grid position {gridPos}.");
         return gridPos;
     }
-    public void MarkAdjacentCellsAsAvailable(Vector2Int cell)
-    {
-        Vector2Int[] directions = new Vector2Int[]
-        {
-            Vector2Int.up,
-            Vector2Int.right,
-            Vector2Int.down,
-            Vector2Int.left
-        };
 
-        foreach (Vector2Int dir in directions)
+    public void MarkAdjacentCellsAsAvailable(Vector2Int cell, Vector2Int doorDirection)
+    {
+        Vector2Int targetCell = cell + doorDirection;
+
+        if (IsValidCell(targetCell))
         {
-            Vector2Int adjacentCell = cell + dir;
-            if (adjacentCell.x >= 0 && adjacentCell.x < gridSize.x &&
-                adjacentCell.y >= 0 && adjacentCell.y < gridSize.y &&
-                grid[adjacentCell.x, adjacentCell.y] != CellState.Occupied)
+            if (grid[targetCell.x, targetCell.y].state != CellState.Occupied)
             {
-                SetCellState(adjacentCell, CellState.Available);
+                grid[targetCell.x, targetCell.y].state = CellState.Available;
+                grid[targetCell.x, targetCell.y].availableConnections.Add(-doorDirection);
+                Debug.Log($"[GridManager] Marked cell ({targetCell.x}, {targetCell.y}) as Available with connection {-doorDirection}.");
             }
+            else
+            {
+                Debug.LogWarning($"[GridManager] Cell ({targetCell.x}, {targetCell.y}) is already Occupied. Cannot mark as Available.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[GridManager] Target cell ({targetCell.x}, {targetCell.y}) is out of bounds.");
         }
     }
 
@@ -77,7 +86,7 @@ public class GridManager : Singleton<GridManager>
         {
             for (int y = 0; y < gridSize.y; y++)
             {
-                if (grid[x, y] == CellState.Available)
+                if (grid[x, y].state == CellState.Available)
                 {
                     availableCells.Add(new Vector2Int(x, y));
                 }
@@ -86,7 +95,16 @@ public class GridManager : Singleton<GridManager>
         return availableCells;
     }
 
-public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation)
+    public List<Vector2Int> GetCellConnections(Vector2Int cell)
+    {
+        if (IsValidCell(cell))
+        {
+            return grid[cell.x, cell.y].availableConnections;
+        }
+        return new List<Vector2Int>();
+    }
+
+    public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation)
     {
         Vector2Int effectiveSize = room.GetEffectiveSize(rotation);
         if (gridPosition.x < 0 || gridPosition.y < 0 ||
@@ -101,7 +119,7 @@ public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation
         {
             for (int y = 0; y < effectiveSize.y; y++)
             {
-                if (grid[gridPosition.x + x, gridPosition.y + y] == CellState.Occupied)
+                if (grid[gridPosition.x + x, gridPosition.y + y].state == CellState.Occupied)
                 {
                     Debug.LogWarning($"[GridManager] Cannot place room {room.gameObject.name} due to occupied cell at ({gridPosition.x + x}, {gridPosition.y + y}).");
                     return false;
@@ -119,23 +137,33 @@ public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation
         {
             for (int y = 0; y < effectiveSize.y; y++)
             {
-                grid[gridPosition.x + x, gridPosition.y + y] = CellState.Occupied;
+                grid[gridPosition.x + x, gridPosition.y + y].state = CellState.Occupied;
+                grid[gridPosition.x + x, gridPosition.y + y].availableConnections.Clear();
                 Debug.Log($"[GridManager] Occupied cell ({gridPosition.x + x}, {gridPosition.y + y}) for room {room.gameObject.name}");
             }
         }
     }
+
     public void SetCellState(Vector2Int cell, CellState state)
     {
-        Debug.Log("STATE IS "+ state + " IN " + cell);
-        if (cell.x >= 0 && cell.x < gridSize.x && cell.y >= 0 && cell.y < gridSize.y)
+        if (IsValidCell(cell))
         {
-            grid[cell.x, cell.y] = state;
+            grid[cell.x, cell.y].state = state;
+            if (state != CellState.Available)
+            {
+                //grid[cell.x, cell.y].availableConnections.Clear();
+            }
             Debug.Log($"[GridManager] Set cell ({cell.x}, {cell.y}) to state {state}.");
         }
         else
         {
             Debug.LogWarning($"[GridManager] Attempt to set cell state for out-of-bounds cell ({cell.x}, {cell.y}).");
         }
+    }
+
+    public bool IsValidCell(Vector2Int cell)
+    {
+        return cell.x >= 0 && cell.x < gridSize.x && cell.y >= 0 && cell.y < gridSize.y;
     }
 
     void OnDrawGizmos()
@@ -145,7 +173,7 @@ public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation
         {
             for (int y = 0; y < gridSize.y; y++)
             {
-                switch (grid[x, y])
+                switch (grid[x, y].state)
                 {
                     case CellState.Available:
                         Gizmos.color = Color.blue;
@@ -157,7 +185,7 @@ public bool CanPlaceRoom(Room room, Vector2Int gridPosition, Quaternion rotation
                         Gizmos.color = Color.green;
                         break;
                 }
-                Vector3 pos =(new Vector3(x*1.1f,0, y*1.1f));
+                Vector3 pos = new Vector3(x * 1.1f, 0, y * 1.1f);
                 Gizmos.DrawCube(pos, new Vector3(cellSize, 0.1f, cellSize));
             }
         }
