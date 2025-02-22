@@ -16,6 +16,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     [SerializeField] private AudioClip hitSound;
     public AudioClip HitSound { get => hitSound; set => hitSound = value; }
+    public int Health { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     private void Awake()
     {
