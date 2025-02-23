@@ -104,6 +104,14 @@ public class Projectile : NetworkBehaviour
             hitNormal = Vector3.up; // Fallback normal
         }
 
+        // Check if we hit ourselves
+        NetworkObject hitObject = contactPoint.otherCollider.GetComponentInParent<NetworkObject>();
+        if (hitObject != null && hitObject.OwnerClientId == m_weaponUser.OwnerClientId)
+        {
+            // Ignore collision if we hit ourselves
+            return;
+        }
+
         // Deal damage if the object is damageable
         IDamageable damageable = contactPoint.otherCollider.GetComponentInParent<IDamageable>();
         if (damageable == null)
@@ -122,7 +130,7 @@ public class Projectile : NetworkBehaviour
             }
             else
             {
-               // m_weaponUser.OnHit(false); // for a hitmarker indicator
+                // m_weaponUser.OnHit(false); // for a hitmarker indicator
                 damageable.TakeDamage(m_damage, attackerId);
                 HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSound);
             }

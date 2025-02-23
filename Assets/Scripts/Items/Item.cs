@@ -15,5 +15,7 @@ public class Item : NetworkBehaviour
     public virtual void EndAltAction() { }
     public virtual void CantAttackAction() { }
 
+    public virtual void StartSpecialAction() { }
+
     public virtual void Equip() { }
 }

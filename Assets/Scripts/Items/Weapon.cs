@@ -17,15 +17,18 @@ public class Weapon : Item
     [SerializeField] protected AudioClip[] attackingSounds;
     protected float lastAttackTime = 0f;
 
-    [Header("Aiming")]
-    public NetworkVariable<bool> isAiming = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public float zoomLevel = 1.1f;
-    public float cameraZoomZ = 0.1f;
-
     [Header("Reload")]
     public NetworkVariable<bool> isReloading = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public int magSize = 45;
     public float reloadTime = 0.5f;
+
+    [Header("Jamming")]
+    public bool isJammed = false;
+    public bool isUnJamming = false;
+    [SerializeField] protected AudioClip jammedSound;
+    private Timer unJamTimer;
+    [Range(0.0f, 1.0f)] public float jamChance = 0.3f;
+    public float unJamTime = 0.3f;
 
     [Header("Screen Shake")]
     [Range(0.0f, 0.1f)] public float screenShakeDuration = 0.1f;
@@ -50,12 +53,10 @@ public class Weapon : Item
         bc = GetComponent<BoxCollider>();
         equipTimer = gameObject.AddComponent<Timer>();
         pickupTimer = gameObject.AddComponent<Timer>();
+        unJamTimer = gameObject.AddComponent<Timer>();
         player = GetComponentInParent<PlayerController>();   
     }
 
-    protected virtual void Start()
-    {
-    }
 
     protected void Update()
     {
@@ -63,17 +64,52 @@ public class Weapon : Item
 
         attackTimer -= Time.deltaTime;
 
-        if (attackTimer < 0.0f && isAttacking && isEquip)
+        if (attackTimer < 0.0f && isAttacking && isEquip && !isJammed)
         {
+            //use jamChance and set isJammed to true, we cannot fire when gun is jammed
             attackTimer = CalculateAttackRate();
             if (CanAttack())
             {
                 Attack();
+                CheckForJam();
             }
             else
             {
                 CantAttackAction();
             }
+        }
+    }
+
+    protected void Jam()
+    {
+        isJammed = true;
+        animator.SetBool("Jammed", true);
+        otherAudioSource.PlayOneShot(jammedSound);
+    }
+
+    public override void StartSpecialAction()
+    {
+        if(!IsOwner) return;
+
+        if (isJammed && !isUnJamming)
+        {
+            isUnJamming = true;
+            unJamTimer.SetTimer(unJamTime, FinishUnJamming);
+            animator.SetBool("Jammed", false);
+        }
+    }
+
+    private void FinishUnJamming()
+    {
+        isUnJamming = false;
+        isJammed = false;
+    }
+
+    protected void CheckForJam()
+    {
+        if (Random.value < jamChance)
+        {
+            Jam();
         }
     }
 
@@ -189,11 +225,13 @@ public class Weapon : Item
         player.playerLook.TriggerScreenShake(screenShakeDuration, screenShakeAmount);
 
         lastAttackTime = Time.time;
+
+        player.networkedAnimator.SetTrigger("Attack");
     }
 
 
     [ServerRpc]
-    private void AttackServerRpc()
+    protected virtual void AttackServerRpc()
     {
         // Call the ClientRpc to play particles on all clients
         AttackClientRpc();

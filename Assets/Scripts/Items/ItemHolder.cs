@@ -33,6 +33,7 @@ public class ItemHolder : NetworkBehaviour
     private void OnAltActionStarted(InputAction.CallbackContext ctx) => currentItem?.StartAltAction();
     private void OnAltActionCanceled(InputAction.CallbackContext ctx) => currentItem?.EndAltAction();
     private void OnCantAttackActionStarted(InputAction.CallbackContext ctx) => currentItem?.CantAttackAction();
+    private void OnSpecialActionStarted(InputAction.CallbackContext ctx) => currentItem?.StartSpecialAction();
 
     
     private void Awake()
@@ -43,6 +44,7 @@ public class ItemHolder : NetworkBehaviour
         InputManager.Instance.Input.Player.AltAction.started += OnAltActionStarted;
         InputManager.Instance.Input.Player.AltAction.canceled += OnAltActionCanceled;
         InputManager.Instance.Input.Player.CantAttackAction.started += OnCantAttackActionStarted;
+        InputManager.Instance.Input.Player.SpecialAction.started += OnSpecialActionStarted;
 
     }
     public override void OnNetworkSpawn()
@@ -72,6 +74,7 @@ public class ItemHolder : NetworkBehaviour
             InputManager.Instance.Input.Player.AltAction.started -= OnAltActionStarted;
             InputManager.Instance.Input.Player.AltAction.canceled -= OnAltActionCanceled;
             InputManager.Instance.Input.Player.CantAttackAction.started -= OnCantAttackActionStarted;
+            InputManager.Instance.Input.Player.SpecialAction.started -= OnSpecialActionStarted;
         }
     }
     private void Update()

@@ -8,7 +8,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
 {
     [SerializeField] private SkinnedMeshRenderer[] thirdPersonRenderers;
     public NetworkAnimator networkedAnimator;
-    public PlayerLook playerLook;
+    [HideInInspector] public PlayerLook playerLook;
     private bool isDead = false;
     public bool IsDead { get => isDead; set => isDead = value; }
     [SerializeField] private ParticleSystem hitParticles;
@@ -16,6 +16,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     [SerializeField] private AudioClip hitSound;
     public AudioClip HitSound { get => hitSound; set => hitSound = value; }
+    public int Health { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     private void Awake()
     {

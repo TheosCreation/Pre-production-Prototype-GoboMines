@@ -3,100 +3,63 @@ using UnityEngine;
 public class OreNode : MonoBehaviour, IDamageable
 {
     public int totalOre = 100; // Total ore in the node
-    public float miningSpeed = 10f; // Defines how quickly the node is mined
-    public float diminishingFactor = 0.9f; // Diminishing returns based on health
     public ParticleSystem sparkleEffect; // Sparkle effect when in vacinity
     public ParticleSystem dustEffect; // Dust effect when mining
-    public OreSO ore;
-
-    private float health = 100f; // Health of the node
-    private bool isBeingMined = false;
-    private PlayerController playerRef; // Reference to the player mining this node
-    private float miningCarryover = 0f; // Fractional ore mined to be carried over (so you get full amount even with fractional damage)
-
+    
     public ParticleSystem HitParticlePrefab { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public AudioClip HitSound { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public bool IsDead { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    
+    public OreSO ore;
 
-    private void Update()
+    public int maxHealth = 100;
+    private int health = 100; // Health of the node
+
+    void Start()
     {
-        if (isBeingMined)
+        Health = maxHealth;
+    }
+
+    public int Health { get => health; 
+        set
         {
-            MineOre();
+            health = value;
+            if (health > 0) { return; }
+            DestroyOreNode();
         }
     }
 
-    public void StartMining(PlayerController player)
+    public void TakeDamage(int amount, PlayerController fromPlayer)
     {
-        isBeingMined = true;
-        playerRef = player;
+        MineOre(fromPlayer, amount);
+
+        Health -= amount;
+        Debug.Log($"Ore node took {amount} damage. Remaining health: {health}");
 
         if (dustEffect != null)
         {
             dustEffect.Play();
         }
-
     }
 
-    public void StopMining()
-    {
-        isBeingMined = false;
-
-        if (dustEffect != null)
-        {
-            dustEffect.Stop();
-        }
-    }
-
-    public void TakeDamage(float amount)
-    {
-        health -= amount;
-        Debug.Log($"Ore node took {amount} damage. Remaining health: {health}");
-
-        if (health <= 0)
-        {
-            DestroyOreNode();
-        }
-    }
-
-    private void MineOre()
+    private void MineOre(PlayerController fromPlayer, int amount)
     {
         if (totalOre <= 0) return;
 
         // Calculate diminishing returns based on remaining health
-        float effectiveSpeed = miningSpeed * Mathf.Pow(diminishingFactor, 1f - (health / 100f));
-
-        // Mine ore based on effective speed and delta time
-        float minedThisFrame = effectiveSpeed * Time.deltaTime;
-
-        // Add carryover to compensate for fractional mining damage
-        minedThisFrame += miningCarryover;
-
-        // Convert mined ore to an integer
-        int oreMined = (int)minedThisFrame;
-
-        // Carry over any remaining fractional ore for the next frame
-        miningCarryover = minedThisFrame - oreMined;
-
-        // Reduce total ore and clamp to avoid negative values
-        totalOre -= oreMined;
-        totalOre = Mathf.Max(totalOre, 0);
+        int oreMined = (int)((maxHealth * totalOre * amount) / (maxHealth * (maxHealth + amount)));
 
         // Give mined ore to the player's inventory
         if (oreMined > 0)
         {
-            playerRef.AddToInventory(ore, oreMined);
+            fromPlayer.AddToInventory(ore, oreMined);
         }
 
         Debug.Log($"Mined {oreMined} ore. Remaining total ore: {totalOre}");
-
-        // Have the node take damage
-        TakeDamage(oreMined);
     }
 
     private void DestroyOreNode()
     {
-        // Optionally spawn an effect or play a sound here
         Destroy(gameObject);
     }
 

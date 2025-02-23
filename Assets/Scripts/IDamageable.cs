@@ -7,5 +7,7 @@ interface IDamageable
 
     bool IsDead { get; set; }
 
+    int Health { get; set; }
+
     void TakeDamage(float amount, ulong attackerId);
 }

@@ -94,7 +94,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""Previous"",
                     ""type"": ""Button"",
                     ""id"": ""2776c80d-3c14-4091-8c56-d04ced07a2b0"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -103,7 +103,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""Next"",
                     ""type"": ""Button"",
                     ""id"": ""b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -134,6 +134,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SpecialAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""93f3bd7b-ddc4-4e76-ba85-35daaac346dd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -481,7 +490,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1c04ea5f-b012-41d1-a6f7-02e963b52893"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -552,6 +561,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ItemSwitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52f242b4-33f4-4cd8-b335-beca20892e99"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpecialAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1151,6 +1171,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_CantAttackAction = m_Player.FindAction("CantAttackAction", throwIfNotFound: true);
         m_Player_ItemSwitch = m_Player.FindAction("ItemSwitch", throwIfNotFound: true);
+        m_Player_SpecialAction = m_Player.FindAction("SpecialAction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1242,6 +1263,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_CantAttackAction;
     private readonly InputAction m_Player_ItemSwitch;
+    private readonly InputAction m_Player_SpecialAction;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1258,6 +1280,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @CantAttackAction => m_Wrapper.m_Player_CantAttackAction;
         public InputAction @ItemSwitch => m_Wrapper.m_Player_ItemSwitch;
+        public InputAction @SpecialAction => m_Wrapper.m_Player_SpecialAction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1303,6 +1326,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ItemSwitch.started += instance.OnItemSwitch;
             @ItemSwitch.performed += instance.OnItemSwitch;
             @ItemSwitch.canceled += instance.OnItemSwitch;
+            @SpecialAction.started += instance.OnSpecialAction;
+            @SpecialAction.performed += instance.OnSpecialAction;
+            @SpecialAction.canceled += instance.OnSpecialAction;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1343,6 +1369,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ItemSwitch.started -= instance.OnItemSwitch;
             @ItemSwitch.performed -= instance.OnItemSwitch;
             @ItemSwitch.canceled -= instance.OnItemSwitch;
+            @SpecialAction.started -= instance.OnSpecialAction;
+            @SpecialAction.performed -= instance.OnSpecialAction;
+            @SpecialAction.canceled -= instance.OnSpecialAction;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1537,6 +1566,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnCantAttackAction(InputAction.CallbackContext context);
         void OnItemSwitch(InputAction.CallbackContext context);
+        void OnSpecialAction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
