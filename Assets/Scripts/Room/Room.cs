@@ -74,6 +74,12 @@ public class Room : MonoBehaviour
         }
     }
 
+    public void UpdateDoors()
+    {
+        Vector3 center = CalculateCenter();
+        doors.Clear();
+        FindDoorsIterative(center);
+    }
     public Vector2Int GetEffectiveSize(Quaternion rotation)
     {
         float angle = rotation.eulerAngles.y;
