@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridManager : Singleton<GridManager>
 {
+    [Serializable]
     public struct CellData
     {
         public CellState state;
@@ -38,10 +41,10 @@ public class GridManager : Singleton<GridManager>
     public Vector3 ConvertToWorldPosition(Vector2Int gridPosition)
     {
         Vector3 worldPos = new Vector3(
-           gridPosition.x * cellSize,
-           0,
-           gridPosition.y * cellSize
-       );
+            gridPosition.x * cellSize,
+            0,
+            gridPosition.y * cellSize
+        );
         Debug.Log($"[GridManager] Converted grid position {gridPosition} to world position {worldPos}.");
         return worldPos;
     }
@@ -59,31 +62,26 @@ public class GridManager : Singleton<GridManager>
     public void MarkAdjacentCellsAsAvailable(Vector2Int cell, Vector2Int doorDirection)
     {
         Vector2Int targetCell = cell + doorDirection;
-
         if (IsValidCell(targetCell))
         {
             if (grid[targetCell.x, targetCell.y].state != CellState.Occupied)
             {
                 grid[targetCell.x, targetCell.y].state = CellState.Available;
-                grid[targetCell.x, targetCell.y].availableConnections.Add(-doorDirection);
+                if (!grid[targetCell.x, targetCell.y].availableConnections.Contains(-doorDirection))
+                {
+                    grid[targetCell.x, targetCell.y].availableConnections.Add(-doorDirection);
+                }
                 Debug.Log($"[GridManager] Marked cell ({targetCell.x}, {targetCell.y}) as Available with connection {-doorDirection}.");
             }
-            else
-            {
-                Debug.LogWarning($"[GridManager] Cell ({targetCell.x}, {targetCell.y}) is already Occupied. Cannot mark as Available.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"[GridManager] Target cell ({targetCell.x}, {targetCell.y}) is out of bounds.");
         }
     }
+
 
     public List<Vector2Int> GetAvailableCells()
     {
         List<Vector2Int> availableCells = new List<Vector2Int>();
         for (int x = 0; x < gridSize.x; x++)
-        {
+        {   
             for (int y = 0; y < gridSize.y; y++)
             {
                 if (grid[x, y].state == CellState.Available)
@@ -144,16 +142,25 @@ public class GridManager : Singleton<GridManager>
         }
     }
 
-    public void SetCellState(Vector2Int cell, CellState state)
+    public void SetCellState(Vector2Int cell, CellState newState)
     {
         if (IsValidCell(cell))
         {
-            grid[cell.x, cell.y].state = state;
-            if (state != CellState.Available)
+            CellData currentCell = grid[cell.x, cell.y];
+
+            if (currentCell.state == CellState.Available && newState == CellState.Unoccupied)
             {
-                //grid[cell.x, cell.y].availableConnections.Clear();
+                Debug.Log($"[GridManager] Preserving Available state for cell ({cell.x}, {cell.y})");
+                return;
             }
-            Debug.Log($"[GridManager] Set cell ({cell.x}, {cell.y}) to state {state}.");
+
+            currentCell.state = newState;
+            if (newState != CellState.Available)
+            {
+                currentCell.availableConnections.Clear();
+            }
+            grid[cell.x, cell.y] = currentCell;
+            Debug.Log($"[GridManager] Set cell ({cell.x}, {cell.y}) to state {newState}.");
         }
         else
         {
