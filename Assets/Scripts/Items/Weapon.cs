@@ -17,11 +17,6 @@ public class Weapon : Item
     [SerializeField] protected AudioClip[] attackingSounds;
     protected float lastAttackTime = 0f;
 
-    [Header("Aiming")]
-    public NetworkVariable<bool> isAiming = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public float zoomLevel = 1.1f;
-    public float cameraZoomZ = 0.1f;
-
     [Header("Reload")]
     public NetworkVariable<bool> isReloading = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public int magSize = 45;
@@ -230,11 +225,13 @@ public class Weapon : Item
         player.playerLook.TriggerScreenShake(screenShakeDuration, screenShakeAmount);
 
         lastAttackTime = Time.time;
+
+        player.networkedAnimator.SetTrigger("Attack");
     }
 
 
     [ServerRpc]
-    private void AttackServerRpc()
+    protected virtual void AttackServerRpc()
     {
         // Call the ClientRpc to play particles on all clients
         AttackClientRpc();

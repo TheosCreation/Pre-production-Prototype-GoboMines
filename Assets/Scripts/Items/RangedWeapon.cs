@@ -64,8 +64,6 @@ public class RangedWeapon : Weapon
 
         ApplyRecoil();
 
-        player.networkedAnimator.SetTrigger("Attack");
-
 
         muzzleFlashParticle.Play();
 
@@ -178,18 +176,5 @@ public class RangedWeapon : Weapon
             isReloading.Value = false;
             Ammo = magSize;
         }
-    }
-
-    public override void StartAltAction()
-    {
-        base.StartAltAction();
-
-        isAiming.Value = true;
-    }
-    public override void EndAltAction()
-    {
-        base.EndAltAction();
-
-        isAiming.Value = false;
     }
 }

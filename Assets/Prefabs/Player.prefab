@@ -761,7 +761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 918992752
+  GlobalObjectIdHash: 432490216
   InScenePlacedSourceGlobalObjectIdHash: 432490216
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1062,7 +1062,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   currentHoldableItems:
   - {fileID: 4424568016919929985}
-  - {fileID: 404593010542188158}
+  - {fileID: 1313229046113215060}
   currentItem: {fileID: 4424568016919929985}
   scrollSwitchDelay: 0.1
   leftHandIK: {fileID: 3368462683293057452}
@@ -1260,7 +1260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 637547519392268463, guid: b39e6cfe466cb384f97632efe6ece554, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1576170669383143390, guid: b39e6cfe466cb384f97632efe6ece554, type: 3}
       propertyPath: m_LocalScale.x
@@ -1431,15 +1431,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b39e6cfe466cb384f97632efe6ece554, type: 3}
---- !u!114 &404593010542188158 stripped
+--- !u!114 &1313229046113215060 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2050462687093296087, guid: b39e6cfe466cb384f97632efe6ece554, type: 3}
+  m_CorrespondingSourceObject: {fileID: 851273908938555389, guid: b39e6cfe466cb384f97632efe6ece554, type: 3}
   m_PrefabInstance: {fileID: 1867256343025065385}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d1d27575d1e80f45ab19d5e46d4d898, type: 3}
+  m_Script: {fileID: 11500000, guid: 86e900fa19ed4a849909409c9d76ad9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5956882952125107185 stripped
