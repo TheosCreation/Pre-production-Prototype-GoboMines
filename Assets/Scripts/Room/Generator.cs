@@ -29,7 +29,6 @@ public class Generator : MonoBehaviour
         while (currentRoomCount < maxRooms)
         {
             List<Vector2Int> availableCells = GridManager.Instance.GetAvailableCells();
-            Debug.Log(availableCells.Count);
             if (availableCells.Count == 0)
             {
                 Debug.Log("[Generator] No more available cells for room placement. Ending generation.");
@@ -57,7 +56,7 @@ public class Generator : MonoBehaviour
                 }
                 else
                 {
-                    GridManager.Instance.SetCellState(targetCell, GridManager.CellState.Unoccupied);
+                    GridManager.Instance.SetCellState(targetCell, GridManager.CellState.Available);
                     processedCells.Add(targetCell);
                 }
             }
@@ -80,41 +79,7 @@ public class Generator : MonoBehaviour
             list[randomIndex] = temp;
         }
     }
-    // not using rn for testing reasons
-    public bool HasMatchingConnection(Room room, Quaternion rotation, List<Vector2Int> requiredConnections)
-    {
-        Dictionary<Vector2Int, int> doorCounts = new Dictionary<Vector2Int, int>();
-
-        foreach (Room.DoorInfo door in room.doors)
-        {
-            Vector2Int rotatedDirection = room.GetRotatedDoorDirection(door.direction, rotation);
-
-            if (doorCounts.ContainsKey(rotatedDirection))
-            {
-                doorCounts[rotatedDirection]++;
-            }
-            else
-            {
-                doorCounts[rotatedDirection] = 1;
-            }
-        }
-
-        bool foundAnyMatch = false;
-
-        foreach (Vector2Int requiredDir in requiredConnections)
-        {
-            Vector2Int rotatedRequiredDir = room.GetRotatedDoorDirection(requiredDir,
-                Quaternion.Inverse(rotation));
-
-            if (doorCounts.ContainsKey(rotatedRequiredDir) && doorCounts[rotatedRequiredDir] > 0)
-            {
-                foundAnyMatch = true;
-                break;
-            }
-        }
-
-        return foundAnyMatch;
-    }
+   
     public bool TryPlaceRoomAtCell(Vector2Int targetCell, List<Vector2Int> requiredConnections)
     {
         List<GameObject> shuffledPrefabs = new List<GameObject>(roomPrefabs);
@@ -137,10 +102,11 @@ public class Generator : MonoBehaviour
 
                 if (GridManager.Instance.CanPlaceRoom(roomTemplate, targetCell, rot))
                 {
+                    
                     Room placedRoom = SpawnRoom(prefab, targetCell, rot);
                     UpdateAdjacentCells(placedRoom, targetCell, rot);
                     return true;
-                    
+                   
                 }
             }
         }
@@ -149,7 +115,6 @@ public class Generator : MonoBehaviour
 
     public Room SpawnRoom(GameObject prefab, Vector2Int gridPos, Quaternion rotation)
     {
-        Debug.Log($"[Generator] Spawning room {prefab.name} at grid position {gridPos} with rotation {rotation.eulerAngles}.");
         Room roomTemplate = prefab.GetComponent<Room>();
 
         Vector2Int effectiveSize = roomTemplate.GetEffectiveSize(rotation);
@@ -179,8 +144,7 @@ public class Generator : MonoBehaviour
     {
         foreach (Room.DoorInfo door in room.doors)
         {
-            Vector2Int rotatedDirection = room.GetRotatedDoorDirection(door.direction, rotation);
-            GridManager.Instance.MarkAdjacentCellsAsAvailable(cellPosition, rotatedDirection);
+            GridManager.Instance.MarkAdjacentCellsAsAvailable(cellPosition, door.direction);
         }
     }
 }

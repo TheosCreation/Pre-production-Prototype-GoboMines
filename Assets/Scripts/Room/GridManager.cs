@@ -137,7 +137,6 @@ public class GridManager : Singleton<GridManager>
             {
                 grid[gridPosition.x + x, gridPosition.y + y].state = CellState.Occupied;
                 grid[gridPosition.x + x, gridPosition.y + y].availableConnections.Clear();
-                Debug.Log($"[GridManager] Occupied cell ({gridPosition.x + x}, {gridPosition.y + y}) for room {room.gameObject.name}");
             }
         }
     }
@@ -160,7 +159,6 @@ public class GridManager : Singleton<GridManager>
                 currentCell.availableConnections.Clear();
             }
             grid[cell.x, cell.y] = currentCell;
-            Debug.Log($"[GridManager] Set cell ({cell.x}, {cell.y}) to state {newState}.");
         }
         else
         {

@@ -83,19 +83,6 @@ public class Room : MonoBehaviour
         }
         return size;
     }
-
-    public Vector2Int GetRotatedDoorDirection(Vector2Int originalDirection, Quaternion rotation)
-    {
-        float angle = rotation.eulerAngles.y;
-        int rotations = Mathf.RoundToInt(angle / 90f) % 4;
-
-        Vector2Int result = originalDirection;
-        for (int i = 0; i < rotations; i++)
-        {
-            result = new Vector2Int(-result.y, result.x);
-        }
-        return result;
-    }
     void OnDrawGizmos()
     {
         Vector3 center = CalculateCenter();
