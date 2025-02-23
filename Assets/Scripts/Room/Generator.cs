@@ -12,12 +12,26 @@ public class Generator : MonoBehaviour
     private List<Room> placedRooms = new List<Room>();
     private int currentRoomCount = 0;
     private HashSet<Vector2Int> processedCells = new HashSet<Vector2Int>();
-
-    IEnumerator Start()
+    private Dictionary<GameObject, Room> roomTemplates = new Dictionary<GameObject, Room>();
+    void Start()
     {
-        yield return StartCoroutine(GenerateDungeon());
+        InitializeRoomTemplates();
+        StartCoroutine(GenerateDungeon());
     }
+    private void InitializeRoomTemplates()
+    {
+        foreach (GameObject prefab in roomPrefabs)
+        {
+            GameObject templateObject = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            templateObject.SetActive(false); 
+            DontDestroyOnLoad(templateObject);
 
+            Room roomComponent = templateObject.GetComponent<Room>();
+            roomComponent.InitializeDoors();
+
+            roomTemplates[prefab] = roomComponent;
+        }
+    }
     IEnumerator GenerateDungeon()
     {
         Room initialRoom = SpawnRoom(initialRoomPrefab, new Vector2Int(25, 25), Quaternion.identity);
@@ -79,7 +93,7 @@ public class Generator : MonoBehaviour
             list[randomIndex] = temp;
         }
     }
-   
+
     public bool TryPlaceRoomAtCell(Vector2Int targetCell, List<Vector2Int> requiredConnections)
     {
         List<GameObject> shuffledPrefabs = new List<GameObject>(roomPrefabs);
@@ -87,8 +101,11 @@ public class Generator : MonoBehaviour
 
         foreach (GameObject prefab in shuffledPrefabs)
         {
-            Room roomTemplate = prefab.GetComponent<Room>();
-            if (roomTemplate == null)
+            Room roomRef = prefab.GetComponent<Room>();
+            Room roomTemplate; 
+            roomTemplates.TryGetValue(prefab, out roomTemplate);
+            
+            if (roomRef == null)
             {
                 Debug.Log("No room template found");
                 continue;
@@ -100,19 +117,44 @@ public class Generator : MonoBehaviour
             {
                 Quaternion rot = Quaternion.Euler(0, angle, 0);
 
-                if (GridManager.Instance.CanPlaceRoom(roomTemplate, targetCell, rot))
+                if (GridManager.Instance.CanPlaceRoom(roomRef, targetCell, rot))
                 {
-                    
-                    Room placedRoom = SpawnRoom(prefab, targetCell, rot);
-                    UpdateAdjacentCells(placedRoom, targetCell, rot);
-                    return true;
-                   
+                    foreach (Vector2Int connection in GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections)
+                    {
+                        Vector2Int invertedConnection = new Vector2Int(-connection.x, -connection.y);
+
+                        foreach (Room.DoorInfo door in roomTemplate.doors)
+                        {
+                            Vector2Int rotatedDirection = RotateDirection(door.direction, angle);
+                            Debug.Log(invertedConnection + " INVERTED " + rotatedDirection + " ORIGINAL " + door.direction);
+                            if (invertedConnection == rotatedDirection)
+                            {
+                                Room placedRoom = SpawnRoom(prefab, targetCell, rot);
+                                UpdateAdjacentCells(placedRoom, targetCell, rot);
+                                return true;
+                               
+                            }
+                        }
+
+                    }               
                 }
             }
         }
         return false;
     }
 
+    private Vector2Int RotateDirection(Vector2Int direction, int angle)
+    {
+        int rotationSteps = (angle / 90) % 4;
+        Vector2Int rotatedDirection = direction;
+
+        for (int i = 0; i < rotationSteps; i++)
+        {
+            rotatedDirection = new Vector2Int(-rotatedDirection.y, rotatedDirection.x);
+        }
+
+        return rotatedDirection;
+    }
     public Room SpawnRoom(GameObject prefab, Vector2Int gridPos, Quaternion rotation)
     {
         Room roomTemplate = prefab.GetComponent<Room>();

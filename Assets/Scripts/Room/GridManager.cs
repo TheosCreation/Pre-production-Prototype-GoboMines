@@ -15,7 +15,7 @@ public class GridManager : Singleton<GridManager>
     public Vector2Int gridSize = new Vector2Int(50, 50);
     public float cellSize = 5f;
     public enum CellState { Unoccupied, Available, Occupied }
-    private CellData[,] grid;
+    public CellData[,] grid;
 
     protected override void Awake()
     {
@@ -124,7 +124,6 @@ public class GridManager : Singleton<GridManager>
                 }
             }
         }
-        Debug.Log($"[GridManager] Room {room.gameObject.name} can be placed at {gridPosition} with size {effectiveSize}.");
         return true;
     }
 
