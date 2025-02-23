@@ -284,6 +284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: room2LdoorLong Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7200476085473617086, guid: 397d516bf3a2e03499bb6b73084192cb, type: 3}
+      propertyPath: size.x
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
