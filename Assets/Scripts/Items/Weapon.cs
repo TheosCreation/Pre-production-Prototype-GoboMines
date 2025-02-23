@@ -220,21 +220,12 @@ public class Weapon : Item
     {
         if (!IsOwner) return;
 
-        AttackServerRpc();
         PlayAttackSound();
         player.playerLook.TriggerScreenShake(screenShakeDuration, screenShakeAmount);
 
         lastAttackTime = Time.time;
 
         player.networkedAnimator.SetTrigger("Attack");
-    }
-
-
-    [ServerRpc]
-    protected virtual void AttackServerRpc()
-    {
-        // Call the ClientRpc to play particles on all clients
-        AttackClientRpc();
     }
 
     [ClientRpc]

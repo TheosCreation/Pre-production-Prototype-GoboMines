@@ -9,5 +9,5 @@ interface IDamageable
 
     int Health { get; set; }
 
-    void TakeDamage(float amount, ulong attackerId);
+    void TakeDamage(int amount, PlayerController fromPlayer);
 }

@@ -5,6 +5,7 @@ public class UiManager : Singleton<UiManager>
 {
     [SerializeField] private ConnectionPage connectionPage;
     [SerializeField] private PlayerHud playerHud;
+    public InventoryUiPage inventoryPage;
     //[SerializeField] private PauseMenu pauseScreen;
     public void OpenPlayerHud()
     {
@@ -17,4 +18,8 @@ public class UiManager : Singleton<UiManager>
         //pauseScreen.SetActive(true);
     }
 
+    public void NotifyItem(ItemSO item, int amount)
+    {
+        Debug.Log("Ui manager notified of a item added");
+    }
 }

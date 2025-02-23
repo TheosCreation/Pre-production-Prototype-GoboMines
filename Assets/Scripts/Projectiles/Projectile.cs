@@ -12,6 +12,8 @@ public class Projectile : NetworkBehaviour
     [SerializeField] protected float alignmentDistance = 3.0f; // Distance that it takes to align with the correct projectile path
     [SerializeField] protected float headShotMultiplier = 1.5f; // Speed of the projectile
     [SerializeField] protected bool destroyOnHit = true; // Does obj destroy on hit
+    [SerializeField] protected TrailRenderer trail;
+    [SerializeField] protected float trailLifeTime = 0.5f;
     public UnityEvent onCollision;
     bool arrived = false;
     private Vector3 pointOnPath;
@@ -120,18 +122,16 @@ public class Projectile : NetworkBehaviour
         }
         if (damageable != null && !damageable.IsDead)
         {
-            ulong attackerId = m_weaponUser.OwnerClientId;
-
             if (contactPoint.otherCollider.gameObject.CompareTag("Head"))
             {
                 //m_weaponUser.OnHit(true); //for a hitmarker indicator
-                damageable.TakeDamage((int)(m_damage * headShotMultiplier), attackerId);
+                damageable.TakeDamage((int)(m_damage * headShotMultiplier), m_weaponUser);
                 HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSound);
             }
             else
             {
                 // m_weaponUser.OnHit(false); // for a hitmarker indicator
-                damageable.TakeDamage(m_damage, attackerId);
+                damageable.TakeDamage(m_damage, m_weaponUser);
                 HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSound);
             }
         }
@@ -159,6 +159,9 @@ public class Projectile : NetworkBehaviour
         NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
         netObj.Spawn(true);
 
+        //trail.transform.parent = null;
+        //Destroy(trail, trailLifeTime);
+
         // Despawn the sound maker after the clip finishes
         float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constantMax;
         NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
@@ -176,6 +179,9 @@ public class Projectile : NetworkBehaviour
         ParticleSystem hitParticles = Instantiate(GameManager.Instance.prefabs.hitWallPrefab, hitPosition + particlePositionOffset, Quaternion.LookRotation(-wallNormal)).GetComponent<ParticleSystem>();
         NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
         netObj.Spawn(true);
+
+        //trail.transform.parent = null;
+        //Destroy(trail, trailLifeTime);
 
         float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constantMax;
         NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
