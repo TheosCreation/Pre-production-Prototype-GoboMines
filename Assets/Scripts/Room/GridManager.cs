@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class GridManager : Singleton<GridManager>
@@ -20,7 +21,6 @@ public class GridManager : Singleton<GridManager>
     protected override void Awake()
     {
         base.Awake();
-        Debug.Log("[GridManager] Initializing grid...");
         InitializeGrid();
     }
 
@@ -35,43 +35,49 @@ public class GridManager : Singleton<GridManager>
                 grid[x, y].availableConnections = new List<Vector2Int>();
             }
         }
-        Debug.Log($"[GridManager] Grid initialized with size {gridSize}. All cells set to Unoccupied.");
     }
+
 
     public Vector3 ConvertToWorldPosition(Vector2Int gridPosition)
     {
+        // Center the grid by subtracting half the total size
+        float offsetX = -(gridSize.x * cellSize) / 2f;
+        float offsetZ = -(gridSize.y * cellSize) / 2f;
+
         Vector3 worldPos = new Vector3(
-            gridPosition.x * cellSize,
+            gridPosition.x * cellSize + offsetX,
             0,
-            gridPosition.y * cellSize
+            gridPosition.y * cellSize + offsetZ
         );
-        Debug.Log($"[GridManager] Converted grid position {gridPosition} to world position {worldPos}.");
         return worldPos;
     }
 
     public Vector2Int ConvertToGridPosition(Vector3 worldPosition)
     {
+        // Account for the center offset when converting back
+        float offsetX = -(gridSize.x * cellSize) / 2f;
+        float offsetZ = -(gridSize.y * cellSize) / 2f;
+
         Vector2Int gridPos = new Vector2Int(
-            Mathf.FloorToInt(worldPosition.x / cellSize),
-            Mathf.FloorToInt(worldPosition.z / cellSize)
+            Mathf.FloorToInt((worldPosition.x - offsetX) / cellSize),
+            Mathf.FloorToInt((worldPosition.z - offsetZ) / cellSize)
         );
-        Debug.Log($"[GridManager] Converted world position {worldPosition} to grid position {gridPos}.");
         return gridPos;
     }
 
-    public void MarkAdjacentCellsAsAvailable(Vector2Int cell, Vector2Int doorDirection)
+    public void MarkAdjacentCellsAsAvailable(Vector2Int cell, Vector2Int doorDirection, Vector2Int effectiveSize)
     {
-        Vector2Int targetCell = cell + doorDirection;
+        Vector2Int offset = (doorDirection * new Vector2Int(Mathf.FloorToInt(effectiveSize.x / 2)+1, Mathf.FloorToInt(effectiveSize.y / 2)+1));
+        Vector2Int targetCell = cell + offset;
         if (IsValidCell(targetCell))
         {
             if (grid[targetCell.x, targetCell.y].state != CellState.Occupied)
             {
-                grid[targetCell.x, targetCell.y].state = CellState.Available;
+                grid[targetCell.x, targetCell.y].state = CellState.Available; 
                 if (!grid[targetCell.x, targetCell.y].availableConnections.Contains(-doorDirection))
                 {
                     grid[targetCell.x, targetCell.y].availableConnections.Add(-doorDirection);
                 }
-                Debug.Log($"[GridManager] Marked cell ({targetCell.x}, {targetCell.y}) as Available with connection {-doorDirection}.");
             }
         }
     }
@@ -81,7 +87,7 @@ public class GridManager : Singleton<GridManager>
     {
         List<Vector2Int> availableCells = new List<Vector2Int>();
         for (int x = 0; x < gridSize.x; x++)
-        {   
+        {
             for (int y = 0; y < gridSize.y; y++)
             {
                 if (grid[x, y].state == CellState.Available)
@@ -169,10 +175,11 @@ public class GridManager : Singleton<GridManager>
     {
         return cell.x >= 0 && cell.x < gridSize.x && cell.y >= 0 && cell.y < gridSize.y;
     }
-
     void OnDrawGizmos()
     {
         if (grid == null) return;
+
+        // Second pass: Draw grid elements
         for (int x = 0; x < gridSize.x; x++)
         {
             for (int y = 0; y < gridSize.y; y++)
@@ -190,8 +197,12 @@ public class GridManager : Singleton<GridManager>
                         break;
                 }
                 Vector3 pos = new Vector3(x * 1.1f, 0, y * 1.1f);
-                Gizmos.DrawCube(pos, new Vector3(cellSize, 0.1f, cellSize));
+                Gizmos.DrawCube(pos, new Vector3(cellSize, 1f, cellSize));
             }
         }
+       
+
     }
+
+   
 }

@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class Generator : MonoBehaviour
@@ -34,11 +35,12 @@ public class Generator : MonoBehaviour
     }
     IEnumerator GenerateDungeon()
     {
-        Room initialRoom = SpawnRoom(initialRoomPrefab, new Vector2Int(25, 25), Quaternion.identity);
-        processedCells.Add(new Vector2Int(25, 25));
+        Vector2Int halfGridSize = new Vector2Int(GridManager.Instance.gridSize.x / 2, GridManager.Instance.gridSize.y / 2);
+        Room initialRoom = SpawnRoom(initialRoomPrefab, halfGridSize, Quaternion.identity,Vector2Int.zero);
+        processedCells.Add(halfGridSize);
 
         yield return new WaitForSeconds(placementDelay);
-        UpdateAdjacentCells(initialRoom, new Vector2Int(25, 25), Quaternion.identity);
+        UpdateAdjacentCells(initialRoom, halfGridSize, Quaternion.identity);
 
         while (currentRoomCount < maxRooms)
         {
@@ -126,17 +128,18 @@ public class Generator : MonoBehaviour
                         foreach (Room.DoorInfo door in roomTemplate.doors)
                         {
                             Vector2Int rotatedDirection = RotateDirection(door.direction, angle);
-                            Debug.Log(invertedConnection + " INVERTED " + rotatedDirection + " ORIGINAL " + door.direction);
                             if (invertedConnection == rotatedDirection)
                             {
-                                Room placedRoom = SpawnRoom(prefab, targetCell, rot);
+                                Vector2Int offset = (invertedConnection * new Vector2Int(Mathf.FloorToInt(roomTemplate.size.x / 2) , Mathf.FloorToInt(roomTemplate.size.y / 2) ));
+                                Room placedRoom = SpawnRoom(prefab, targetCell+ offset, rot, connection);
                                 UpdateAdjacentCells(placedRoom, targetCell, rot);
                                 return true;
                                
                             }
                         }
 
-                    }               
+                    }
+                    Debug.Log("first angle didnt work");
                 }
             }
         }
@@ -155,30 +158,31 @@ public class Generator : MonoBehaviour
 
         return rotatedDirection;
     }
-    public Room SpawnRoom(GameObject prefab, Vector2Int gridPos, Quaternion rotation)
+    public Room SpawnRoom(GameObject prefab, Vector2Int gridPos, Quaternion rotation, Vector2Int doorConnectionDirection)
     {
+        doorConnectionDirection = new Vector2Int(-doorConnectionDirection.x, doorConnectionDirection.y);
         Room roomTemplate = prefab.GetComponent<Room>();
-
         Vector2Int effectiveSize = roomTemplate.GetEffectiveSize(rotation);
-        Vector2Int cornerPosition = new Vector2Int(
-            gridPos.x - ((effectiveSize.x - 1) / 2),
-            gridPos.y - ((effectiveSize.y - 1) / 2)
+
+        Vector2Int offset = new Vector2Int(Mathf.CeilToInt((doorConnectionDirection.x * effectiveSize.x) / 2), Mathf.CeilToInt((doorConnectionDirection.y * effectiveSize.y) / 2));
+
+        Vector2Int bottomLeftCell = new Vector2Int(
+            gridPos.x - Mathf.FloorToInt(effectiveSize.x / 2f),
+            gridPos.y - Mathf.FloorToInt(effectiveSize.y / 2f)
         );
 
-        Vector3 worldPosition = GridManager.Instance.ConvertToWorldPosition(cornerPosition);
-        worldPosition += new Vector3(
-            (effectiveSize.x * GridManager.Instance.cellSize) / 2f,
-            0,
-            (effectiveSize.y * GridManager.Instance.cellSize) / 2f
-        );
+        Vector3 worldPosition = GridManager.Instance.ConvertToWorldPosition(bottomLeftCell) +
+                                  new Vector3((effectiveSize.x * GridManager.Instance.cellSize) / 2f, 0,
+                                              (effectiveSize.y * GridManager.Instance.cellSize) / 2f);
 
         GameObject roomObj = Instantiate(prefab, worldPosition, rotation);
-
         Room room = roomObj.GetComponent<Room>();
 
         room.InitializeDoors();
         placedRooms.Add(room);
-        GridManager.Instance.OccupyCells(room, cornerPosition, rotation);
+
+        GridManager.Instance.OccupyCells(room, bottomLeftCell, rotation);
+
         return room;
     }
 
@@ -186,7 +190,7 @@ public class Generator : MonoBehaviour
     {
         foreach (Room.DoorInfo door in room.doors)
         {
-            GridManager.Instance.MarkAdjacentCellsAsAvailable(cellPosition, door.direction);
+            GridManager.Instance.MarkAdjacentCellsAsAvailable(cellPosition, door.direction,room.size);
         }
     }
 }

@@ -990,6 +990,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Mediumcave1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1181,7 +1185,8 @@ MonoBehaviour:
   - {fileID: 1130431932116990175, guid: cb3e2893a32dbf74f8bbbc606d2732bd, type: 3}
   - {fileID: 6011290850166135711, guid: a160b6149bd119e4fbe59923d31a543f, type: 3}
   - {fileID: 1544074073863990392, guid: 303df86339f51984b981f24818c3e4ba, type: 3}
-  initialRoomPrefab: {fileID: 1039792708251101510, guid: 5de3014600d56484a99924b0757dd428, type: 3}
+  - {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
+  initialRoomPrefab: {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
   maxRooms: 100
   placementDelay: 1
 --- !u!4 &1410642440
@@ -1278,6 +1283,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Largecave1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1333,7 +1342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fe0010a89e17b459e9723ff8d3b61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 50, y: 50}
+  gridSize: {x: 200, y: 200}
   cellSize: 10
 --- !u!4 &2116731355
 Transform:
