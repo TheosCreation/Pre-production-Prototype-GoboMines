@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Hallway
       objectReference: {fileID: 0}
+    - target: {fileID: 5285927126667268888, guid: a20f7f5da786d1e4b81add5f6c95663c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 7515669496289361718, guid: a20f7f5da786d1e4b81add5f6c95663c, type: 3}
       propertyPath: m_TagString
       value: Door

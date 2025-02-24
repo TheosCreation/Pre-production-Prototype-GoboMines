@@ -13,6 +13,10 @@ public class Generator : MonoBehaviour
     private int currentRoomCount = 0;
     private HashSet<Vector2Int> processedCells = new HashSet<Vector2Int>();
     private Dictionary<GameObject, Room> roomTemplates = new Dictionary<GameObject, Room>();
+    public delegate void GenerationCompleteHandler();
+    public event GenerationCompleteHandler OnGenerationComplete;
+
+    private bool isGenerating = false;
     void Start()
     {
         InitializeRoomTemplates();
@@ -34,8 +38,10 @@ public class Generator : MonoBehaviour
     }
     IEnumerator GenerateDungeon()
     {
+        isGenerating = true;
+
         Vector2Int halfGridSize = new Vector2Int(GridManager.Instance.gridSize.x / 2, GridManager.Instance.gridSize.y / 2);
-        Room initialRoom = SpawnRoom(initialRoomPrefab, halfGridSize, Quaternion.identity,Vector2Int.zero);
+        Room initialRoom = SpawnRoom(initialRoomPrefab, halfGridSize, Quaternion.identity, Vector2Int.zero);
         processedCells.Add(halfGridSize);
 
         yield return new WaitForSeconds(placementDelay);
@@ -82,9 +88,25 @@ public class Generator : MonoBehaviour
                 break;
             }
         }
+
+        CompleteGeneration();
     }
-    // This fully works
-    private void ShuffleList<T>(List<T> list)
+
+    private void CompleteGeneration()
+    {
+        isGenerating = false;
+        OnGenerationComplete?.Invoke();
+    }
+
+    public void StartGeneration()
+    {
+        if (!isGenerating)
+        {
+            StartCoroutine(GenerateDungeon());
+        }
+    }
+
+private void ShuffleList<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)
         {
@@ -174,7 +196,7 @@ public class Generator : MonoBehaviour
                                   new Vector3((effectiveSize.x * GridManager.Instance.cellSize) / 2f, 0,
                                               (effectiveSize.y * GridManager.Instance.cellSize) / 2f);
 
-        GameObject roomObj = Instantiate(prefab, worldPosition, rotation);
+        GameObject roomObj = Instantiate(prefab, worldPosition, rotation,transform);
         Room room = roomObj.GetComponent<Room>();
 
         room.InitializeDoors();

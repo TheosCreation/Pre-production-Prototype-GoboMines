@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Deadend
       objectReference: {fileID: 0}
+    - target: {fileID: 2679765972242554139, guid: c6a7145c586b328489addede4bc4f9d5, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

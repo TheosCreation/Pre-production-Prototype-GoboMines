@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_TJunction
       objectReference: {fileID: 0}
+    - target: {fileID: 2409614687348816161, guid: 4292acd6013e9e6498b5c18455176097, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 4506617419145579186, guid: 4292acd6013e9e6498b5c18455176097, type: 3}
       propertyPath: m_TagString
       value: Door

@@ -17,7 +17,8 @@ public class GridManager : Singleton<GridManager>
     public float cellSize = 5f;
     public enum CellState { Unoccupied, Available, Occupied }
     public CellData[,] grid;
-
+    
+    public bool ShowGizmos = true;
     protected override void Awake()
     {
         base.Awake();
@@ -177,7 +178,7 @@ public class GridManager : Singleton<GridManager>
     }
     void OnDrawGizmos()
     {
-        if (grid == null) return;
+        if (grid == null || !ShowGizmos) return;
 
         // Second pass: Draw grid elements
         for (int x = 0; x < gridSize.x; x++)
