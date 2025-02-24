@@ -724,6 +724,7 @@ GameObject:
   - component: {fileID: 3328091651115075633}
   - component: {fileID: 165149422280804405}
   - component: {fileID: 5190812683287025838}
+  - component: {fileID: -8389024638368381983}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1005,9 +1006,9 @@ MonoBehaviour:
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -1100,6 +1101,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a1c2d055d7fa741ac3ee55d7d69079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!167 &-8389024638368381983
+AudioReverbZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895886716767213066}
+  m_Enabled: 1
+  m_MinDistance: 10
+  m_MaxDistance: 15
+  m_ReverbPreset: 9
+  m_Room: -1000
+  m_RoomHF: 0
+  m_DecayTime: 2.91
+  m_DecayHFRatio: 1.3
+  m_Reflections: -602
+  m_ReflectionsDelay: 0.015
+  m_Reverb: -302
+  m_ReverbDelay: 0.022
+  m_HFReference: 5000
+  m_Diffusion: 100
+  m_Density: 100
+  m_LFReference: 250
+  m_RoomLF: 0
 --- !u!1 &7060127678819121378
 GameObject:
   m_ObjectHideFlags: 0
