@@ -143,6 +143,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""27c0fd2e-6c82-49d9-a020-071a035626b1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -572,6 +581,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SpecialAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""589ba785-b60d-4e76-8213-e8f1b9465442"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1172,6 +1192,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_CantAttackAction = m_Player.FindAction("CantAttackAction", throwIfNotFound: true);
         m_Player_ItemSwitch = m_Player.FindAction("ItemSwitch", throwIfNotFound: true);
         m_Player_SpecialAction = m_Player.FindAction("SpecialAction", throwIfNotFound: true);
+        m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1264,6 +1285,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CantAttackAction;
     private readonly InputAction m_Player_ItemSwitch;
     private readonly InputAction m_Player_SpecialAction;
+    private readonly InputAction m_Player_Inventory;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1281,6 +1303,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @CantAttackAction => m_Wrapper.m_Player_CantAttackAction;
         public InputAction @ItemSwitch => m_Wrapper.m_Player_ItemSwitch;
         public InputAction @SpecialAction => m_Wrapper.m_Player_SpecialAction;
+        public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1329,6 +1352,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SpecialAction.started += instance.OnSpecialAction;
             @SpecialAction.performed += instance.OnSpecialAction;
             @SpecialAction.canceled += instance.OnSpecialAction;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1372,6 +1398,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SpecialAction.started -= instance.OnSpecialAction;
             @SpecialAction.performed -= instance.OnSpecialAction;
             @SpecialAction.canceled -= instance.OnSpecialAction;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1567,6 +1596,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnCantAttackAction(InputAction.CallbackContext context);
         void OnItemSwitch(InputAction.CallbackContext context);
         void OnSpecialAction(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

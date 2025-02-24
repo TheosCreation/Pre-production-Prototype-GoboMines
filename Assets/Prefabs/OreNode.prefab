@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5426783776589041135}
   - component: {fileID: 8692150951991165957}
   - component: {fileID: 6197964730036631823}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: OreNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -4,33 +4,35 @@ using UnityEngine;
 public class Pickaxe : Weapon
 {
     [SerializeField] private float attackRange = 3.0f;
+    public LayerMask hitMask;
+
+    protected override void Attack()
+    {
+        base.Attack();
+
+        AttackServerRpc();
+    }
 
     [ServerRpc]
-    protected override void AttackServerRpc()
+    protected void AttackServerRpc()
     {
-        base.AttackServerRpc();
-
         Vector3 firePosition = player.playerLook.playerCamera.transform.position;
         Vector3 direction = player.playerLook.playerCamera.transform.forward;
 
         RaycastHit hit;
-        if(Physics.Raycast(firePosition, direction, out hit, attackRange))
+        if(Physics.Raycast(firePosition, direction, out hit, attackRange, hitMask))
         {
-            // Check if we hit ourselves
-            NetworkObject hitObject = hit.collider.GetComponentInParent<NetworkObject>();
-            if (hitObject != null && hitObject.OwnerClientId == player.OwnerClientId)
-            {
-                // Ignore collision if we hit ourselves
-                return;
-            }
-
+            Debug.Log("Hit something");
             IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
             if (damageable == null)
             {
-                ulong attackerId = player.OwnerClientId;
-
                 damageable = hit.collider.GetComponent<IDamageable>();
-                damageable.TakeDamage(damage, attackerId);
+            }
+
+            if (damageable != null)
+            {
+
+                damageable.TakeDamage(damage, player);
             }
         }
     }

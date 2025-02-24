@@ -8,7 +8,8 @@ public class OreNode : MonoBehaviour, IDamageable
     
     public ParticleSystem HitParticlePrefab { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public AudioClip HitSound { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public bool IsDead { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    private bool isDead = false;
+    public bool IsDead { get => isDead; set => isDead= value; }
     
     public OreSO ore;
 
@@ -29,6 +30,27 @@ public class OreNode : MonoBehaviour, IDamageable
         }
     }
 
+    private void MineOre(PlayerController fromPlayer, int amount)
+    {
+        if (totalOre <= 0) return;
+
+        // Calculate diminishing returns based on remaining health
+        int oreMined = (int)((maxHealth * totalOre * amount) / (maxHealth * (maxHealth + amount)));
+        totalOre -= oreMined;
+        // Give mined ore to the player's inventory
+        if (oreMined > 0)
+        {
+            fromPlayer.inventory.AddItemToInventory(ore, oreMined);
+        }
+
+        Debug.Log($"Mined {oreMined} ore. Remaining total ore: {totalOre}");
+    }
+
+    private void DestroyOreNode()
+    {
+        Destroy(gameObject);
+    }
+
     public void TakeDamage(int amount, PlayerController fromPlayer)
     {
         MineOre(fromPlayer, amount);
@@ -40,31 +62,5 @@ public class OreNode : MonoBehaviour, IDamageable
         {
             dustEffect.Play();
         }
-    }
-
-    private void MineOre(PlayerController fromPlayer, int amount)
-    {
-        if (totalOre <= 0) return;
-
-        // Calculate diminishing returns based on remaining health
-        int oreMined = (int)((maxHealth * totalOre * amount) / (maxHealth * (maxHealth + amount)));
-
-        // Give mined ore to the player's inventory
-        if (oreMined > 0)
-        {
-            fromPlayer.AddToInventory(ore, oreMined);
-        }
-
-        Debug.Log($"Mined {oreMined} ore. Remaining total ore: {totalOre}");
-    }
-
-    private void DestroyOreNode()
-    {
-        Destroy(gameObject);
-    }
-
-    public void TakeDamage(float amount, ulong attackerId)
-    {
-        throw new System.NotImplementedException();
     }
 }
