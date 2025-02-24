@@ -1188,7 +1188,7 @@ MonoBehaviour:
   - {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
   initialRoomPrefab: {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
   maxRooms: 100
-  placementDelay: 1
+  placementDelay: 0
 --- !u!4 &1410642440
 Transform:
   m_ObjectHideFlags: 0
@@ -2237,3 +2237,5 @@ SceneRoots:
   - {fileID: 397296617}
   - {fileID: 4299553531935638184}
   - {fileID: 2353570291920247863}
+  - {fileID: 1410642440}
+  - {fileID: 2116731355}
