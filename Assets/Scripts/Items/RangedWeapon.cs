@@ -48,6 +48,7 @@ public class RangedWeapon : Weapon
         base.Equip();
 
         isReloading.Value = false;
+        isAttacking = false;
 
         //UiManager.Instance.playerHud.SetAmmo(true);
         //UiManager.Instance.playerHud.UpdateAmmoCount(ammo, magSize);
