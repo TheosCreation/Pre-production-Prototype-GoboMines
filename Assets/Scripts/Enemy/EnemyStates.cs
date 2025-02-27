@@ -47,7 +47,6 @@ public abstract class BaseState : ScriptableObject, IEnemyState
 [CreateAssetMenu(menuName = "EnemyStates/RoamingState", fileName = "RoamingState")]
 public class RoamingStateSO : BaseState
 {
-    // This field is not serialized between play sessions.
     private Vector3 currentDestination;
 
     public override void OnEnter(EnemyAI enemy)
@@ -92,7 +91,6 @@ public class RoamingStateSO : BaseState
         Transform target = enemy.GetTarget();
         if (target != null)
         {
-            // Simple distance check for detection.
             return Vector3.Distance(enemy.transform.position, target.position) <= detectionRange;
         }
         return false;
@@ -111,14 +109,12 @@ public class ChasingStateSO : BaseState
     {
         if (!IsTargetValid(enemy))
         {
-            // Target lost; switch back to roaming.
             enemy.ChangeState<RoamingStateSO>();
             return;
         }
 
         if (IsWithinAttackRange(enemy))
         {
-            // Target within attack range; switch to attacking.
             enemy.ChangeState<AttackingStateSO>();
             return;
         }
@@ -167,40 +163,31 @@ public class StalkingState : BaseState
 
     public override void OnUpdate(EnemyAI enemy)
     {
-        // Only run cover logic if we aren’t aleady in hiding behavior.
         if (isHiding)
         {
             hideTimer -= Time.deltaTime;
             if (hideTimer <= 0f)
             {
-                // After waiting, decide to chase or resume stalking.
                 isHiding = false;
             }
-            return; // Stay in cover (or not update movement)
+            return; 
         }
 
-        // Check the line of sight with a raycast.
         if (!HasLineOfSight(enemy))
         {
-            // If the direct ray is blocked then move to cover or back away.
             MoveToCover(enemy);
         }
         else
         {
-            // If we have LoS, look at the player.
             enemy.transform.LookAt(enemy.GetTarget().position);
 
-            // Optionally, check if the target “sees” the enemy.
             if (IsPlayerLookingAtMe(enemy))
             {
-                // Once spotted and the player is looking, hide for a bit before proceeding.
                 isHiding = true;
                 hideTimer = hidingDuration;
-                // Optionally, set a cover point manually if you have cover presets.
             }
             else
             {
-                // If no cover is needed, follow the player.
                 ChaseTarget(enemy);
             }
         }
@@ -214,13 +201,13 @@ public class StalkingState : BaseState
         Ray ray = new Ray(enemy.transform.position, direction);
         RaycastHit hitInfo;
 
-        // Consider all layers and use your detection range.
+
         if (Physics.Raycast(ray, out hitInfo, lineOfSightDistance))
-        {
-            // If the hit object is the player, then LoS exists.
-            // Otherwise, something (like a wall) is blocking the view.
+        {           
             if (hitInfo.collider.CompareTag("Player"))
+            {
                 return true;
+            }
         }
         return false;
     }
@@ -228,12 +215,11 @@ public class StalkingState : BaseState
     private bool IsPlayerLookingAtMe(EnemyAI enemy)
     {
         Transform target = enemy.GetTarget();
-        if (target == null) return false;
-
-        // For example, if the player has a main camera as a child, or if the player forward is the view.
+        if (target == null)
+        {
+            return false;
+        }
         Vector3 toEnemy = (enemy.transform.position - target.position).normalized;
-        // Here we assume the player's forward is the direction they’re looking.
-        // A dot product near 1 means the enemy is almost directly in front.
         float dot = Vector3.Dot(target.forward, toEnemy);
         return dot > playerViewThreshold;
     }
@@ -242,8 +228,9 @@ public class StalkingState : BaseState
     {
         NavMeshAgent agent = enemy.GetAgent();
         if (agent.pathPending)
+        {
             return;
-        // Follow the player's current position.
+        }
         agent.SetDestination(enemy.GetTarget().position);
     }
 
@@ -252,25 +239,21 @@ public class StalkingState : BaseState
         NavMeshAgent agent = enemy.GetAgent();
         Transform target = enemy.GetTarget();
         if (target == null)
+        {
             return;
+        }
 
-        // Basic logic: move in the opposite direction of the target.
         Vector3 awayDirection = (enemy.transform.position - target.position).normalized;
-        // Multiply by some distance – you might choose a max retreat distance.
         float retreatDistance = 10f;
         Vector3 coverPosition = enemy.transform.position + awayDirection * retreatDistance;
 
-        // Use NavMesh.SamplePosition to find a valid point on the NavMesh.
         if (NavMesh.SamplePosition(coverPosition, out NavMeshHit hit, 2f, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
         }
     }
 
-    /// <summary>
-    /// Finds the nearest player from the enemy's position.
-    /// This can be optimized by caching references to players.
-    /// </summary>
+
     private Transform FindNearestPlayer(EnemyAI enemy)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");

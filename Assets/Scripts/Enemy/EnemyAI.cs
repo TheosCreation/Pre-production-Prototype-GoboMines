@@ -5,16 +5,16 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    [Header("State Assets (Assign in Inspector)")]
-    [Tooltip("Assign all state assets here (RoamingState, ChasingState, etc.)")]
+    [Header("State Assets")]
+    [Tooltip("Assign all state assets here")]
     public BaseState[] states;
 
-    private IEnemyState currentState;
+    [SerializeField] private IEnemyState currentState;
     private Dictionary<Type, IEnemyState> stateDictionary;
 
-    private NavMeshAgent agent;
-    private Vector3 homePosition;
-    private Transform target;
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Vector3 homePosition;
+    [SerializeField] private Transform target;
 
     private float currentRoamRadius;
     private float currentMoveSpeed;
@@ -48,7 +48,7 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Duplicate state key found for type: " + key);
+                Debug.LogWarning("duplicate state key found for type: " + key);
             }
         }
     }
@@ -59,7 +59,7 @@ public class EnemyAI : MonoBehaviour
         Type key = typeof(T);
         if (!stateDictionary.TryGetValue(key, out var newState))
         {
-            Debug.LogError("State of type " + key + " not found in dictionary.");
+            Debug.LogError("state of type " + key + " not found in dic");
             return;
         }
 

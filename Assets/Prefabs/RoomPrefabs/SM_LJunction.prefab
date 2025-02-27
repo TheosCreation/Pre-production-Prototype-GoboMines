@@ -195,6 +195,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8717103736300062266, guid: da95a07a3e1343147a3dfb4361e68799, type: 3}
+--- !u!4 &5098436710982298596 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1831915913361837354, guid: da95a07a3e1343147a3dfb4361e68799, type: 3}
+  m_PrefabInstance: {fileID: 6894180881879557838}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6011290850166135711 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: da95a07a3e1343147a3dfb4361e68799, type: 3}
@@ -212,7 +217,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2499e72eb55d4af43a3cba9e76635020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doors: []
+  doors:
+  - doorTransform: {fileID: 5098436710982298596}
+    direction: {x: 0, y: 0}
+  - doorTransform: {fileID: 8753678625151892949}
+    direction: {x: 0, y: 0}
   size: {x: 1, y: 1}
 --- !u!1 &8215961634226289220 stripped
 GameObject:
@@ -241,3 +250,8 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5264242644581740795, guid: da95a07a3e1343147a3dfb4361e68799, type: 3}
+--- !u!4 &8753678625151892949 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2798526097558592283, guid: da95a07a3e1343147a3dfb4361e68799, type: 3}
+  m_PrefabInstance: {fileID: 6894180881879557838}
+  m_PrefabAsset: {fileID: 0}

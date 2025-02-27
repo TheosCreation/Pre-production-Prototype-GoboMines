@@ -286,6 +286,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1609258312}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &5353013
 GameObject:
   m_ObjectHideFlags: 0
@@ -3091,6 +3092,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 243451862}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &127081102
 GameObject:
   m_ObjectHideFlags: 0
@@ -3364,6 +3366,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1150335627}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &143578690
 GameObject:
   m_ObjectHideFlags: 0
@@ -3422,6 +3425,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 52388221}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &144619718
 GameObject:
   m_ObjectHideFlags: 0
@@ -3749,6 +3753,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1420643510}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &159296246
 GameObject:
   m_ObjectHideFlags: 0
@@ -4458,6 +4463,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1181257718}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &164386532
 GameObject:
   m_ObjectHideFlags: 0
@@ -4731,6 +4737,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1003354106}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &170555010
 GameObject:
   m_ObjectHideFlags: 0
@@ -5004,6 +5011,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 2084522821}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &176899444
 GameObject:
   m_ObjectHideFlags: 0
@@ -5530,6 +5538,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 720113078}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &187996192
 GameObject:
   m_ObjectHideFlags: 0
@@ -5585,6 +5594,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 946501068}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &193525241
 GameObject:
   m_ObjectHideFlags: 0
@@ -6294,6 +6304,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 2027502343}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &206370852
 GameObject:
   m_ObjectHideFlags: 0
@@ -6897,6 +6908,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 378643561}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &226694605
 GameObject:
   m_ObjectHideFlags: 0
@@ -8590,6 +8602,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 208460230}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &247299883
 GameObject:
   m_ObjectHideFlags: 0
@@ -9517,6 +9530,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 2039367784}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &278391771
 GameObject:
   m_ObjectHideFlags: 0
@@ -9572,6 +9586,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 5353014}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &279093150
 GameObject:
   m_ObjectHideFlags: 0
@@ -9739,6 +9754,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 307093421}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &280524828
 GameObject:
   m_ObjectHideFlags: 0
@@ -10778,6 +10794,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 570989167}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &325033488
 GameObject:
   m_ObjectHideFlags: 0
@@ -11054,6 +11071,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1041742004}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &334099361
 GameObject:
   m_ObjectHideFlags: 0
@@ -12019,6 +12037,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1815010924}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &377940797
 GameObject:
   m_ObjectHideFlags: 0
@@ -12843,6 +12862,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 862106544}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &388686376
 GameObject:
   m_ObjectHideFlags: 0
@@ -13394,6 +13414,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 327902770}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &408449750
 GameObject:
   m_ObjectHideFlags: 0
@@ -13776,6 +13797,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 915552238}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &423603369
 GameObject:
   m_ObjectHideFlags: 0
@@ -13943,6 +13965,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1837659509}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &427741135
 GameObject:
   m_ObjectHideFlags: 0
@@ -14181,7 +14204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &447204255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14196,6 +14219,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   states:
   - {fileID: 11400000, guid: 1d764a375d6b3624c8b09f1bea7da6d9, type: 2}
+  agent: {fileID: 0}
+  homePosition: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
 --- !u!195 &447204256
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -14585,6 +14611,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1410861328}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &460990149
 GameObject:
   m_ObjectHideFlags: 0
@@ -16826,6 +16853,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 653373807}
     direction: {x: 1, y: 0}
   size: {x: 3, y: 3}
+  spawnChance: 1
 --- !u!1 &522149401
 GameObject:
   m_ObjectHideFlags: 0
@@ -17208,6 +17236,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 542579901}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &534193971
 GameObject:
   m_ObjectHideFlags: 0
@@ -18299,6 +18328,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 38787121}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &569973431
 GameObject:
   m_ObjectHideFlags: 0
@@ -20128,6 +20158,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 2051419210}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &626992873
 GameObject:
   m_ObjectHideFlags: 0
@@ -20734,6 +20765,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 831493333}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &642005158
 GameObject:
   m_ObjectHideFlags: 0
@@ -21773,6 +21805,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1007393778}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &700478991
 GameObject:
   m_ObjectHideFlags: 0
@@ -21937,6 +21970,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1509967309}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &701624977
 GameObject:
   m_ObjectHideFlags: 0
@@ -22210,6 +22244,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1161860090}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &706295083
 GameObject:
   m_ObjectHideFlags: 0
@@ -22946,6 +22981,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 195443058}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &738678185
 GameObject:
   m_ObjectHideFlags: 0
@@ -23764,6 +23800,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 686057586}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &758110781
 GameObject:
   m_ObjectHideFlags: 0
@@ -24582,6 +24619,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1066328237}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &779030840
 GameObject:
   m_ObjectHideFlags: 0
@@ -25757,6 +25795,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 300330849}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &809955154
 GameObject:
   m_ObjectHideFlags: 0
@@ -27670,6 +27709,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 472519}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &871722679
 GameObject:
   m_ObjectHideFlags: 0
@@ -28412,6 +28452,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 993850526}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &892420781
 GameObject:
   m_ObjectHideFlags: 0
@@ -28467,6 +28508,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1011298629}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &892749878
 GameObject:
   m_ObjectHideFlags: 0
@@ -28961,6 +29003,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1738204834}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &902232146
 GameObject:
   m_ObjectHideFlags: 0
@@ -29022,6 +29065,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 19739863}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &903886701
 GameObject:
   m_ObjectHideFlags: 0
@@ -29295,6 +29339,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1468579942}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &906902781
 GameObject:
   m_ObjectHideFlags: 0
@@ -30004,6 +30049,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 152211861}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &924436402
 GameObject:
   m_ObjectHideFlags: 0
@@ -30713,6 +30759,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1852377802}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &953894210
 GameObject:
   m_ObjectHideFlags: 0
@@ -31534,6 +31581,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1143033131}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &974659607
 GameObject:
   m_ObjectHideFlags: 0
@@ -33796,6 +33844,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 853033909}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1034833492
 GameObject:
   m_ObjectHideFlags: 0
@@ -34072,6 +34121,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 79307138}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1040240160
 GameObject:
   m_ObjectHideFlags: 0
@@ -34130,6 +34180,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 705534092}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1041742003
 GameObject:
   m_ObjectHideFlags: 0
@@ -34948,6 +34999,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 2063088864}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1072173593
 GameObject:
   m_ObjectHideFlags: 0
@@ -35003,6 +35055,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 164386533}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1078492118
 GameObject:
   m_ObjectHideFlags: 0
@@ -36775,6 +36828,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1183920257}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1127195597
 GameObject:
   m_ObjectHideFlags: 0
@@ -37048,6 +37102,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 492797192}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1130499841
 GameObject:
   m_ObjectHideFlags: 0
@@ -38193,6 +38248,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1571394774}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1157862658
 GameObject:
   m_ObjectHideFlags: 0
@@ -38575,6 +38631,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 617422253}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1168857455
 GameObject:
   m_ObjectHideFlags: 0
@@ -38630,6 +38687,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 381208465}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1177079080 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1804070986102780414, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
@@ -39154,6 +39212,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1139187878}
     direction: {x: 0, y: 1}
   size: {x: 3, y: 3}
+  spawnChance: 1
 --- !u!1 &1200897739
 GameObject:
   m_ObjectHideFlags: 0
@@ -39542,6 +39601,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 964525550}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1203535274
 GameObject:
   m_ObjectHideFlags: 0
@@ -39927,6 +39987,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1238993016}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1220799907
 GameObject:
   m_ObjectHideFlags: 0
@@ -40751,6 +40812,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 469956670}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1252239406
 GameObject:
   m_ObjectHideFlags: 0
@@ -42518,6 +42580,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 170555011}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1348182746
 GameObject:
   m_ObjectHideFlags: 0
@@ -42579,6 +42642,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1220799908}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1350780039
 GameObject:
   m_ObjectHideFlags: 0
@@ -43712,7 +43776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1410642439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43730,10 +43794,12 @@ MonoBehaviour:
   - {fileID: 1130431932116990175, guid: cb3e2893a32dbf74f8bbbc606d2732bd, type: 3}
   - {fileID: 6011290850166135711, guid: a160b6149bd119e4fbe59923d31a543f, type: 3}
   - {fileID: 1544074073863990392, guid: 303df86339f51984b981f24818c3e4ba, type: 3}
-  - {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
+  - {fileID: 634482564480010537, guid: 3e50a7f73016868469a9d7ad87038064, type: 3}
   initialRoomPrefab: {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
-  maxRooms: 200
-  placementDelay: 0.1
+  maxRooms: 500
+  placementDelay: 0
+  useSeed: 0
+  seed: 2112
 --- !u!4 &1410642440
 Transform:
   m_ObjectHideFlags: 0
@@ -44458,6 +44524,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 249644739}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1420643509
 GameObject:
   m_ObjectHideFlags: 0
@@ -45821,6 +45888,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1203535275}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1465266849
 GameObject:
   m_ObjectHideFlags: 0
@@ -46748,6 +46816,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 52030597}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1501906282
 GameObject:
   m_ObjectHideFlags: 0
@@ -46809,6 +46878,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 427741136}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1502616545
 GameObject:
   m_ObjectHideFlags: 0
@@ -47194,6 +47264,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1445657267}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1509967308
 GameObject:
   m_ObjectHideFlags: 0
@@ -47582,6 +47653,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 2008495035}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1533997042
 GameObject:
   m_ObjectHideFlags: 0
@@ -48618,6 +48690,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 377940798}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1579065186
 GameObject:
   m_ObjectHideFlags: 0
@@ -48676,6 +48749,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 2044918272}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1583992504
 GameObject:
   m_ObjectHideFlags: 0
@@ -48840,6 +48914,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 752355054}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1584601980
 GameObject:
   m_ObjectHideFlags: 0
@@ -49991,6 +50066,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 231292922}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1620189335
 GameObject:
   m_ObjectHideFlags: 0
@@ -50482,6 +50558,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1417233289}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1624144931
 GameObject:
   m_ObjectHideFlags: 0
@@ -50543,6 +50620,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 899080331}
     direction: {x: -1, y: 0}
   size: {x: 3, y: 3}
+  spawnChance: 1
 --- !u!1 &1627718200
 GameObject:
   m_ObjectHideFlags: 0
@@ -51579,6 +51657,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 19312903}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1670625181
 GameObject:
   m_ObjectHideFlags: 0
@@ -51640,6 +51719,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1510472258}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1672461496
 GameObject:
   m_ObjectHideFlags: 0
@@ -52894,6 +52974,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 460990150}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1730371670
 GameObject:
   m_ObjectHideFlags: 0
@@ -53282,6 +53363,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1036869254}
     direction: {x: -1, y: 0}
   size: {x: 3, y: 3}
+  spawnChance: 1
 --- !u!1 &1737150498
 GameObject:
   m_ObjectHideFlags: 0
@@ -54754,6 +54836,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1845451732}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1777597682
 GameObject:
   m_ObjectHideFlags: 0
@@ -55899,6 +55982,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 181629024}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1815010923
 GameObject:
   m_ObjectHideFlags: 0
@@ -56351,7 +56435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1829369204
 Transform:
   m_ObjectHideFlags: 0
@@ -57556,6 +57640,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1252239407}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1889646956
 GameObject:
   m_ObjectHideFlags: 0
@@ -57726,6 +57811,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 928173531}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1901091606
 GameObject:
   m_ObjectHideFlags: 0
@@ -57784,6 +57870,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 457632820}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1904385340
 GameObject:
   m_ObjectHideFlags: 0
@@ -58063,6 +58150,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 681672088}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1910840859
 GameObject:
   m_ObjectHideFlags: 0
@@ -58227,6 +58315,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1826788855}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1920876854
 GameObject:
   m_ObjectHideFlags: 0
@@ -59048,6 +59137,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1379520843}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1932185026
 GameObject:
   m_ObjectHideFlags: 0
@@ -59430,6 +59520,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 802566829}
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1937646160
 GameObject:
   m_ObjectHideFlags: 0
@@ -59706,6 +59797,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 907045139}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1953755360
 GameObject:
   m_ObjectHideFlags: 0
@@ -59764,6 +59856,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1001339605}
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &1966655774
 GameObject:
   m_ObjectHideFlags: 0
@@ -61127,6 +61220,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 1640103554}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &2027502342
 GameObject:
   m_ObjectHideFlags: 0
@@ -62357,6 +62451,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 899376930}
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1 &2075534579
 GameObject:
   m_ObjectHideFlags: 0
@@ -63040,9 +63135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fe0010a89e17b459e9723ff8d3b61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 200, y: 200}
+  gridSize: {x: 250, y: 250}
   cellSize: 10
-  ShowGizmos: 0
+  ShowGizmos: 1
 --- !u!4 &2116731355
 Transform:
   m_ObjectHideFlags: 0
@@ -64097,6 +64192,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 303524566}
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 1
 --- !u!1001 &1523032268716921029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64664,6 +64760,10 @@ PrefabInstance:
     - target: {fileID: 8082688341107167511, guid: a43ff35eee801ea479c0fce4eb2d8184, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082688341107167511, guid: a43ff35eee801ea479c0fce4eb2d8184, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

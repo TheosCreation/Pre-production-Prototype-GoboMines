@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -12,8 +13,8 @@ public class Room : MonoBehaviour
 
     public List<DoorInfo> doors = new List<DoorInfo>();
     public Vector2Int size;
-    
-    // Calculate center to find door directions
+    [Range(0f, 1f)]
+    public float spawnChance = 1f;
     private Vector3 CalculateCenter()
     {
         Bounds bounds = new Bounds();
@@ -89,12 +90,12 @@ public class Room : MonoBehaviour
         }
         return size;
     }
-    void OnDrawGizmos()
+
+    private void OnDrawGizmos()
     {
         Vector3 center = CalculateCenter();
-
         Gizmos.color = Color.yellow;
-
         Gizmos.DrawSphere(center, 0.1f);
+
     }
 }

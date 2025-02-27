@@ -41,7 +41,6 @@ public class GridManager : Singleton<GridManager>
 
     public Vector3 ConvertToWorldPosition(Vector2Int gridPosition)
     {
-        // Center the grid by subtracting half the total size
         float offsetX = -(gridSize.x * cellSize) / 2f;
         float offsetZ = -(gridSize.y * cellSize) / 2f;
 
@@ -55,7 +54,6 @@ public class GridManager : Singleton<GridManager>
 
     public Vector2Int ConvertToGridPosition(Vector3 worldPosition)
     {
-        // Account for the center offset when converting back
         float offsetX = -(gridSize.x * cellSize) / 2f;
         float offsetZ = -(gridSize.y * cellSize) / 2f;
 
@@ -178,32 +176,51 @@ public class GridManager : Singleton<GridManager>
     }
     void OnDrawGizmos()
     {
-        if (grid == null || !ShowGizmos) return;
+        if (grid == null || !ShowGizmos)
+            return;
 
-        // Second pass: Draw grid elements
+        // Loop through our grid cells.
         for (int x = 0; x < gridSize.x; x++)
         {
             for (int y = 0; y < gridSize.y; y++)
             {
+                Vector2Int gridPos = new Vector2Int(x, y);
+                Vector3 bottomLeftPos = ConvertToWorldPosition(gridPos);
+                Vector3 centerPos = bottomLeftPos + new Vector3(cellSize / 2f, 0, cellSize / 2f);
+
                 switch (grid[x, y].state)
                 {
                     case CellState.Available:
-                        Gizmos.color = Color.blue;
+                        Gizmos.color = new Color(0, 0, 1, 0.3f); 
                         break;
                     case CellState.Occupied:
-                        Gizmos.color = Color.red;
+                        Gizmos.color = new Color(1, 0, 0, 0.3f); 
                         break;
                     default:
-                        Gizmos.color = Color.green;
+                        Gizmos.color = new Color(0, 1, 0, 0.3f);
                         break;
                 }
-                Vector3 pos = new Vector3(x * 1.1f, 0, y * 1.1f);
-                Gizmos.DrawCube(pos, new Vector3(cellSize, 1f, cellSize));
+
+                Gizmos.DrawCube(centerPos, new Vector3(cellSize, 1f, cellSize));
+
+                if (grid[x, y].availableConnections != null &&
+                    grid[x, y].availableConnections.Count > 0)
+                {
+                    Gizmos.color = Color.yellow;
+                    foreach (Vector2Int connection in grid[x, y].availableConnections)
+                    {
+                        Vector3 directionVector = new Vector3(connection.x, 0, connection.y).normalized;
+
+                        Vector3 connectionEnd = centerPos + directionVector * (cellSize * 0.5f);
+
+                        Gizmos.DrawLine(centerPos, connectionEnd);
+
+                        Gizmos.DrawSphere(connectionEnd, 0.1f);
+                    }
+                }
             }
         }
-       
-
     }
 
-   
+
 }
