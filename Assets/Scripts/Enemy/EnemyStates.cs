@@ -146,13 +146,24 @@ public class ChasingStateSO : BaseState
 [CreateAssetMenu(menuName = "EnemyStates/StalkingState", fileName = "StalkingState")]
 public class StalkingState : BaseState
 {
+    // Roam around untill a player gets in its radius (you can use a trigger collider if you want) it sets that player as a target and begins stalking it
+    // follow around not getting too close 
+    // if player looks in its direction, it will roll a die then depending on result it will either run after the player or hide, make it more likely to hide and keep stalking
+    // make hiding and stalking different states
+    // then just make it the chase state when it rolls to run after the player
+    // hiding should hide untill its not in player sight
+    // you can shoot raycasts in like and if none of those hit a player then youre hidden, then to stalk just make sure at least one is hitting but its like not moving towards the player
+    // make it move towards the player untill the raycast hits, then stop moving (can prolly find a better solution)
+    
+
+
     public float lineOfSightDistance = 15f;
     public float hidingDuration = 2f;
     public float playerViewThreshold = 0.8f;
 
     private bool isHiding = false;
     private float hideTimer = 0f;
-
+    
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);

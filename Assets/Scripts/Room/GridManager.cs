@@ -15,7 +15,7 @@ public class GridManager : Singleton<GridManager>
 
     public Vector2Int gridSize = new Vector2Int(50, 50);
     public float cellSize = 5f;
-    public enum CellState { Unoccupied, Available, Occupied }
+    public enum CellState { Unoccupied, Available, Occupied, SecondPass }
     public CellData[,] grid;
     
     public bool ShowGizmos = true;
@@ -70,13 +70,17 @@ public class GridManager : Singleton<GridManager>
         Vector2Int targetCell = cell + offset;
         if (IsValidCell(targetCell))
         {
-            if (grid[targetCell.x, targetCell.y].state != CellState.Occupied)
+            if (grid[targetCell.x, targetCell.y].state != CellState.Occupied && grid[targetCell.x, targetCell.y].state != CellState.SecondPass)
             {
                 grid[targetCell.x, targetCell.y].state = CellState.Available; 
                 if (!grid[targetCell.x, targetCell.y].availableConnections.Contains(-doorDirection))
                 {
                     grid[targetCell.x, targetCell.y].availableConnections.Add(-doorDirection);
                 }
+            }
+            else
+            {
+               // grid[targetCell.x, targetCell.y].state = CellState.SecondPass;
             }
         }
     }
@@ -122,7 +126,7 @@ public class GridManager : Singleton<GridManager>
         {
             for (int y = 0; y < effectiveSize.y; y++)
             {
-                if (grid[gridPosition.x + x, gridPosition.y + y].state == CellState.Occupied)
+                if (grid[gridPosition.x + x, gridPosition.y + y].state == CellState.Occupied || grid[gridPosition.x + x, gridPosition.y + y].state == CellState.SecondPass)
                 {
                     Debug.LogWarning($"[GridManager] Cannot place room {room.gameObject.name} due to occupied cell at ({gridPosition.x + x}, {gridPosition.y + y}).");
                     return false;
@@ -158,7 +162,7 @@ public class GridManager : Singleton<GridManager>
             }
 
             currentCell.state = newState;
-            if (newState != CellState.Available)
+            if (newState != CellState.Available || newState != CellState.SecondPass)
             {
                 currentCell.availableConnections.Clear();
             }
@@ -196,6 +200,10 @@ public class GridManager : Singleton<GridManager>
                     case CellState.Occupied:
                         Gizmos.color = new Color(1, 0, 0, 0.3f); 
                         break;
+                    case CellState.SecondPass:
+                        Gizmos.color = new Color(1, 0, 1, 0.3f);
+                        break;
+
                     default:
                         Gizmos.color = new Color(0, 1, 0, 0.3f);
                         break;
