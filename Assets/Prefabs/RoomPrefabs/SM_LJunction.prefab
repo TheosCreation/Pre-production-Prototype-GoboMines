@@ -223,6 +223,7 @@ MonoBehaviour:
   - doorTransform: {fileID: 8753678625151892949}
     direction: {x: 0, y: 0}
   size: {x: 1, y: 1}
+  spawnChance: 0.817
 --- !u!1 &8215961634226289220 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5932936775827465078, guid: da95a07a3e1343147a3dfb4361e68799, type: 3}
