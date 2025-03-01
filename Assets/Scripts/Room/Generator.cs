@@ -89,9 +89,11 @@ public class Generator : MonoBehaviour
         yield return new WaitForSeconds(placementDelay);
         UpdateAdjacentCells(initialRoom, halfGridSize, Quaternion.identity);
 
+        List<Vector2Int> availableCells = new List<Vector2Int>();
+        bool roomPlaced = false;
         while (currentRoomCount < maxRooms)
         {
-            List<Vector2Int> availableCells = GridManager.Instance.GetAvailableCells();
+             availableCells = GridManager.Instance.GetAvailableCells();
             if (availableCells.Count == 0)
             {
                 Debug.Log("[Generator] No more available cells for room placement. Ending generation.");
@@ -99,9 +101,8 @@ public class Generator : MonoBehaviour
             }
 
             ShuffleList(availableCells);
-            bool roomPlaced = false;
+            roomPlaced = false;
 
-            // First Pass: use normal chance
             foreach (Vector2Int targetCell in availableCells)
             {
                 if (processedCells.Contains(targetCell))
@@ -123,38 +124,36 @@ public class Generator : MonoBehaviour
                     processedCells.Add(targetCell);
                 }
             }
-
-          /*  if (!roomPlaced)
-            {
-                Debug.Log("[Generator] First pass failed. Trying second pass that ignores spawn chance.");
-                ShuffleList(availableCells);
-                foreach (Vector2Int targetCell in availableCells)
-                {
-                    if (processedCells.Contains(targetCell))
-                    {
-                      //  continue;
-                    }
-                    List<Vector2Int> requiredConnections = GridManager.Instance.GetCellConnections(targetCell);
-                    if (TryPlaceRoomAtCell(targetCell, requiredConnections, true))
-                    {
-                        processedCells.Add(targetCell);
-                        currentRoomCount++;
-                        roomPlaced = true;
-                        yield return new WaitForSeconds(placementDelay);
-                        break;
-                    }
-                    else
-                    {
-                        GridManager.Instance.SetCellState(targetCell, GridManager.CellState.Available);
-                        processedCells.Add(targetCell);
-                    }
-                }
-            }*/
-
             if (!roomPlaced)
             {
                 Debug.Log("[Generator] No valid placements found even in second pass. Ending generation.");
                 break;
+            }
+        }
+        while(availableCells.Count>0)
+        {
+            availableCells = GridManager.Instance.GetAvailableCells();
+            ShuffleList(availableCells);
+            foreach (Vector2Int targetCell in availableCells)
+            {
+                if (processedCells.Contains(targetCell))
+                {
+                    //  continue;
+                }
+                List<Vector2Int> requiredConnections = GridManager.Instance.GetCellConnections(targetCell);
+                if (TryPlaceRoomAtCell(targetCell, requiredConnections, true))
+                {
+                    processedCells.Add(targetCell);
+                    currentRoomCount++;
+                    roomPlaced = true;
+                    yield return new WaitForSeconds(placementDelay);
+                    break;
+                }
+                else
+                {
+                    GridManager.Instance.SetCellState(targetCell, GridManager.CellState.Available);
+                    processedCells.Add(targetCell);
+                }
             }
         }
 
@@ -190,11 +189,11 @@ public class Generator : MonoBehaviour
             list[randomIndex] = temp;
         }
     }
-    public bool TryPlaceRoomAtCell(Vector2Int targetCell, List<Vector2Int> requiredConnections, bool ignoreSpawnChance = false)
+    public bool TryPlaceRoomAtCell(Vector2Int targetCell, List<Vector2Int> requiredConnections, bool secondPass = false)
     {
         List<GameObject> candidatePrefabs = new List<GameObject>();
 
-        if (!ignoreSpawnChance)
+        if (!secondPass)
         {
             candidatePrefabs = roomPrefabs.Where(p => Random.value <= p.GetComponent<Room>().spawnChance).ToList();
         }
@@ -203,7 +202,7 @@ public class Generator : MonoBehaviour
             candidatePrefabs = new List<GameObject>(roomPrefabs);
         }
 
-        if (candidatePrefabs.Count == 0 && !ignoreSpawnChance)
+        if (candidatePrefabs.Count == 0 && !secondPass)
         {
             return false;
         }
@@ -220,6 +219,13 @@ public class Generator : MonoBehaviour
             }
             Room roomTemplate;
             roomTemplates.TryGetValue(prefab, out roomTemplate);
+            if(secondPass)
+            {
+                if(roomTemplate.doors.Count != requiredConnections.Count)
+                {
+                    continue;
+                }
+            }
             if (roomTemplate == null)
             {
                 Debug.Log("No room template found for prefab: " + prefab.name);
