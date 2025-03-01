@@ -14218,7 +14218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   states:
-  - {fileID: 11400000, guid: 1d764a375d6b3624c8b09f1bea7da6d9, type: 2}
+  - {fileID: 0}
   agent: {fileID: 0}
   homePosition: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
@@ -43770,6 +43770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1410642440}
   - component: {fileID: 1410642439}
+  - component: {fileID: 1410642441}
   m_Layer: 0
   m_Name: Generator
   m_TagString: Untagged
@@ -43796,10 +43797,12 @@ MonoBehaviour:
   - {fileID: 1544074073863990392, guid: 303df86339f51984b981f24818c3e4ba, type: 3}
   - {fileID: 634482564480010537, guid: 3e50a7f73016868469a9d7ad87038064, type: 3}
   initialRoomPrefab: {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
-  maxRooms: 500
+  maxRooms: 8304
   placementDelay: 0
   useSeed: 0
   seed: 2112
+  currentSeed: 0
+  blockedDoorPrefab: {fileID: 0}
 --- !u!4 &1410642440
 Transform:
   m_ObjectHideFlags: 0
@@ -43815,6 +43818,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1410642441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410642438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
 --- !u!1 &1410861327
 GameObject:
   m_ObjectHideFlags: 0
@@ -63137,7 +63172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: {x: 250, y: 250}
   cellSize: 10
-  ShowGizmos: 1
+  ShowGizmos: 0
 --- !u!4 &2116731355
 Transform:
   m_ObjectHideFlags: 0

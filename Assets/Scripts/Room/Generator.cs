@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -123,7 +124,7 @@ public class Generator : MonoBehaviour
                 }
             }
 
-            if (!roomPlaced)
+          /*  if (!roomPlaced)
             {
                 Debug.Log("[Generator] First pass failed. Trying second pass that ignores spawn chance.");
                 ShuffleList(availableCells);
@@ -148,7 +149,7 @@ public class Generator : MonoBehaviour
                         processedCells.Add(targetCell);
                     }
                 }
-            }
+            }*/
 
             if (!roomPlaced)
             {
@@ -164,7 +165,7 @@ public class Generator : MonoBehaviour
     {
         isGenerating = false;
         OnGenerationComplete?.Invoke();
-
+        GetComponent<NavMeshSurface>().BuildNavMesh();
         foreach (Door door in activeDoors)
         {
            // Instantiate(blockedDoorPrefab, door.position, door.direction);
