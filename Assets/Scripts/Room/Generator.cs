@@ -165,10 +165,7 @@ public class Generator : MonoBehaviour
         isGenerating = false;
         OnGenerationComplete?.Invoke();
         GetComponent<NavMeshSurface>().BuildNavMesh();
-        foreach (Door door in activeDoors)
-        {
-           // Instantiate(blockedDoorPrefab, door.position, door.direction);
-        }
+
     }
     // starts gen courutine kinda useless 
     public void StartGeneration()
@@ -208,7 +205,7 @@ public class Generator : MonoBehaviour
         }
 
         ShuffleList(candidatePrefabs);
-        Debug.Log($"[Generator] Room {targetCell}");
+
         foreach (GameObject prefab in candidatePrefabs)
         {
             Room roomRef = prefab.GetComponent<Room>();
@@ -260,7 +257,6 @@ public class Generator : MonoBehaviour
                         }
                     }
                 }
-         //           Debug.Log($"[Generator] meets required {meetsRequired}");
                 if (!meetsRequired)
                 {
 
@@ -276,7 +272,6 @@ public class Generator : MonoBehaviour
                         break;
                     }
                 }
-            //    Debug.Log($"[Generator] allConnectionsFilled {allConnectionsFilled}");
                 if (!allConnectionsFilled)
                 {
                    
@@ -294,7 +289,6 @@ public class Generator : MonoBehaviour
                 foreach (Room.DoorInfo door in roomTemplate.doors)
                 {
                     Vector2Int rotatedDoorDir = RotateDirection(door.direction, angle);
-                //    Debug.Log($"[Generator] rotatedDoorDir == connectingDoorDir {rotatedDoorDir == connectingDoorDir}");
                     if (rotatedDoorDir == connectingDoorDir)
                         continue;
 
@@ -302,10 +296,7 @@ public class Generator : MonoBehaviour
                     if (GridManager.Instance.IsValidCell(doorTarget))
                     {
                         var cell = GridManager.Instance.grid[doorTarget.x, doorTarget.y];
-                        //         Debug.Log($"[Generator] this check {(cell.state != GridManager.CellState.Unoccupied) && (cell.availableConnections == null || cell.availableConnections.Count == 0)}");
-                            Debug.Log(prefab.name);
-                            Debug.Log(GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections.Count);
-                            Debug.Log(GridManager.Instance.grid[doorTarget.x, doorTarget.y].availableConnections.Count);
+               
                         if (GridManager.Instance.grid[doorTarget.x, doorTarget.y].state == GridManager.CellState.Occupied &&
                                 (GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections == null || GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections.Count <= 1))
                         {
@@ -378,7 +369,7 @@ public class Generator : MonoBehaviour
         foreach (Room.DoorInfo door in room.doors)
         {
             Vector2Int rotatedDirection = RotateDirection(door.direction, (int)rotation.eulerAngles.y);
-         //   AddNewDoor(gridPos, rotatedDirection);
+
         }
 
         placedRooms.Add(room);

@@ -43797,7 +43797,7 @@ MonoBehaviour:
   - {fileID: 1544074073863990392, guid: 303df86339f51984b981f24818c3e4ba, type: 3}
   - {fileID: 634482564480010537, guid: 3e50a7f73016868469a9d7ad87038064, type: 3}
   initialRoomPrefab: {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
-  maxRooms: 8304
+  maxRooms: 1000
   placementDelay: 0
   useSeed: 0
   seed: 2112
@@ -63172,7 +63172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: {x: 250, y: 250}
   cellSize: 10
-  ShowGizmos: 0
+  ShowGizmos: 1
 --- !u!4 &2116731355
 Transform:
   m_ObjectHideFlags: 0
