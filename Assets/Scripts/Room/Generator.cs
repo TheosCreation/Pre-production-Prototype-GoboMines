@@ -69,7 +69,7 @@ public class Generator : MonoBehaviour
             DontDestroyOnLoad(templateObject);
 
             Room roomComponent = templateObject.GetComponent<Room>();
-            roomComponent.InitializeDoors();
+            roomComponent.InitializeRoom();
             roomTemplates[prefab] = roomComponent;
         }
     }
@@ -152,6 +152,8 @@ public class Generator : MonoBehaviour
                 }
             }
         }
+
+
 
         CompleteGeneration();
     }
@@ -366,7 +368,7 @@ public class Generator : MonoBehaviour
         GameObject roomObj = Instantiate(prefab, worldPosition, rotation, transform);
         Room room = roomObj.GetComponent<Room>();
 
-        room.InitializeDoors();
+        room.InitializeRoom();
 
         foreach (Room.DoorInfo door in room.doors)
         {

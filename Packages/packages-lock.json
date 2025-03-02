@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.theocreates.tmutils": {
+      "version": "https://github.com/TheosCreation/TMUtils.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "3867e866a7b056f8a652c24ad790f3e6ab74861a"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.6",
       "depth": 0,

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Room : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class Room : MonoBehaviour
     public Vector2Int size;
     [Range(0f, 1f)]
     public float spawnChance = 1f;
-    public List<GameObject> ores = new List<GameObject>();
     private Vector3 CalculateCenter()
     {
         Bounds bounds = new Bounds();
@@ -31,11 +31,46 @@ public class Room : MonoBehaviour
         return bounds.center;
     }
 
-    public void InitializeDoors()
+    public void InitializeRoom()
     {
         doors.Clear();
         Vector3 center = CalculateCenter();
         FindDoorsIterative(center);
+    }
+
+    private void Start()
+    {
+        FindAndSpawnOres();
+    }
+
+    private void FindAndSpawnOres()
+    {
+        Stack<Transform> transformStack = new Stack<Transform>();
+        transformStack.Push(transform);
+
+        while (transformStack.Count > 0)
+        {
+            Transform current = transformStack.Pop();
+
+            if (current.CompareTag("Ore"))
+            {
+                SpawnRandomOre(current);
+            }
+
+            foreach (Transform child in current)
+            {
+                transformStack.Push(child);
+            }
+        }
+
+    }
+
+    private void SpawnRandomOre(Transform parent)
+    {
+        OreNode randomOre = GridManager.Instance.ores[UnityEngine.Random.Range(0, GridManager.Instance.ores.Count)];
+        OreNode oreSpawned = Instantiate(randomOre, parent);
+        oreSpawned.transform.localPosition = Vector3.zero;
+        oreSpawned.transform.localRotation = Quaternion.identity;
     }
 
     private void FindDoorsIterative(Vector3 center)

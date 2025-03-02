@@ -18,6 +18,7 @@ public class GridManager : Singleton<GridManager>
     [Serializable]
     public enum CellState { Unoccupied, Available, Occupied, SecondPass }
     public CellData[,] grid;
+    public List<OreNode> ores;
     
     public bool ShowGizmos = true;
     protected override void Awake()
