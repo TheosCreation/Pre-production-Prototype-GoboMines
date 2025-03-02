@@ -11,7 +11,6 @@ public interface IEnemyState
     void ApplySettings(EnemyAI enemy);
 }
 
-
 public abstract class BaseState : ScriptableObject, IEnemyState
 {
     [Header("Movement Settings")]
@@ -30,7 +29,6 @@ public abstract class BaseState : ScriptableObject, IEnemyState
     }
 
     public virtual void OnUpdate(EnemyAI enemy) { }
-
     public virtual void OnExit(EnemyAI enemy) { }
 
     public virtual void ApplySettings(EnemyAI enemy)
@@ -52,7 +50,7 @@ public class RoamingStateSO : BaseState
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
-        CalculateNewRoamingPosition(enemy);
+        SetNewRoamingPosition(enemy);
     }
 
     public override void OnUpdate(EnemyAI enemy)
@@ -65,14 +63,15 @@ public class RoamingStateSO : BaseState
 
         if (HasReachedDestination(enemy))
         {
-            CalculateNewRoamingPosition(enemy);
+            SetNewRoamingPosition(enemy);
         }
     }
 
-    private void CalculateNewRoamingPosition(EnemyAI enemy)
+    private void SetNewRoamingPosition(EnemyAI enemy)
     {
         Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
         Vector3 newPosition = enemy.GetHomePosition() + randomDirection;
+
         if (NavMesh.SamplePosition(newPosition, out NavMeshHit hit, 1f, NavMesh.AllAreas))
         {
             currentDestination = hit.position;
@@ -89,13 +88,10 @@ public class RoamingStateSO : BaseState
     private bool IsTargetDetected(EnemyAI enemy)
     {
         Transform target = enemy.GetTarget();
-        if (target != null)
-        {
-            return Vector3.Distance(enemy.transform.position, target.position) <= detectionRange;
-        }
-        return false;
+        return target != null && Vector3.Distance(enemy.transform.position, target.position) <= detectionRange;
     }
 }
+
 [CreateAssetMenu(menuName = "EnemyStates/ChasingState", fileName = "ChasingState")]
 public class ChasingStateSO : BaseState
 {
@@ -126,9 +122,10 @@ public class ChasingStateSO : BaseState
     {
         NavMeshAgent agent = enemy.GetAgent();
         Transform target = enemy.GetTarget();
-        if (target == null || agent.pathPending)
-            return;
-        agent.SetDestination(target.position);
+        if (target != null && !agent.pathPending)
+        {
+            agent.SetDestination(target.position);
+        }
     }
 
     private bool IsTargetValid(EnemyAI enemy)
@@ -143,45 +140,30 @@ public class ChasingStateSO : BaseState
         return target != null && Vector3.Distance(enemy.transform.position, target.position) <= attackRange;
     }
 }
+
 [CreateAssetMenu(menuName = "EnemyStates/StalkingState", fileName = "StalkingState")]
 public class StalkingState : BaseState
 {
-    // Roam around untill a player gets in its radius (you can use a trigger collider if you want) it sets that player as a target and begins stalking it
-    // follow around not getting too close 
-    // if player looks in its direction, it will roll a die then depending on result it will either run after the player or hide, make it more likely to hide and keep stalking
-    // make hiding and stalking different states
-    // then just make it the chase state when it rolls to run after the player
-    // hiding should hide untill its not in player sight
-    // you can shoot raycasts in like and if none of those hit a player then youre hidden, then to stalk just make sure at least one is hitting but its like not moving towards the player
-    // make it move towards the player untill the raycast hits, then stop moving (can prolly find a better solution)
-    
-
-
     public float lineOfSightDistance = 15f;
     public float hidingDuration = 2f;
     public float playerViewThreshold = 0.8f;
 
     private bool isHiding = false;
     private float hideTimer = 0f;
-    
+
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
-
         enemy.SetTarget(FindNearestPlayer(enemy));
-    }  
-        
+    }
 
     public override void OnUpdate(EnemyAI enemy)
     {
         if (isHiding)
         {
             hideTimer -= Time.deltaTime;
-            if (hideTimer <= 0f)
-            {
-                isHiding = false;
-            }
-            return; 
+            if (hideTimer <= 0f) isHiding = false;
+            return;
         }
 
         if (!HasLineOfSight(enemy))
@@ -203,22 +185,16 @@ public class StalkingState : BaseState
             }
         }
     }
+
     private bool HasLineOfSight(EnemyAI enemy)
     {
         Transform target = enemy.GetTarget();
         if (target == null) return false;
 
         Vector3 direction = (target.position - enemy.transform.position).normalized;
-        Ray ray = new Ray(enemy.transform.position, direction);
-        RaycastHit hitInfo;
-
-
-        if (Physics.Raycast(ray, out hitInfo, lineOfSightDistance))
-        {           
-            if (hitInfo.collider.CompareTag("Player"))
-            {
-                return true;
-            }
+        if (Physics.Raycast(enemy.transform.position, direction, out RaycastHit hit, lineOfSightDistance))
+        {
+            return hit.collider.CompareTag("Player");
         }
         return false;
     }
@@ -226,37 +202,25 @@ public class StalkingState : BaseState
     private bool IsPlayerLookingAtMe(EnemyAI enemy)
     {
         Transform target = enemy.GetTarget();
-        if (target == null)
-        {
-            return false;
-        }
+        if (target == null) return false;
+
         Vector3 toEnemy = (enemy.transform.position - target.position).normalized;
-        float dot = Vector3.Dot(target.forward, toEnemy);
-        return dot > playerViewThreshold;
+        return Vector3.Dot(target.forward, toEnemy) > playerViewThreshold;
     }
 
     private void ChaseTarget(EnemyAI enemy)
     {
-        NavMeshAgent agent = enemy.GetAgent();
-        if (agent.pathPending)
-        {
-            return;
-        }
-        agent.SetDestination(enemy.GetTarget().position);
+        enemy.GetAgent().SetDestination(enemy.GetTarget().position);
     }
 
     private void MoveToCover(EnemyAI enemy)
     {
         NavMeshAgent agent = enemy.GetAgent();
         Transform target = enemy.GetTarget();
-        if (target == null)
-        {
-            return;
-        }
+        if (target == null) return;
 
         Vector3 awayDirection = (enemy.transform.position - target.position).normalized;
-        float retreatDistance = 10f;
-        Vector3 coverPosition = enemy.transform.position + awayDirection * retreatDistance;
+        Vector3 coverPosition = enemy.transform.position + awayDirection * 10f;
 
         if (NavMesh.SamplePosition(coverPosition, out NavMeshHit hit, 2f, NavMesh.AllAreas))
         {
@@ -264,12 +228,12 @@ public class StalkingState : BaseState
         }
     }
 
-
     private Transform FindNearestPlayer(EnemyAI enemy)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         Transform nearest = null;
         float minDist = Mathf.Infinity;
+
         foreach (GameObject player in players)
         {
             float dist = Vector3.Distance(enemy.transform.position, player.transform.position);
@@ -282,6 +246,7 @@ public class StalkingState : BaseState
         return nearest;
     }
 }
+
 [CreateAssetMenu(menuName = "EnemyStates/AttackingState", fileName = "AttackingState")]
 public class AttackingStateSO : BaseState
 {
@@ -297,14 +262,15 @@ public class AttackingStateSO : BaseState
     {
         if (!IsTargetValid(enemy) || !IsWithinAttackRange(enemy))
         {
-            if (!IsTargetValid(enemy))
-            {
-                enemy.ChangeState<RoamingStateSO>();
-            }
-            else
+            if (IsTargetValid(enemy))
             {
                 enemy.ChangeState<ChasingStateSO>();
             }
+            else
+            {
+                enemy.ChangeState<RoamingStateSO>();
+            }
+
             return;
         }
 
@@ -315,16 +281,6 @@ public class AttackingStateSO : BaseState
         }
     }
 
-    private bool IsTargetValid(EnemyAI enemy)
-    {
-        Transform target = enemy.GetTarget();
-        return target != null && target.gameObject.activeInHierarchy;
-    }
-
-    private bool IsWithinAttackRange(EnemyAI enemy)
-    {
-        Transform target = enemy.GetTarget();
-        return target != null && Vector3.Distance(enemy.transform.position, target.position) <= attackRange;
-    }
+    private bool IsTargetValid(EnemyAI enemy) => enemy.GetTarget() != null && enemy.GetTarget().gameObject.activeInHierarchy;
+    private bool IsWithinAttackRange(EnemyAI enemy) => enemy.GetTarget() != null && Vector3.Distance(enemy.transform.position, enemy.GetTarget().position) <= attackRange;
 }
-
