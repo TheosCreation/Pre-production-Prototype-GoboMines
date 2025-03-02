@@ -10,7 +10,7 @@ public class Room : MonoBehaviour
         public Transform doorTransform;
         public Vector2Int direction;
     }
-
+    
     public List<DoorInfo> doors = new List<DoorInfo>();
     public Vector2Int size;
     [Range(0f, 1f)]
