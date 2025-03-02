@@ -48,9 +48,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: 1244900f392ec1a46b20539af168131c, type: 3}
+      propertyPath: m_Name
+      value: Winch
+      objectReference: {fileID: 0}
+    - target: {fileID: -7146521406498821007, guid: 1244900f392ec1a46b20539af168131c, type: 3}
+      propertyPath: m_Name
+      value: Cave Walls
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1244900f392ec1a46b20539af168131c, type: 3}
       propertyPath: m_Name
       value: SM_Lobby
+      objectReference: {fileID: 0}
+    - target: {fileID: 8416272007918961125, guid: 1244900f392ec1a46b20539af168131c, type: 3}
+      propertyPath: m_Name
+      value: Rope
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -69,7 +69,7 @@ public class RoamingStateSO : BaseState
 
         Transform closestTarget = null;
         float closestDistance = float.MaxValue;
-        Debug.Log("checking for targets");
+        // Debug.Log("checking for targets");
         foreach (Collider collider in colliders)
         {
             if (collider.CompareTag("Player"))

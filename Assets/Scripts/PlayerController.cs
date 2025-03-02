@@ -114,4 +114,9 @@ public class PlayerController : NetworkBehaviour, IDamageable
         ulong attackerId = fromPlayer.OwnerClientId;
         Health -= amount;
     }
+
+    public void TakeDamage(int amount, GameObject fromObject)
+    {
+        throw new System.NotImplementedException();
+    }
 }
