@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 [CreateAssetMenu(menuName = "EnemyStates/RoamingState", fileName = "RoamingState")]
 public class RoamingStateSO : BaseState
@@ -12,25 +13,38 @@ public class RoamingStateSO : BaseState
     public float roamRadius = 10f;
     public BaseState nextState;
 
-
     [Header("Area Selection")]
     [SerializeField]
     [NavMeshAreaMask]
     private int allowedAreas = ~0;
 
-
     [Header("Path Validation")]
     [SerializeField] private float maxPathLength = 1000;
     [SerializeField] private int maxCornerCount = 10;
+
+    [Header("Target Detection")]
+    [SerializeField] private float detectionCheckInterval = 0.5f; // How often to check for targets
+
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
         SetNewRoamingPosition(enemy);
+
+        // Start periodic detection check
+        enemy.timer.SetTimer(detectionCheckInterval, () =>
+        {
+            CheckForTargets(enemy);
+            // Restart the timer for continuous checking
+         
+            enemy.timer.SetTimer(detectionCheckInterval, () => CheckForTargets(enemy));
+        });
     }
 
     public override void OnUpdate(EnemyAI enemy)
+
     {
-        Debug.Log(enemy.GetAgent().path.status);
+        CheckForTargets(enemy);
+
         if (IsTargetDetected(enemy))
         {
             enemy.ChangeStateByType(nextState.GetType());
@@ -42,9 +56,47 @@ public class RoamingStateSO : BaseState
         }
     }
 
+    public override void OnExit(EnemyAI enemy)
+    {
+        base.OnExit(enemy);
+        enemy.timer.StopTimer();
+    }
+
+    private void CheckForTargets(EnemyAI enemy)
+    {
+        Collider[] colliders = Physics.OverlapSphere(enemy.transform.position, detectionRange);
+
+        Transform closestTarget = null;
+        float closestDistance = float.MaxValue;
+        Debug.Log("checking for targets");
+        foreach (Collider collider in colliders)
+        {
+            if (collider.CompareTag("Player"))
+            {
+                Debug.Log("targetFound");
+                float distance = Vector3.Distance(enemy.transform.position, collider.transform.position);
+
+                if (distance < closestDistance)
+                {
+                    if (!Physics.Linecast(enemy.transform.position, collider.transform.position,
+                        LayerMask.GetMask("Default"))) 
+                    {
+                        closestDistance = distance;
+                        closestTarget = collider.transform;
+                    }
+                }
+            }
+        }
+
+        if (closestTarget != null)
+        {
+            enemy.SetTarget(closestTarget);
+        }
+    }
+
     private void SetNewRoamingPosition(EnemyAI enemy)
     {
-        int maxAttempts = 10; 
+        int maxAttempts = 10;
         int attempts = 0;
 
         while (attempts < maxAttempts)
@@ -59,7 +111,7 @@ public class RoamingStateSO : BaseState
 
                 if (enemy.GetAgent().path.status == NavMeshPathStatus.PathComplete)
                 {
-                    return; 
+                    return;
                 }
             }
 
@@ -81,5 +133,3 @@ public class RoamingStateSO : BaseState
         return target != null && Vector3.Distance(enemy.transform.position, target.position) <= detectionRange;
     }
 }
-
-
