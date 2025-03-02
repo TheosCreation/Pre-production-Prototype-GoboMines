@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 1c43486aa1d6e804bac41c4d7725be2b, type: 3}
   m_Name: BrackenChasingSO
   m_EditorClassIdentifier: Assembly-CSharp::ChasingStateSO
-  moveSpeed: 2
+  moveSpeed: 5
   rotationSpeed: 500
   detectionRange: 15
   attackRange: 2

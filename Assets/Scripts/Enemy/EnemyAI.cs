@@ -149,4 +149,9 @@ public class EnemyAI : MonoBehaviour, IDamageable
     {
         Destroy(gameObject);
     }
+
+    public void TakeDamage(int amount, GameObject fromObject)
+    {
+        throw new NotImplementedException();
+    }
 }
