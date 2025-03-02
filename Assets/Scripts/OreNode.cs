@@ -60,6 +60,7 @@ public class OreNode : MonoBehaviour, IDamageable
         {
             totalOre -= oreToMine;
             fromPlayer.inventory.AddItemToInventory(ore, oreToMine);
+            Debug.Log("Mined " + oreToMine + " Ore.");
         }
 
         // Apply damage to health
