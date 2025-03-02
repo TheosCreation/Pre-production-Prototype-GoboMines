@@ -60,9 +60,17 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: -6003075907413055511, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -4655164207068419344, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
       propertyPath: m_TagString
       value: Door
+      objectReference: {fileID: 0}
+    - target: {fileID: -4655164207068419344, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: -2949849057996875268, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -72,21 +80,45 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Floor
       objectReference: {fileID: 0}
+    - target: {fileID: -1661996088535737140, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 48217602801559601, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
       propertyPath: m_Name
       value: SM_Mediumcave1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1804070986102780414, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
       propertyPath: m_TagString
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: 1804070986102780414, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3510368628515727730, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5255649136211951076, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7382300089312202163, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
       propertyPath: m_TagString
       value: Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 7382300089312202163, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -271,6 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors: []
   size: {x: 5, y: 5}
+  spawnChance: 1
 --- !u!1 &7978459081719685880 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 48217602801559601, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
