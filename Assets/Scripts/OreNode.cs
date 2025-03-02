@@ -45,10 +45,17 @@ public class OreNode : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage, PlayerController fromPlayer)
     {
-        // First, calculate how much ore should be mined based on the amount of damage taken
-        int oreToMine = Mathf.Min(totalOre, damage); // Mine up to the total ore, but not more
+        if (isDead) return; // Prevent further mining
 
-        // Mine the ore and update the player's inventory
+        float powerFactor = 1.5f; // Adjust for more or less diminishing
+        int previousOre = totalOre;
+
+        // Calculate new ore amount using diminishing function
+        int newOre = Mathf.RoundToInt(totalOre * Mathf.Pow((float)Health / maxHealth, powerFactor));
+
+        // Ore mined is the difference
+        int oreToMine = Mathf.Clamp(previousOre - newOre, 0, totalOre);
+
         if (oreToMine > 0)
         {
             totalOre -= oreToMine;
@@ -57,6 +64,31 @@ public class OreNode : MonoBehaviour, IDamageable
 
         // Apply damage to health
         Health -= damage;
+
+        if (dustEffect != null)
+            dustEffect.Play();
+
+        // Check if the node is dead
+        if (Health <= 0)
+        {
+            IsDead = true;
+            DestroyOreNode();
+        }
+    }
+
+
+    public void TakeDamage(int amount, GameObject fromObject)
+    {
+        int oreToMine = Mathf.Min(totalOre, amount); 
+
+        if (oreToMine > 0)
+        {
+            totalOre -= oreToMine;
+
+            // Drop Ore At Object Location Or Give To Object Inventory
+        }
+
+        Health -= amount;
 
         // Play dust effect if available
         if (dustEffect != null)
@@ -70,5 +102,4 @@ public class OreNode : MonoBehaviour, IDamageable
             DestroyOreNode();
         }
     }
-
 }
