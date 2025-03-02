@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class UiBar : MonoBehaviour
 {
     private Slider barSlider;
-    public TMP_Text text;
+    public TMP_Text textBox;
 
     private void Awake()
     {
         barSlider = GetComponent<Slider>();
-        text = GetComponentInChildren<TMP_Text>();
+        textBox = GetComponentInChildren<TMP_Text>();
     }
     public void UpdateBar(float percentage)
     {

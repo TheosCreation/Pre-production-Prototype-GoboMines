@@ -3,65 +3,72 @@ using UnityEngine;
 public class OreNode : MonoBehaviour, IDamageable
 {
     public int totalOre = 100; // Total ore in the node
-    public ParticleSystem sparkleEffect; // Sparkle effect when in vacinity
+    public ParticleSystem sparkleEffect; // Sparkle effect when in vicinity
     public ParticleSystem dustEffect; // Dust effect when mining
     
     public ParticleSystem HitParticlePrefab { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public AudioClip HitSound { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     private bool isDead = false;
-    public bool IsDead { get => isDead; set => isDead= value; }
+    public bool IsDead { get => isDead; set => isDead = value; }
     
     public OreSO ore;
 
     public int maxHealth = 100;
     private int health = 100; // Health of the node
 
+
     void Start()
     {
-        Health = maxHealth;
+        // Initialize health and totalOre with NetworkVariables
+        health = maxHealth;
     }
 
-    public int Health { get => health; 
+    public int Health
+    {
+        get => health;
         set
         {
             health = value;
-            if (health > 0) { return; }
-            IsDead = true;
-            DestroyOreNode();
+            if (health <= 0)
+            {
+                IsDead = true;
+                DestroyOreNode();
+            }
         }
-    }
-
-    private void MineOre(PlayerController fromPlayer, int amount)
-    {
-        if (totalOre <= 0) return;
-
-        // Calculate diminishing returns based on remaining health
-        int oreMined = (int)((maxHealth * totalOre * amount) / (maxHealth * (maxHealth + amount)));
-        totalOre -= oreMined;
-        // Give mined ore to the player's inventory
-        if (oreMined > 0)
-        {
-            fromPlayer.inventory.AddItemToInventory(ore, oreMined);
-        }
-
-        Debug.Log($"Mined {oreMined} ore. Remaining total ore: {totalOre}");
     }
 
     private void DestroyOreNode()
     {
-        Destroy(gameObject);
+            Destroy(gameObject);
     }
 
-    public void TakeDamage(int amount, PlayerController fromPlayer)
+    public void TakeDamage(int damage, PlayerController fromPlayer)
     {
-        MineOre(fromPlayer, amount);
+        // First, calculate how much ore should be mined based on the amount of damage taken
+        int oreToMine = Mathf.Min(totalOre, damage); // Mine up to the total ore, but not more
 
-        Health -= amount;
-        Debug.Log($"Ore node took {amount} damage. Remaining health: {health}");
+        // Mine the ore and update the player's inventory
+        if (oreToMine > 0)
+        {
+            totalOre -= oreToMine;
+            fromPlayer.inventory.AddItemToInventory(ore, oreToMine);
+        }
 
+        // Apply damage to health
+        Health -= damage;
+
+        // Play dust effect if available
         if (dustEffect != null)
         {
             dustEffect.Play();
         }
+
+        // Check if the node is dead and destroy it if necessary
+        if (Health <= 0)
+        {
+            DestroyOreNode();
+        }
     }
+
 }

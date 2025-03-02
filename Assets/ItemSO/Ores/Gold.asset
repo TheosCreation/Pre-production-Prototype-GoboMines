@@ -15,4 +15,5 @@ MonoBehaviour:
   item: {fileID: 0}
   icon: {fileID: 21300000, guid: 385eae3cc9e94d64f841a39264d3ed0d, type: 3}
   itemName: Gold
-  saleValue: 3
+  weight: 14
+  saleValue: 4
