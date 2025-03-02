@@ -45,7 +45,6 @@ Shader "TheosShaders/CustomLit"
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX
             #pragma multi_compile _ _ADDITIONAL_LIGHTS
 
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RealtimeLights.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl" //edit this file to change the lighting calculations
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
@@ -170,6 +169,8 @@ Shader "TheosShaders/CustomLit"
                 surfaceData.emission = emissiveValue;
                 surfaceData.occlusion = 1;
                 surfaceData.alpha = albedoColor.a;
+                surfaceData.clearCoatMask = 0;
+                surfaceData.clearCoatSmoothness = 1;
 
                 // Apply shadow to the final color
                 half4 color = UniversalFragmentPBR(inputData, surfaceData);
