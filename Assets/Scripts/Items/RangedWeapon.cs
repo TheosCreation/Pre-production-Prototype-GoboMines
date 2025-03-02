@@ -155,6 +155,7 @@ public class RangedWeapon : Weapon
         if (ammo < magSize && !isReloading.Value)
         {
             isReloading.Value = true;
+            isJammed = false;
             //animator.SetTrigger("Reload");
             reloadTimer.SetTimer(reloadTime, FinishReload);
             if (ammo == 0)
