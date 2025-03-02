@@ -43829,7 +43829,13 @@ MonoBehaviour:
   - {fileID: 6011290850166135711, guid: a160b6149bd119e4fbe59923d31a543f, type: 3}
   - {fileID: 1544074073863990392, guid: 303df86339f51984b981f24818c3e4ba, type: 3}
   - {fileID: 634482564480010537, guid: 3e50a7f73016868469a9d7ad87038064, type: 3}
-  initialRoomPrefab: {fileID: 1925226754669762433, guid: 85288444ca00d1b47861fbbe949fed8a, type: 3}
+  - {fileID: 4602260732869706670, guid: 13231e97d1f2aed4f8dc69b48927bce5, type: 3}
+  - {fileID: 8027918738792797735, guid: 58facc01b93dd8543abede6d020692eb, type: 3}
+  - {fileID: 8180665953143115354, guid: d4c2ae4984e7f9f43a1121d71200dc36, type: 3}
+  - {fileID: 1401102154840820565, guid: fa1495186af56c043bc54d306a8628f3, type: 3}
+  - {fileID: 4643773230097185844, guid: d38cdc9730f9ec24aad5f26373727a04, type: 3}
+  - {fileID: 4681528460846642470, guid: 152c3304f0763d34f8ab53d12e6f7720, type: 3}
+  initialRoomPrefab: {fileID: 1150498997193967455, guid: 2adf57258dcdbf841935e7e5c7100802, type: 3}
   maxRooms: 100
   placementDelay: 0
   useSeed: 0

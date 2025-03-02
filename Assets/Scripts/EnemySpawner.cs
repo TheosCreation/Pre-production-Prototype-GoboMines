@@ -41,7 +41,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        // Locate the generator in the scene.
         generator = FindFirstObjectByType<Generator>();
 
         if (generator != null)
