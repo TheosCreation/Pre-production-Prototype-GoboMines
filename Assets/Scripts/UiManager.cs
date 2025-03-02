@@ -5,9 +5,20 @@ public class UiManager : Singleton<UiManager>
 {
     [SerializeField] private LoadingPage loadingPage;
     [SerializeField] private ConnectionPage connectionPage;
-    [SerializeField] private PlayerHud playerHud;
+    public PlayerHud playerHud;
     public InventoryUiPage inventoryPage;
     //[SerializeField] private PauseMenu pauseScreen;
+    private void Start()
+    {
+        OpenLoadingPage();
+    }
+    public void OpenLoadingPage()
+    {
+        loadingPage.SetActive(true);
+        connectionPage.SetActive(false);
+        playerHud.SetActive(false);
+
+    }
     public void OpenConnectionMenu()
     {
         loadingPage.SetActive(false);

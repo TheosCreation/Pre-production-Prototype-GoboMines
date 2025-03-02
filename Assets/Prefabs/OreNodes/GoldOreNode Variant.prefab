@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: ore
       value: 
       objectReference: {fileID: 11400000, guid: 8cc9200c02696da4f887a4f883bfa117, type: 2}
+    - target: {fileID: 8206873785357955189, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: totalOre
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8692150951991165957, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

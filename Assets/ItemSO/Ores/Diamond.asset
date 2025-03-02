@@ -15,4 +15,5 @@ MonoBehaviour:
   item: {fileID: 0}
   icon: {fileID: 21300000, guid: f5ff33db2d9c56746813cf068a74c092, type: 3}
   itemName: Diamond
-  saleValue: 4
+  weight: 26
+  saleValue: 8
