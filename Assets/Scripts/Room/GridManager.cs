@@ -15,6 +15,7 @@ public class GridManager : Singleton<GridManager>
 
     public Vector2Int gridSize = new Vector2Int(50, 50);
     public float cellSize = 5f;
+    [Serializable]
     public enum CellState { Unoccupied, Available, Occupied, SecondPass }
     public CellData[,] grid;
     
@@ -162,7 +163,7 @@ public class GridManager : Singleton<GridManager>
             }
 
             currentCell.state = newState;
-            if (newState != CellState.Available || newState != CellState.SecondPass)
+            if (newState != CellState.Available)
             {
                 currentCell.availableConnections.Clear();
             }

@@ -806,6 +806,10 @@ MonoBehaviour:
   playerLook: {fileID: 1213804237299153649}
   itemHolder: {fileID: 0}
   inventory: {fileID: 0}
+  interactDistance: 2
+  interactMask:
+    serializedVersion: 2
+    m_Bits: 128
   hitParticles: {fileID: 383448402169193323, guid: ee8ef27bbd4210446950a0d80902fcb3, type: 3}
   hitSound: {fileID: 0}
 --- !u!114 &1213804237299153649

@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.UIElements;
+using static Generator;
+using Random = UnityEngine.Random;
 public class Generator : MonoBehaviour
 {
     public List<GameObject> roomPrefabs;
@@ -12,7 +16,9 @@ public class Generator : MonoBehaviour
     public float placementDelay = 0.5f;
 
     public bool useSeed = false;   
-    public int seed = 0;           
+    public int seed = 0;
+    public int currentSeed = 0;
+    public GameObject blockedDoorPrefab;
 
     private List<Room> placedRooms = new List<Room>();
     private int currentRoomCount = 0;
@@ -21,20 +27,35 @@ public class Generator : MonoBehaviour
 
     public delegate void GenerationCompleteHandler();
     public event GenerationCompleteHandler OnGenerationComplete;
+    List<int> rotationAngles = new List<int> { 0, 90, 180, 270 };
+
+    [System.Serializable]
+    public struct Door
+    {
+        public Vector3 position;
+        public Quaternion direction;
+
+        public Door(Vector3 position, Quaternion direction)
+        {
+            this.position = position;
+            this.direction = direction;
+        }
+    }
+    private List<Door> activeDoors = new List<Door>();
 
     private bool isGenerating = false;
 
     void Start()
     {
-        // Setup the random seed:
         if (useSeed)
         {
             Random.InitState(seed);
+            currentSeed = seed; 
         }
         else
         {
-            // Use a new seed based on the system ticks.
             int randomSeed = (int)System.DateTime.Now.Ticks;
+            currentSeed = randomSeed;
             Random.InitState(randomSeed);
         }
 
@@ -42,6 +63,7 @@ public class Generator : MonoBehaviour
         StartCoroutine(GenerateDungeon());
     }
 
+    // room templates to find door positions and stuff, speed reasons
     private void InitializeRoomTemplates()
     {
         foreach (GameObject prefab in roomPrefabs)
@@ -67,9 +89,11 @@ public class Generator : MonoBehaviour
         yield return new WaitForSeconds(placementDelay);
         UpdateAdjacentCells(initialRoom, halfGridSize, Quaternion.identity);
 
+        List<Vector2Int> availableCells = new List<Vector2Int>();
+        bool roomPlaced = false;
         while (currentRoomCount < maxRooms)
         {
-            List<Vector2Int> availableCells = GridManager.Instance.GetAvailableCells();
+             availableCells = GridManager.Instance.GetAvailableCells();
             if (availableCells.Count == 0)
             {
                 Debug.Log("[Generator] No more available cells for room placement. Ending generation.");
@@ -77,7 +101,7 @@ public class Generator : MonoBehaviour
             }
 
             ShuffleList(availableCells);
-            bool roomPlaced = false;
+            roomPlaced = false;
 
             foreach (Vector2Int targetCell in availableCells)
             {
@@ -85,7 +109,6 @@ public class Generator : MonoBehaviour
                 {
                     continue;
                 }
-
                 List<Vector2Int> requiredConnections = GridManager.Instance.GetCellConnections(targetCell);
                 if (TryPlaceRoomAtCell(targetCell, requiredConnections))
                 {
@@ -101,23 +124,50 @@ public class Generator : MonoBehaviour
                     processedCells.Add(targetCell);
                 }
             }
-
             if (!roomPlaced)
             {
-                Debug.Log("[Generator] No valid placements found in current pass. Ending generation.");
+                Debug.Log("[Generator] No valid placements found even in second pass. Ending generation.");
                 break;
+            }
+        }
+        while(availableCells.Count>0)
+        {
+            availableCells = GridManager.Instance.GetAvailableCells();
+            ShuffleList(availableCells);
+            foreach (Vector2Int targetCell in availableCells)
+            {
+                if (processedCells.Contains(targetCell))
+                {
+                    //  continue;
+                }
+                List<Vector2Int> requiredConnections = GridManager.Instance.GetCellConnections(targetCell);
+                if (TryPlaceRoomAtCell(targetCell, requiredConnections, true))
+                {
+                    processedCells.Add(targetCell);
+                    currentRoomCount++;
+                    roomPlaced = true;
+                    yield return new WaitForSeconds(placementDelay);
+                    break;
+                }
+                else
+                {
+                    GridManager.Instance.SetCellState(targetCell, GridManager.CellState.Available);
+                    processedCells.Add(targetCell);
+                }
             }
         }
 
         CompleteGeneration();
     }
-
+    // on complete
     private void CompleteGeneration()
     {
         isGenerating = false;
         OnGenerationComplete?.Invoke();
-    }
+        GetComponent<NavMeshSurface>().BuildNavMesh();
 
+    }
+    // starts gen courutine kinda useless 
     public void StartGeneration()
     {
         if (!isGenerating)
@@ -125,7 +175,7 @@ public class Generator : MonoBehaviour
             StartCoroutine(GenerateDungeon());
         }
     }
-
+    // randomizing
     private void ShuffleList<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -136,18 +186,27 @@ public class Generator : MonoBehaviour
             list[randomIndex] = temp;
         }
     }
-
-    public bool TryPlaceRoomAtCell(Vector2Int targetCell, List<Vector2Int> requiredConnections)
+    public bool TryPlaceRoomAtCell(Vector2Int targetCell, List<Vector2Int> requiredConnections, bool secondPass = false)
     {
-        List<GameObject> shuffledPrefabs = new List<GameObject>();
-        while (shuffledPrefabs.Count == 0) { 
-            shuffledPrefabs = roomPrefabs.Where(p => Random.value <= p.GetComponent<Room>().spawnChance).ToList();
-            // Technically its possible for this to be infinite lol
+        List<GameObject> candidatePrefabs = new List<GameObject>();
+
+        if (!secondPass)
+        {
+            candidatePrefabs = roomPrefabs.Where(p => Random.value <= p.GetComponent<Room>().spawnChance).ToList();
+        }
+        else
+        {
+            candidatePrefabs = new List<GameObject>(roomPrefabs);
         }
 
+        if (candidatePrefabs.Count == 0 && !secondPass)
+        {
+            return false;
+        }
 
-        ShuffleList(shuffledPrefabs);
-        foreach (GameObject prefab in shuffledPrefabs)
+        ShuffleList(candidatePrefabs);
+
+        foreach (GameObject prefab in candidatePrefabs)
         {
             Room roomRef = prefab.GetComponent<Room>();
             if (roomRef == null)
@@ -155,27 +214,31 @@ public class Generator : MonoBehaviour
                 Debug.Log("No room component found on prefab: " + prefab.name);
                 continue;
             }
-
             Room roomTemplate;
             roomTemplates.TryGetValue(prefab, out roomTemplate);
+            if(secondPass)
+            {
+                if(roomTemplate.doors.Count != requiredConnections.Count)
+                {
+                    continue;
+                }
+            }
             if (roomTemplate == null)
             {
                 Debug.Log("No room template found for prefab: " + prefab.name);
                 continue;
             }
-
-            List<int> rotationAngles = new List<int> { 0, 90, 180, 270 };
             ShuffleList(rotationAngles);
-
             foreach (int angle in rotationAngles)
             {
                 Quaternion rot = Quaternion.Euler(0, angle, 0);
-
                 if (!GridManager.Instance.CanPlaceRoom(roomRef, targetCell, rot))
+                {
+                    Debug.Log($"[Generator] cant place {roomRef}");
                     continue;
+                }
 
                 List<Vector2Int> availableConnections = GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections;
-
                 List<Vector2Int> rotatedDoorDirections = new List<Vector2Int>();
                 foreach (Room.DoorInfo door in roomTemplate.doors)
                 {
@@ -195,7 +258,10 @@ public class Generator : MonoBehaviour
                     }
                 }
                 if (!meetsRequired)
+                {
+
                     continue;
+                }
 
                 bool allConnectionsFilled = true;
                 foreach (Vector2Int connection in availableConnections)
@@ -206,25 +272,61 @@ public class Generator : MonoBehaviour
                         break;
                     }
                 }
-
-                if (allConnectionsFilled)
+                if (!allConnectionsFilled)
                 {
-
-                    Vector2Int matchingConnection = availableConnections[0];
-
-                    Vector2Int offset = matchingConnection * new Vector2Int(Mathf.FloorToInt(roomTemplate.size.x / 2),
-                                                                             Mathf.FloorToInt(roomTemplate.size.y / 2));
-
-                    Room placedRoom = SpawnRoom(prefab, targetCell + offset, rot, matchingConnection);
-                    UpdateAdjacentCells(placedRoom, targetCell, rot);
-                    return true;
+                   
+                    continue;
                 }
-           
+
+                Vector2Int effectiveSize = roomTemplate.GetEffectiveSize(rot);
+                Vector2Int bottomLeftCell = new Vector2Int(
+                    targetCell.x - Mathf.FloorToInt(effectiveSize.x / 2f),
+                    targetCell.y - Mathf.FloorToInt(effectiveSize.y / 2f)
+                );
+                Vector2Int connectingDoorDir = availableConnections[0];
+
+                bool validPlacement = true;
+                foreach (Room.DoorInfo door in roomTemplate.doors)
+                {
+                    Vector2Int rotatedDoorDir = RotateDirection(door.direction, angle);
+                    if (rotatedDoorDir == connectingDoorDir)
+                        continue;
+
+                    Vector2Int doorTarget = GetDoorTargetCell(bottomLeftCell, effectiveSize, rotatedDoorDir);
+                    if (GridManager.Instance.IsValidCell(doorTarget))
+                    {
+                        var cell = GridManager.Instance.grid[doorTarget.x, doorTarget.y];
+               
+                        if (GridManager.Instance.grid[doorTarget.x, doorTarget.y].state == GridManager.CellState.Occupied &&
+                                (GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections == null || GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections.Count <= 1))
+                        {
+                            
+                            validPlacement = false;
+                            break;
+                        }
+                    }
+                }
+                if (!validPlacement) { 
+         
+                    continue;
+                }
+
+                Vector2Int matchingConnection = availableConnections[0];
+
+                Vector2Int reversedConnection = new Vector2Int(-matchingConnection.x, matchingConnection.y);
+                Vector2Int offset = new Vector2Int(
+                    Mathf.CeilToInt((reversedConnection.x * effectiveSize.x) / 2f),
+                    Mathf.CeilToInt((reversedConnection.y * effectiveSize.y) / 2f)
+                );
+
+                Room placedRoom = SpawnRoom(prefab, targetCell, rot, matchingConnection);
+                UpdateAdjacentCells(placedRoom, targetCell, rot);
+                return true;
             }
         }
         return false;
     }
-
+    // rotates rooms to place them
     private Vector2Int RotateDirection(Vector2Int direction, int angle)
     {
         int rotationSteps = (angle / 90) % 4;
@@ -238,6 +340,7 @@ public class Generator : MonoBehaviour
         return rotatedDirection;
     }
 
+    // room spawning code
     public Room SpawnRoom(GameObject prefab, Vector2Int gridPos, Quaternion rotation, Vector2Int doorConnectionDirection)
     {
         doorConnectionDirection = new Vector2Int(-doorConnectionDirection.x, doorConnectionDirection.y);
@@ -252,6 +355,8 @@ public class Generator : MonoBehaviour
             gridPos.y - Mathf.FloorToInt(effectiveSize.y / 2f)
         );
 
+        new Vector2Int(gridPos.x - doorConnectionDirection.x, gridPos.y - doorConnectionDirection.y);
+
         Vector3 worldPosition = GridManager.Instance.ConvertToWorldPosition(bottomLeftCell) +
                                   new Vector3((effectiveSize.x * GridManager.Instance.cellSize) / 2f, 0,
                                               (effectiveSize.y * GridManager.Instance.cellSize) / 2f);
@@ -260,13 +365,26 @@ public class Generator : MonoBehaviour
         Room room = roomObj.GetComponent<Room>();
 
         room.InitializeDoors();
+
+        foreach (Room.DoorInfo door in room.doors)
+        {
+            Vector2Int rotatedDirection = RotateDirection(door.direction, (int)rotation.eulerAngles.y);
+
+        }
+
         placedRooms.Add(room);
 
         GridManager.Instance.OccupyCells(room, bottomLeftCell, rotation);
 
         return room;
     }
+    private Vector2Int GetDoorTargetCell(Vector2Int bottomLeftCell, Vector2Int effectiveSize, Vector2Int doorDir)
+    {
+        Vector2Int roomCenter = bottomLeftCell + new Vector2Int(effectiveSize.x / 2, effectiveSize.y / 2);
+        return roomCenter + doorDir;
+    }
 
+    // updates cells
     void UpdateAdjacentCells(Room room, Vector2Int cellPosition, Quaternion rotation)
     {
         foreach (Room.DoorInfo door in room.doors)
@@ -274,4 +392,8 @@ public class Generator : MonoBehaviour
             GridManager.Instance.MarkAdjacentCellsAsAvailable(cellPosition, door.direction, room.size);
         }
     }
+
+
 }
+
+

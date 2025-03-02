@@ -14,12 +14,15 @@ public class PlayerController : NetworkBehaviour, IDamageable
     [HideInInspector] public ItemHolder itemHolder;
     [HideInInspector] public Inventory inventory;
     private bool isDead = false;
+    [SerializeField] private float interactDistance = 2.0f;
+    [SerializeField] private LayerMask interactMask;
     public bool IsDead { get => isDead; set => isDead = value; }
     [SerializeField] private ParticleSystem hitParticles;
     public ParticleSystem HitParticlePrefab { get => hitParticles; set => hitParticles = value; }
 
     [SerializeField] private AudioClip hitSound;
     public AudioClip HitSound { get => hitSound; set => hitSound = value; }
+    private float health = 100f;
     public int Health { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     private void OnInteractStarted(InputAction.CallbackContext ctx) => Interact();
     private void OnInventoryStarted(InputAction.CallbackContext ctx) => OpenCloseInventory();
@@ -56,9 +59,25 @@ public class PlayerController : NetworkBehaviour, IDamageable
     }
     private void Interact()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(playerLook.playerCamera.transform.position, playerLook.playerCamera.transform.forward, out hit, interactDistance, interactMask))
+        {
+            // Check if the hit object has an Interactable component
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                interactable.Interact(this);
+            }
+            else
+            {
+                Debug.Log("Hit object is not interactable: " + hit.collider.name);
+            }
+        }
     }
+
     private void OpenCloseInventory()
     {
+        UiManager.Instance.ToggleInventory();
     }
 
     public void TakeDamage(int amount, PlayerController fromPlayer)

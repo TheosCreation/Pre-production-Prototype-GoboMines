@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doors: []
   size: {x: 1, y: 1}
+  spawnChance: 0.458
 --- !u!1 &3725163201981500043 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5684373864245436772, guid: 468e6c8f4abbc44478ca4e4eb30ecb8e, type: 3}
