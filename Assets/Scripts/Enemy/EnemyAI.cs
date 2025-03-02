@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IDamageable
 {
     [Header("State Assets")]
     [Tooltip("Assign all state assets here")]
@@ -15,6 +16,13 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Vector3 homePosition;
     [SerializeField] private Transform target;
+    [SerializeField] public Timer timer;
+
+    [SerializeField] private ParticleSystem hitParticle;
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private bool isDead = false;
+    [SerializeField] private int health = 100;
+
 
     private float currentRoamRadius;
     private float currentMoveSpeed;
@@ -23,11 +31,28 @@ public class EnemyAI : MonoBehaviour
     private float currentAttackRange;
     private float currentAttackCooldown;
 
+    public ParticleSystem HitParticlePrefab { get => hitParticle; set => hitParticle = value; }
+    public AudioClip HitSound { get => hitSound; set => hitSound = value; }
+    public bool IsDead { get => isDead; set => isDead = value; }
+    public int Health
+    {
+        get => health;
+        set
+        {
+            health = value;
+            if (health > 0) { return; }
+            IsDead = true;
+            Die();
+        }
+    }
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         homePosition = transform.position;
         BuildStateDictionary();
+
+        timer = transform.AddComponent<Timer>();
 
         ChangeState<RoamingStateSO>();
     }
@@ -85,5 +110,15 @@ public class EnemyAI : MonoBehaviour
 
     public void PerformAttack()
     {
+    }
+
+    public void TakeDamage(int amount, PlayerController fromPlayer)
+    {
+        Health -= amount;
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }
