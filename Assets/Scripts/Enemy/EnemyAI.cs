@@ -10,7 +10,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
     [Tooltip("Assign all state assets here")]
     public BaseState[] states;
 
-    [SerializeField] private IEnemyState currentState;
+    [SerializeField] public IEnemyState currentState;
+
     private Dictionary<Type, IEnemyState> stateDictionary;
 
     [SerializeField] private NavMeshAgent agent;
@@ -24,7 +25,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     [SerializeField] private int health = 100;
 
 
-    private float currentRoamRadius;
+
     private float currentMoveSpeed;
     private float currentRotationSpeed;
     private float currentDetectionRange;
@@ -50,9 +51,9 @@ public class EnemyAI : MonoBehaviour, IDamageable
     {
         agent = GetComponent<NavMeshAgent>();
         homePosition = transform.position;
-        BuildStateDictionary();
 
         timer = transform.AddComponent<Timer>();
+        BuildStateDictionary();
 
         ChangeState<RoamingStateSO>();
     }
@@ -64,8 +65,21 @@ public class EnemyAI : MonoBehaviour, IDamageable
     private void BuildStateDictionary()
     {
         stateDictionary = new Dictionary<Type, IEnemyState>();
+
+        if (states == null || states.Length == 0)
+        {
+            Debug.LogError("No states assigned in the Inspector!");
+            return;
+        }
+
         foreach (BaseState state in states)
         {
+            if (state == null)
+            {
+                Debug.LogError("Found null state in states array! Please check Inspector assignments.");
+                continue;
+            }
+
             Type key = state.GetType();
             if (!stateDictionary.ContainsKey(key))
             {
@@ -73,7 +87,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
             }
             else
             {
-                Debug.LogWarning("duplicate state key found for type: " + key);
+                Debug.LogWarning($"Duplicate state key found for type: {key}");
             }
         }
     }
@@ -95,8 +109,22 @@ public class EnemyAI : MonoBehaviour, IDamageable
         currentState = newState;
         currentState.OnEnter(this);
     }
+    public void ChangeStateByType(Type stateType)
+    {
+        if (!stateDictionary.TryGetValue(stateType, out var newState))
+        {
+            Debug.LogError("State of type " + stateType + " not found in dictionary");
+            return;
+        }
 
-    public void SetRoamRadius(float radius) { currentRoamRadius = radius; }
+        if (currentState != null)
+        {
+            currentState.OnExit(this);
+        }
+
+        currentState = newState;
+        currentState.OnEnter(this);
+    }
     public void SetMoveSpeed(float speed) { currentMoveSpeed = speed; agent.speed = speed; }
     public void SetRotationSpeed(float speed) { currentRotationSpeed = speed; agent.angularSpeed = speed; }
     public void SetDetectionRange(float range) { currentDetectionRange = range; }

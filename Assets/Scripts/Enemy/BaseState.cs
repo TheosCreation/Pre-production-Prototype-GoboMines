@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public abstract class BaseState : ScriptableObject, IEnemyState
 {
     [Header("Movement Settings")]
-    public float roamRadius = 10f;
+  
     public float moveSpeed = 5f;
     public float rotationSpeed = 500f;
 
@@ -12,6 +12,9 @@ public abstract class BaseState : ScriptableObject, IEnemyState
     public float detectionRange = 15f;
     public float attackRange = 2f;
     public float attackCooldown = 1f;
+
+    [Header("Destination")]
+    public Vector3 currentDestination;
 
     public virtual void OnEnter(EnemyAI enemy)
     {
@@ -31,7 +34,7 @@ public abstract class BaseState : ScriptableObject, IEnemyState
 
     public virtual void ApplySettings(EnemyAI enemy)
     {
-        enemy.SetRoamRadius(roamRadius);
+    
         enemy.SetMoveSpeed(moveSpeed);
         enemy.SetRotationSpeed(rotationSpeed);
         enemy.SetDetectionRange(detectionRange);
