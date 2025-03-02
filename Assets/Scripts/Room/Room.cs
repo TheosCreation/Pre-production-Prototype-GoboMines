@@ -15,6 +15,7 @@ public class Room : MonoBehaviour
     public Vector2Int size;
     [Range(0f, 1f)]
     public float spawnChance = 1f;
+    public List<GameObject> ores = new List<GameObject>();
     private Vector3 CalculateCenter()
     {
         Bounds bounds = new Bounds();
