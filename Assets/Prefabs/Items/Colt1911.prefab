@@ -142,6 +142,7 @@ MonoBehaviour:
   IkLeftHandOn: 1
   IkRightHandOn: 1
   isHeld: 0
+  interactionText: Pickup Colt 1911
   isEquip: 0
   equipTime: 0.5
   equipSound: {fileID: 8300000, guid: e11b5d18715df4d4bbcd2965f4a810f3, type: 3}

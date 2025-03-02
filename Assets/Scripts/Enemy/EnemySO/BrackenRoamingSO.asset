@@ -9,18 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: fabd93fec7212184dab47c4a0e794b3c, type: 3}
   m_Name: BrackenRoamingSO
   m_EditorClassIdentifier: Assembly-CSharp::RoamingStateSO
   moveSpeed: 5
   rotationSpeed: 500
-  detectionRange: 30
+  detectionRange: 15
   attackRange: 2
   attackCooldown: 1
-  currentDestination: {x: 44.041573, y: 0.03832054, z: 31.95013}
-  roamRadius: 500
-  nextState: {fileID: 11400000, guid: 5ffd90f2594fe084cb3cce40c892a208, type: 2}
-  allowedAreas: 8
+  currentDestination: {x: 0, y: 0, z: 0}
+  roamRadius: 10
+  nextState: {fileID: 0}
+  allowedAreas: -1
   maxPathLength: 1000
   maxCornerCount: 10
   detectionCheckInterval: 0.5

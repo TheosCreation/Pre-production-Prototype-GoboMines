@@ -78,6 +78,7 @@ MonoBehaviour:
   IkLeftHandOn: 1
   IkRightHandOn: 1
   isHeld: 0
+  interactionText: Pickup Pickaxe
   isEquip: 0
   equipTime: 0.5
   equipSound: {fileID: 0}

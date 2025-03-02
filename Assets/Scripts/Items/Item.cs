@@ -13,6 +13,9 @@ public class Item : NetworkBehaviour, IInteractable
     protected BoxCollider bc;
     protected Rigidbody rb;
 
+    [SerializeField] private string interactionText;
+    public string InteractionText { get => interactionText; set => interactionText = value; }
+
     protected virtual void Awake()
     {
         bc = GetComponent<BoxCollider>();

@@ -9,18 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0e796232bfdcc4a45b64f0d232479a83, type: 3}
   m_Name: BrackenHidingSO
   m_EditorClassIdentifier: Assembly-CSharp::HidingStateSO
-  roamRadius: 10
   moveSpeed: 5
   rotationSpeed: 500
   detectionRange: 15
   attackRange: 2
   attackCooldown: 1
-  hideDistance: 25
-  minSafeDistance: 20
+  currentDestination: {x: 0, y: 0, z: 0}
+  hideDistance: 7
+  minSafeDistance: 10
   layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   maxSearchAttempts: 5
