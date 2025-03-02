@@ -15,13 +15,13 @@ public class StalkingStateSO : BaseState
 
     public override void OnUpdate(EnemyAI enemy)
     {
-        if (!HasLineOfSight(enemy))
-        {
-            enemy.GetAgent().SetDestination(enemy.GetTarget().position);
-        }
-        else if (IsPlayerLookingAtMe(enemy))
+        if (IsPlayerLookingAtMe(enemy))
         {
             enemy.ChangeState<HidingStateSO>();
+        }
+        else if (!HasLineOfSight(enemy))
+        {
+            enemy.GetAgent().SetDestination(enemy.GetTarget().position);
         }
     }
 

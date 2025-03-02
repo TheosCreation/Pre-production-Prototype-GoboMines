@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e12814517bd11b84ba04e7488213fd6c, type: 3}
   m_Name: BrackenStalkingSO
   m_EditorClassIdentifier: Assembly-CSharp::StalkingStateSO
-  roamRadius: 10
   moveSpeed: 5
   rotationSpeed: 500
   detectionRange: 15
   attackRange: 2
   attackCooldown: 1
+  currentDestination: {x: 0, y: 0, z: 0}
   lineOfSightDistance: 15
   playerViewThreshold: 0.8
