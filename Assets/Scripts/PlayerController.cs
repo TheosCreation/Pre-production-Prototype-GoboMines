@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -22,8 +20,8 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     [SerializeField] private AudioClip hitSound;
     public AudioClip HitSound { get => hitSound; set => hitSound = value; }
-    private float health = 100f;
-    public int Health { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    private int health = 100;
+    public int Health { get => health; set => health = value; }
     private void OnInteractStarted(InputAction.CallbackContext ctx) => Interact();
     private void OnInventoryStarted(InputAction.CallbackContext ctx) => OpenCloseInventory();
 
