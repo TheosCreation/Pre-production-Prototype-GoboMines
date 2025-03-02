@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: BrackenChasingSO
   m_EditorClassIdentifier: Assembly-CSharp::ChasingStateSO
-  roamRadius: 10
-  moveSpeed: 5
+  moveSpeed: 2
   rotationSpeed: 500
   detectionRange: 15
   attackRange: 2
   attackCooldown: 1
+  currentDestination: {x: 0, y: 0, z: 0}
