@@ -26,6 +26,7 @@ public class OreNode : MonoBehaviour, IDamageable
         {
             health = value;
             if (health > 0) { return; }
+            IsDead = true;
             DestroyOreNode();
         }
     }
