@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class NetworkSpawnHandler : NetworkBehaviour
 {
     public static NetworkSpawnHandler Instance;
+
+    public List<PlayerController> playersConnected;
 
     public PlayerController playerPrefab;
     public float playerHeight = 2f;
@@ -20,7 +22,23 @@ public class NetworkSpawnHandler : NetworkBehaviour
     private void Start()
     {
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
+
+    private void OnClientDisconnected(ulong clientId)
+    {
+        if (IsServer)
+        {
+            Debug.Log($"Client disconnected: {clientId}");
+            PlayerController playerToRemove = playersConnected.Find(player => player.OwnerClientId == clientId);
+            if (playerToRemove != null)
+            {
+                playersConnected.Remove(playerToRemove);
+                Debug.Log($"Removed player with Client ID: {clientId}");
+            }
+        }
+    }
+
 
     private void OnClientConnected(ulong clientId)
     {
@@ -58,6 +76,9 @@ public class NetworkSpawnHandler : NetworkBehaviour
         PlayerController newPlayer = Instantiate(playerPrefab, spawnPosition, spawnPoint.transform.rotation);
         NetworkObject networkObject = newPlayer.GetComponent<NetworkObject>();
         networkObject.SpawnAsPlayerObject(clientId);
+
+        // Add the player to the list
+        playersConnected.Add(newPlayer);
 
         // Debug ownership
         Debug.Log($"Player spawned with OwnerClientId: {networkObject.OwnerClientId}, Expected: {clientId}");
