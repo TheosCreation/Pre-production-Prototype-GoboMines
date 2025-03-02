@@ -50,9 +50,9 @@ public class EnemyAI : MonoBehaviour, IDamageable
     {
         agent = GetComponent<NavMeshAgent>();
         homePosition = transform.position;
-        BuildStateDictionary();
 
         timer = transform.AddComponent<Timer>();
+        BuildStateDictionary();
 
         ChangeState<RoamingStateSO>();
     }
@@ -64,8 +64,21 @@ public class EnemyAI : MonoBehaviour, IDamageable
     private void BuildStateDictionary()
     {
         stateDictionary = new Dictionary<Type, IEnemyState>();
+
+        if (states == null || states.Length == 0)
+        {
+            Debug.LogError("No states assigned in the Inspector!");
+            return;
+        }
+
         foreach (BaseState state in states)
         {
+            if (state == null)
+            {
+                Debug.LogError("Found null state in states array! Please check Inspector assignments.");
+                continue;
+            }
+
             Type key = state.GetType();
             if (!stateDictionary.ContainsKey(key))
             {
@@ -73,7 +86,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
             }
             else
             {
-                Debug.LogWarning("duplicate state key found for type: " + key);
+                Debug.LogWarning($"Duplicate state key found for type: {key}");
             }
         }
     }
