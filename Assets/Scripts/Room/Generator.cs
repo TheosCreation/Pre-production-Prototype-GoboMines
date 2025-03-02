@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static GridManager;
 using Random = UnityEngine.Random;
 
 public class Generator : MonoBehaviour
@@ -126,7 +127,9 @@ public class Generator : MonoBehaviour
                 break;
             }
         }
-        while(availableCells.Count>0)
+
+        yield return new WaitForSeconds(5);
+        while (availableCells.Count>0)
         {
             availableCells = GridManager.Instance.GetAvailableCells();
             ShuffleList(availableCells);
@@ -297,15 +300,25 @@ public class Generator : MonoBehaviour
                     Vector2Int doorTarget = GetDoorTargetCell(bottomLeftCell, effectiveSize, rotatedDoorDir);
                     if (GridManager.Instance.IsValidCell(doorTarget))
                     {
-                        var cell = GridManager.Instance.grid[doorTarget.x, doorTarget.y];
-               
-                        if (GridManager.Instance.grid[doorTarget.x, doorTarget.y].state == GridManager.CellState.Occupied &&
-                                (GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections == null || GridManager.Instance.grid[targetCell.x, targetCell.y].availableConnections.Count <= 1))
+                        CellData targetCellData = GridManager.Instance.grid[doorTarget.x, doorTarget.y];
+                        CellData currentCellData = GridManager.Instance.grid[targetCell.x, targetCell.y];
+
+                        if (targetCellData.state == GridManager.CellState.Occupied && !secondPass)
                         {
-                            
-                            validPlacement = false;
-                            break;
+                            bool hasMatchingConnection = false;
+                            if (targetCellData.availableConnections != null)
+                            {
+                                Vector2Int oppositeDirection = new Vector2Int(-door.direction.x, -door.direction.y);
+                                hasMatchingConnection = targetCellData.availableConnections.Contains(oppositeDirection);
+                            }
+
+                            if (!hasMatchingConnection)
+                            {
+                                validPlacement = false;
+                                break;
+                            }
                         }
+                  
                     }
                 }
                 if (!validPlacement) { 
