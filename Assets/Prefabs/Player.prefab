@@ -885,11 +885,11 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 1
-  movementSpeed: 5
+  movementSpeed: 4
   crouchSpeedMultiplier: 0.248
   movementThrashold: 0.01
-  jumpVelocity: 15
-  jumpTime: 0.3
+  jumpVelocity: 5
+  jumpTime: 0.5
   frictionAgainstFloor: 0.3
   acceleration: 20
   airAcceleration: 20
@@ -910,9 +910,9 @@ MonoBehaviour:
   stepDownSmooth: 1
   stepdownCheckerThrashold: 0.6
   heightDiffrenceThreshold: 0.05
-  stepLowerTransform: {fileID: 4416718269448915223}
-  stepDownTransform: {fileID: 750034491061316494}
-  groundCheckTransform: {fileID: 7189838525446186422}
+  stepLowerTransform: {fileID: 0}
+  stepDownTransform: {fileID: 0}
+  groundCheckTransform: {fileID: 0}
   speedMultiplierOnAngle:
     serializedVersion: 2
     m_Curve:
@@ -940,7 +940,7 @@ MonoBehaviour:
   canSlideMultiplierCurve: 0.061
   cantSlideMultiplierCurve: 0.039
   climbingStairsMultiplierCurve: 0.637
-  gravityMultiplier: 6
+  gravityMultiplier: 1.5
   gravityMultiplyerOnSlideChange: 3
   gravityMultiplierIfUnclimbableSlope: 30
   lockOnSlope: 0
@@ -955,7 +955,7 @@ MonoBehaviour:
   isJumping: 0
   isCrouch: 0
   isSprinting: 0
-  isFalling: 0
+  isFalling: 1
   groundSurfaceType: Untagged
   applyingStepAdjust: 0
   applyingStepdownAdjust: 0
