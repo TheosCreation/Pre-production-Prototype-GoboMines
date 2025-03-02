@@ -128,7 +128,6 @@ public class Generator : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(5);
         while (availableCells.Count>0)
         {
             availableCells = GridManager.Instance.GetAvailableCells();

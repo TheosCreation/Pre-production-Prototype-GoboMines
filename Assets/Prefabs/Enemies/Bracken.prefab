@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 9001897265982138717}
   - component: {fileID: 9059656630888690404}
   - component: {fileID: 3645553978841607433}
-  - component: {fileID: 3798133926510247343}
+  - component: {fileID: 2140061397961574290}
   m_Layer: 0
   m_Name: Bracken
   m_TagString: Untagged
@@ -204,7 +204,7 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   isDead: 0
   health: 100
---- !u!95 &3798133926510247343
+--- !u!95 &2140061397961574290
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fabd93fec7212184dab47c4a0e794b3c, type: 3}
-  m_Name: WormRoamingState
+  m_Script: {fileID: 11500000, guid: 19d7db2c77de71c4dbc4f652ccbae483, type: 3}
+  m_Name: WormSpiralChasingState
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rotationSpeed: 500
@@ -18,8 +18,9 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 1
   currentDestination: {x: 0, y: 0, z: 0}
-  roamRadius: 400
-  nextState: {fileID: 11400000, guid: 4183da1606e9b4e42b264b37a0fc90c3, type: 2}
-  allowedAreas: 16
-  maxPathLength: 14337.2
-  maxCornerCount: 10
+  initialRadius: 10
+  radiusDecreaseRate: 0.5
+  minRadius: 3
+  spiralSpeed: 2
+  heightOffset: 0
+  navMeshAreaMask: -1

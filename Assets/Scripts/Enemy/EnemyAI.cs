@@ -10,7 +10,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
     [Tooltip("Assign all state assets here")]
     public BaseState[] states;
 
-    [SerializeField] private IEnemyState currentState;
+    [SerializeField] public IEnemyState currentState;
+
     private Dictionary<Type, IEnemyState> stateDictionary;
 
     [SerializeField] private NavMeshAgent agent;
@@ -24,7 +25,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     [SerializeField] private int health = 100;
 
 
-    private float currentRoamRadius;
+
     private float currentMoveSpeed;
     private float currentRotationSpeed;
     private float currentDetectionRange;
@@ -108,8 +109,22 @@ public class EnemyAI : MonoBehaviour, IDamageable
         currentState = newState;
         currentState.OnEnter(this);
     }
+    public void ChangeStateByType(Type stateType)
+    {
+        if (!stateDictionary.TryGetValue(stateType, out var newState))
+        {
+            Debug.LogError("State of type " + stateType + " not found in dictionary");
+            return;
+        }
 
-    public void SetRoamRadius(float radius) { currentRoamRadius = radius; }
+        if (currentState != null)
+        {
+            currentState.OnExit(this);
+        }
+
+        currentState = newState;
+        currentState.OnEnter(this);
+    }
     public void SetMoveSpeed(float speed) { currentMoveSpeed = speed; agent.speed = speed; }
     public void SetRotationSpeed(float speed) { currentRotationSpeed = speed; agent.angularSpeed = speed; }
     public void SetDetectionRange(float range) { currentDetectionRange = range; }

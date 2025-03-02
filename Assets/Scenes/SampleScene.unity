@@ -195,38 +195,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4215183741311417511, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
   m_PrefabInstance: {fileID: 3507581616776295555}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &447204254 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1170687856599597479, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-  m_PrefabInstance: {fileID: 1599326981181863331}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &447204261
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447204254}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a2e31b4fd15e1d6438efbbd7bd114918, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!195 &447204263 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 9059656630888690404, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-  m_PrefabInstance: {fileID: 1599326981181863331}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &546563131
 GameObject:
   m_ObjectHideFlags: 1
@@ -693,8 +661,8 @@ MonoBehaviour:
   - {fileID: 1170687856599597479, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
   outsideEnemyPrefabs:
   - {fileID: 8825454334778365944, guid: 62ac8d818c6f02140915c1520f5662e0, type: 3}
-  insideEnemyCount: 5
-  outsideEnemyCount: 5
+  insideEnemyCount: 0
+  outsideEnemyCount: 1
   maxSpawnAttempts: 10
   spawnSampleRadius: 5
   fallbackInsideCenter: {x: 0, y: 0, z: 0}
@@ -1003,7 +971,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 257
   m_UseGeometry: 1
   m_DefaultArea: 4
   m_GenerateLinks: 0
@@ -1183,7 +1151,7 @@ MonoBehaviour:
   maxRooms: 100
   placementDelay: 0
   useSeed: 0
-  seed: 0
+  seed: -564250748
   currentSeed: 0
   blockedDoorPrefab: {fileID: 0}
 --- !u!4 &1410642440
@@ -1772,45 +1740,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: agent
-      value: 
-      objectReference: {fileID: 447204263}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: health
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: states.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 6786629e73339b645b87837f50b29e65, type: 2}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: d89f6b0544de3414ab48fa303bdb0cf4, type: 2}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: c4a2dddd7d1d9d94eb780653dbdeb63f, type: 2}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[3]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 5ffd90f2594fe084cb3cce40c892a208, type: 2}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[4]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 74c87a0404a2cd144a2f65defa2073fb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1170687856599597479, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 447204261}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
 --- !u!1001 &1625441547914382307
 PrefabInstance:
