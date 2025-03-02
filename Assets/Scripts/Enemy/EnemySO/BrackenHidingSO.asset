@@ -10,11 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: BrackenChasingSO
-  m_EditorClassIdentifier: Assembly-CSharp::ChasingStateSO
+  m_Name: BrackenHidingSO
+  m_EditorClassIdentifier: Assembly-CSharp::HidingStateSO
   roamRadius: 10
   moveSpeed: 5
   rotationSpeed: 500
   detectionRange: 15
   attackRange: 2
   attackCooldown: 1
+  hideDistance: 25
+  minSafeDistance: 20
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  maxSearchAttempts: 5

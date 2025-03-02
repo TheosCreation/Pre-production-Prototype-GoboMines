@@ -1,7 +1,9 @@
     using UnityEngine.AI;
     using UnityEngine;
 using System.Diagnostics.Contracts;
-
+using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
+using static UnityEngine.GraphicsBuffer;
 
 public interface IEnemyState
 {
@@ -16,7 +18,7 @@ public abstract class BaseState : ScriptableObject, IEnemyState
     [Header("Movement Settings")]
     public float roamRadius = 10f;
     public float moveSpeed = 5f;
-    public float rotationSpeed = 5f;
+    public float rotationSpeed = 500f;
 
     [Header("Combat Settings")]
     public float detectionRange = 15f;
@@ -28,7 +30,14 @@ public abstract class BaseState : ScriptableObject, IEnemyState
         ApplySettings(enemy);
     }
 
-    public virtual void OnUpdate(EnemyAI enemy) { }
+    public virtual void OnUpdate(EnemyAI enemy)
+    {
+        if (!enemy.timer.IsRunning)
+        {
+            enemy.timer.SetTimer(30f, FindTarget, enemy);
+        }
+    }
+
     public virtual void OnExit(EnemyAI enemy) { }
 
     public virtual void ApplySettings(EnemyAI enemy)
@@ -39,6 +48,21 @@ public abstract class BaseState : ScriptableObject, IEnemyState
         enemy.SetDetectionRange(detectionRange);
         enemy.SetAttackRange(attackRange);
         enemy.SetAttackCooldown(attackCooldown);
+    }
+
+    private void FindTarget(EnemyAI enemy)
+    {
+        PlayerController closestPlayer = null;
+        float closestDistance = 99999999f;
+        foreach (PlayerController player in NetworkSpawnHandler.Instance.playersConnected)
+        {
+            if (Vector3.Distance(enemy.transform.position, player.transform.position) < closestDistance)
+            {
+                closestPlayer = player;
+                closestDistance = Vector3.Distance(enemy.transform.position, player.transform.position);
+            }
+        }
+        enemy.SetTarget(closestPlayer.transform);
     }
 }
 
@@ -90,14 +114,120 @@ public class RoamingStateSO : BaseState
         Transform target = enemy.GetTarget();
         return target != null && Vector3.Distance(enemy.transform.position, target.position) <= detectionRange;
     }
-}
 
+
+}
 
 [CreateAssetMenu(menuName = "EnemyStates/HidingState", fileName = "HidingState")]
 public class HidingStateSO : BaseState
 {
+    public float hideDistance = 7f;
+    public float minSafeDistance = 10f;
+    public LayerMask layerMask;
+    public float maxSearchAttempts = 5;
 
+    private Vector3 hidePosition;
+    private bool isHiding = false;
+    private EnemyAI enemyRef;
+
+    public override void OnEnter(EnemyAI enemy)
+    {
+        Debug.Log("Entering Hiding State");
+        enemyRef = enemy;
+
+        if (IsInPlayerSight(enemy))
+        {
+            hidePosition = FindHidingSpot(enemy);
+
+            if (hidePosition != Vector3.zero)
+            {
+                isHiding = true;
+                enemy.GetAgent().SetDestination(hidePosition);
+            }
+            else
+            {
+                Debug.Log("No valid hiding spot found, roaming instead.");
+                isHiding = false;
+                enemy.ChangeState<RoamingStateSO>();
+            }
+        }
+        else
+        {
+            isHiding = false;
+            enemy.ChangeState<RoamingStateSO>();
+        }
+    }
+
+    public override void OnUpdate(EnemyAI enemy)
+    {
+        if (!isHiding) return;
+
+        if (Vector3.Distance(enemy.transform.position, enemy.GetTarget().position) >= minSafeDistance)
+        {
+            if (!IsInPlayerSight(enemy))
+            {
+                Debug.Log("Successfully hidden, switching to stalking.");
+                enemy.ChangeState<RoamingStateSO>();
+            }
+            else
+            {
+                Debug.Log("Still in sight, finding a new hiding spot.");
+                hidePosition = FindHidingSpot(enemy);
+                if (hidePosition != Vector3.zero)
+                {
+                    enemy.GetAgent().SetDestination(hidePosition);
+                }
+            }
+        }
+    }
+
+    public override void OnExit(EnemyAI enemy)
+    {
+        Debug.Log("Exiting Hiding State");
+    }
+
+    private bool IsInPlayerSight(EnemyAI enemy)
+    {
+        Vector3 directionToPlayer = (enemy.GetTarget().position - enemy.transform.position).normalized;
+        float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.GetTarget().position);
+
+        if (Physics.Raycast(enemy.transform.position, directionToPlayer, out RaycastHit hit, distanceToPlayer, layerMask))
+        {
+            return hit.collider.CompareTag("Player");
+        }
+        return false;
+    }
+
+    private Vector3 FindHidingSpot(EnemyAI enemy)
+    {
+        Vector3 bestHidingSpot = Vector3.zero;
+        float bestDistance = 0f;
+
+        for (int i = 0; i < maxSearchAttempts; i++)
+        {
+            Vector3 randomDirection = Random.insideUnitSphere * hideDistance;
+            randomDirection.y = 0;
+            Vector3 potentialHidingSpot = enemy.transform.position + randomDirection;
+
+            if (NavMesh.SamplePosition(potentialHidingSpot, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            {
+                if (!IsInPlayerSight(enemy))
+                {
+                    float distToPlayer = Vector3.Distance(hit.position, enemy.GetTarget().position);
+                    if (distToPlayer > bestDistance)
+                    {
+                        bestHidingSpot = hit.position;
+                        bestDistance = distToPlayer;
+                    }
+                }
+            }
+        }
+
+        return bestHidingSpot;
+    }
 }
+
+
 
 
 [CreateAssetMenu(menuName = "EnemyStates/ChasingState", fileName = "ChasingState")]
@@ -150,14 +280,10 @@ public class ChasingStateSO : BaseState
 }
 
 [CreateAssetMenu(menuName = "EnemyStates/StalkingState", fileName = "StalkingState")]
-public class StalkingState : BaseState
+public class StalkingStateSO : BaseState
 {
     public float lineOfSightDistance = 15f;
-    public float hidingDuration = 2f;
     public float playerViewThreshold = 0.8f;
-
-    private bool isHiding = false;
-    private float hideTimer = 0f;
 
     public override void OnEnter(EnemyAI enemy)
     {
@@ -167,30 +293,13 @@ public class StalkingState : BaseState
 
     public override void OnUpdate(EnemyAI enemy)
     {
-        if (isHiding)
-        {
-            hideTimer -= Time.deltaTime;
-            if (hideTimer <= 0f) isHiding = false;
-            return;
-        }
-
         if (!HasLineOfSight(enemy))
         {
-            MoveToCover(enemy);
+            enemy.GetAgent().SetDestination(enemy.GetTarget().position);
         }
-        else
+        else if (IsPlayerLookingAtMe(enemy))
         {
-            enemy.transform.LookAt(enemy.GetTarget().position);
-
-            if (IsPlayerLookingAtMe(enemy))
-            {
-                isHiding = true;
-                hideTimer = hidingDuration;
-            }
-            else
-            {
-                ChaseTarget(enemy);
-            }
+            enemy.ChangeState<HidingStateSO>();
         }
     }
 
@@ -216,26 +325,6 @@ public class StalkingState : BaseState
         return Vector3.Dot(target.forward, toEnemy) > playerViewThreshold;
     }
 
-    private void ChaseTarget(EnemyAI enemy)
-    {
-        enemy.GetAgent().SetDestination(enemy.GetTarget().position);
-    }
-
-    private void MoveToCover(EnemyAI enemy)
-    {
-        NavMeshAgent agent = enemy.GetAgent();
-        Transform target = enemy.GetTarget();
-        if (target == null) return;
-
-        Vector3 awayDirection = (enemy.transform.position - target.position).normalized;
-        Vector3 coverPosition = enemy.transform.position + awayDirection * 10f;
-
-        if (NavMesh.SamplePosition(coverPosition, out NavMeshHit hit, 2f, NavMesh.AllAreas))
-        {
-            agent.SetDestination(hit.position);
-        }
-    }
-
     private Transform FindNearestPlayer(EnemyAI enemy)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -254,6 +343,7 @@ public class StalkingState : BaseState
         return nearest;
     }
 }
+
 
 [CreateAssetMenu(menuName = "EnemyStates/AttackingState", fileName = "AttackingState")]
 public class AttackingStateSO : BaseState

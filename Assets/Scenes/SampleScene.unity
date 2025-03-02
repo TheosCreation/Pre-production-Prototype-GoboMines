@@ -64239,8 +64239,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 447204263}
     - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
       propertyPath: states.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
       propertyPath: 'states.Array.data[0]'
@@ -64258,6 +64262,10 @@ PrefabInstance:
       propertyPath: 'states.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 5ffd90f2594fe084cb3cce40c892a208, type: 2}
+    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
+      propertyPath: 'states.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 74c87a0404a2cd144a2f65defa2073fb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
