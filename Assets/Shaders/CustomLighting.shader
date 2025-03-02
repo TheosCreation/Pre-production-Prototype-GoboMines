@@ -130,8 +130,8 @@ Shader "TheosShaders/CustomLit"
                 half3 normalTS = _UseNormalMap ? UnpackNormal(tex2D(_NormalMap, i.uv)) : half3(0, 0, 1);
                 half metallicValue = _UseMetallicMap ? tex2D(_MetallicMap, i.uv).r : _Metallic;
                 half roughnessValue = _UseRoughnessMap ? tex2D(_RoughnessMap, i.uv).r : _Roughness;
-                half4 emissiveValue = _UseEmissiveMap ? tex2D(_EmissiveMap, i.uv).r : _EmissiveColor;
-                
+                half4 emissiveValue = _UseEmissiveMap ? tex2D(_EmissiveMap, i.uv) : _EmissiveColor;
+
                 half3 viewDirWS = GetWorldSpaceNormalizeViewDir(i.positionWS);
 
                 // Prepare input data
@@ -142,6 +142,7 @@ Shader "TheosShaders/CustomLit"
                 inputData.bakedGI = SAMPLE_GI(i.lightmapUV, i.vertexSH, inputData.normalWS);
                 inputData.shadowCoord = i.shadowCoord;
                 inputData.vertexLighting = i.vertexLighting;
+                inputData.fogCoord = ComputeFogFactor(i.positionWS);
 
                 // Shadow coordinate handling
                 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
@@ -174,9 +175,6 @@ Shader "TheosShaders/CustomLit"
 
                 // Apply shadow to the final color
                 half4 color = UniversalFragmentPBR(inputData, surfaceData);
-                //half4 color = UniversalFragmentBlinnPhong(inputData, surfaceData);
-
-                color.rgb = MixFog(color.rgb, i.positionWS);
 
                 return color;
             }
