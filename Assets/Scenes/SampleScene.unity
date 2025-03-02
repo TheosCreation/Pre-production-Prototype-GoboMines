@@ -287,6 +287,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &5353013
 GameObject:
   m_ObjectHideFlags: 0
@@ -2853,6 +2854,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &127081102
 GameObject:
   m_ObjectHideFlags: 0
@@ -3127,6 +3129,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &143578690
 GameObject:
   m_ObjectHideFlags: 0
@@ -3186,6 +3189,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &144619718
 GameObject:
   m_ObjectHideFlags: 0
@@ -3514,6 +3518,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &159296246
 GameObject:
   m_ObjectHideFlags: 0
@@ -4224,6 +4229,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &164386532
 GameObject:
   m_ObjectHideFlags: 0
@@ -4498,6 +4504,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &170555010
 GameObject:
   m_ObjectHideFlags: 0
@@ -4772,6 +4779,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &176899444
 GameObject:
   m_ObjectHideFlags: 0
@@ -5172,6 +5180,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &187996192
 GameObject:
   m_ObjectHideFlags: 0
@@ -5228,6 +5237,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &193525241
 GameObject:
   m_ObjectHideFlags: 0
@@ -5938,6 +5948,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &206370852
 GameObject:
   m_ObjectHideFlags: 0
@@ -6542,6 +6553,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &226694605
 GameObject:
   m_ObjectHideFlags: 0
@@ -8236,6 +8248,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &247299883
 GameObject:
   m_ObjectHideFlags: 0
@@ -9164,6 +9177,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &278391771
 GameObject:
   m_ObjectHideFlags: 0
@@ -9220,6 +9234,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &279093150
 GameObject:
   m_ObjectHideFlags: 0
@@ -9388,6 +9403,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &280524828
 GameObject:
   m_ObjectHideFlags: 0
@@ -10428,6 +10444,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &325033488
 GameObject:
   m_ObjectHideFlags: 0
@@ -10705,6 +10722,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &334099361
 GameObject:
   m_ObjectHideFlags: 0
@@ -11671,6 +11689,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &377940797
 GameObject:
   m_ObjectHideFlags: 0
@@ -12496,6 +12515,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &388686376
 GameObject:
   m_ObjectHideFlags: 0
@@ -12991,6 +13011,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &408449750
 GameObject:
   m_ObjectHideFlags: 0
@@ -13374,6 +13395,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &423603369
 GameObject:
   m_ObjectHideFlags: 0
@@ -13542,6 +13564,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &427741135
 GameObject:
   m_ObjectHideFlags: 0
@@ -13760,38 +13783,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441553342}
   m_Mesh: {fileID: -7201402884100036790, guid: 468e6c8f4abbc44478ca4e4eb30ecb8e, type: 3}
---- !u!1 &447204254 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1170687856599597479, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-  m_PrefabInstance: {fileID: 1599326981181863331}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &447204261
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447204254}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a2e31b4fd15e1d6438efbbd7bd114918, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!195 &447204263 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 9059656630888690404, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-  m_PrefabInstance: {fileID: 1599326981181863331}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &449012640
 GameObject:
   m_ObjectHideFlags: 0
@@ -14069,6 +14060,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &460990149
 GameObject:
   m_ObjectHideFlags: 0
@@ -16311,6 +16303,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 3, y: 3}
   spawnChance: 1
+  ores: []
 --- !u!1 &522149401
 GameObject:
   m_ObjectHideFlags: 0
@@ -16694,6 +16687,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &534193971
 GameObject:
   m_ObjectHideFlags: 0
@@ -17781,6 +17775,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &569973431
 GameObject:
   m_ObjectHideFlags: 0
@@ -19611,6 +19606,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &626992873
 GameObject:
   m_ObjectHideFlags: 0
@@ -20218,6 +20214,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &642005158
 GameObject:
   m_ObjectHideFlags: 0
@@ -21335,6 +21332,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &700478991
 GameObject:
   m_ObjectHideFlags: 0
@@ -21500,6 +21498,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &701624977
 GameObject:
   m_ObjectHideFlags: 0
@@ -21774,6 +21773,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &706295083
 GameObject:
   m_ObjectHideFlags: 0
@@ -22511,6 +22511,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &738678185
 GameObject:
   m_ObjectHideFlags: 0
@@ -23330,6 +23331,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &758110781
 GameObject:
   m_ObjectHideFlags: 0
@@ -24149,6 +24151,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &779030840
 GameObject:
   m_ObjectHideFlags: 0
@@ -25325,6 +25328,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &809955154
 GameObject:
   m_ObjectHideFlags: 0
@@ -27239,6 +27243,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &871722679
 GameObject:
   m_ObjectHideFlags: 0
@@ -28040,6 +28045,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &892420781
 GameObject:
   m_ObjectHideFlags: 0
@@ -28096,6 +28102,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &892749878
 GameObject:
   m_ObjectHideFlags: 0
@@ -28591,6 +28598,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &902232146
 GameObject:
   m_ObjectHideFlags: 0
@@ -28653,6 +28661,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &903886701
 GameObject:
   m_ObjectHideFlags: 0
@@ -28927,6 +28936,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &906902781
 GameObject:
   m_ObjectHideFlags: 0
@@ -29637,6 +29647,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &924436402
 GameObject:
   m_ObjectHideFlags: 0
@@ -30347,6 +30358,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &953894210
 GameObject:
   m_ObjectHideFlags: 0
@@ -31169,6 +31181,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &974659607
 GameObject:
   m_ObjectHideFlags: 0
@@ -33432,6 +33445,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1034833492
 GameObject:
   m_ObjectHideFlags: 0
@@ -33709,6 +33723,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1040240160
 GameObject:
   m_ObjectHideFlags: 0
@@ -33768,6 +33783,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1041742003
 GameObject:
   m_ObjectHideFlags: 0
@@ -34587,6 +34603,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1072173593
 GameObject:
   m_ObjectHideFlags: 0
@@ -34643,6 +34660,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1078492118
 GameObject:
   m_ObjectHideFlags: 0
@@ -36416,6 +36434,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1127195597
 GameObject:
   m_ObjectHideFlags: 0
@@ -36690,6 +36709,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1130499841
 GameObject:
   m_ObjectHideFlags: 0
@@ -37836,6 +37856,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1157862658
 GameObject:
   m_ObjectHideFlags: 0
@@ -38219,6 +38240,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1168857455
 GameObject:
   m_ObjectHideFlags: 0
@@ -38275,6 +38297,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1177079080 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1804070986102780414, guid: 6f010889d0ae7f441a960f421491041a, type: 3}
@@ -38800,6 +38823,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 3, y: 3}
   spawnChance: 1
+  ores: []
 --- !u!1 &1200897739
 GameObject:
   m_ObjectHideFlags: 0
@@ -39189,6 +39213,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1203535274
 GameObject:
   m_ObjectHideFlags: 0
@@ -39575,6 +39600,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1220799907
 GameObject:
   m_ObjectHideFlags: 0
@@ -39733,7 +39759,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 257
   m_UseGeometry: 1
   m_DefaultArea: 4
   m_GenerateLinks: 0
@@ -40477,6 +40503,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1252239406
 GameObject:
   m_ObjectHideFlags: 0
@@ -42245,6 +42272,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1348182746
 GameObject:
   m_ObjectHideFlags: 0
@@ -42307,6 +42335,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1350780039
 GameObject:
   m_ObjectHideFlags: 0
@@ -43436,7 +43465,6 @@ GameObject:
   - component: {fileID: 1410642439}
   - component: {fileID: 1410642442}
   - component: {fileID: 1410642441}
-  - component: {fileID: 1410642443}
   m_Layer: 0
   m_Name: Generator
   m_TagString: Untagged
@@ -43554,18 +43582,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
---- !u!114 &1410642443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410642438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83663ab53ed14954c9f613e531dd0a82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1410861327
 GameObject:
   m_ObjectHideFlags: 0
@@ -44276,6 +44292,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1420643509
 GameObject:
   m_ObjectHideFlags: 0
@@ -45640,6 +45657,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1465266849
 GameObject:
   m_ObjectHideFlags: 0
@@ -46568,6 +46586,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1501906282
 GameObject:
   m_ObjectHideFlags: 0
@@ -46630,6 +46649,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1502616545
 GameObject:
   m_ObjectHideFlags: 0
@@ -47016,6 +47036,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1509967308
 GameObject:
   m_ObjectHideFlags: 0
@@ -47405,6 +47426,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1533997042
 GameObject:
   m_ObjectHideFlags: 0
@@ -48442,6 +48464,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1579065186
 GameObject:
   m_ObjectHideFlags: 0
@@ -48501,6 +48524,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1583992504
 GameObject:
   m_ObjectHideFlags: 0
@@ -48666,6 +48690,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1584601980
 GameObject:
   m_ObjectHideFlags: 0
@@ -49818,6 +49843,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1620189335
 GameObject:
   m_ObjectHideFlags: 0
@@ -50310,6 +50336,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1624144931
 GameObject:
   m_ObjectHideFlags: 0
@@ -50372,6 +50399,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 3, y: 3}
   spawnChance: 1
+  ores: []
 --- !u!1 &1627718200
 GameObject:
   m_ObjectHideFlags: 0
@@ -51409,6 +51437,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1670625181
 GameObject:
   m_ObjectHideFlags: 0
@@ -51471,6 +51500,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1672461496
 GameObject:
   m_ObjectHideFlags: 0
@@ -52726,6 +52756,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1730371670
 GameObject:
   m_ObjectHideFlags: 0
@@ -53115,6 +53146,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 3, y: 3}
   spawnChance: 1
+  ores: []
 --- !u!1 &1737150498
 GameObject:
   m_ObjectHideFlags: 0
@@ -54588,6 +54620,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1777597682
 GameObject:
   m_ObjectHideFlags: 0
@@ -55734,6 +55767,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1815010923
 GameObject:
   m_ObjectHideFlags: 0
@@ -56186,7 +56220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1829369204
 Transform:
   m_ObjectHideFlags: 0
@@ -57392,6 +57426,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1889646956
 GameObject:
   m_ObjectHideFlags: 0
@@ -57563,6 +57598,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1901091606
 GameObject:
   m_ObjectHideFlags: 0
@@ -57622,6 +57658,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1904385340
 GameObject:
   m_ObjectHideFlags: 0
@@ -57902,6 +57939,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1910840859
 GameObject:
   m_ObjectHideFlags: 0
@@ -58067,6 +58105,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1920876854
 GameObject:
   m_ObjectHideFlags: 0
@@ -58889,6 +58928,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1932185026
 GameObject:
   m_ObjectHideFlags: 0
@@ -59272,6 +59312,7 @@ MonoBehaviour:
     direction: {x: 0, y: 1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1937646160
 GameObject:
   m_ObjectHideFlags: 0
@@ -59549,6 +59590,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1953755360
 GameObject:
   m_ObjectHideFlags: 0
@@ -59608,6 +59650,7 @@ MonoBehaviour:
     direction: {x: 0, y: -1}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &1966655774
 GameObject:
   m_ObjectHideFlags: 0
@@ -60972,6 +61015,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &2027502342
 GameObject:
   m_ObjectHideFlags: 0
@@ -62203,6 +62247,7 @@ MonoBehaviour:
     direction: {x: -1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1 &2075534579
 GameObject:
   m_ObjectHideFlags: 0
@@ -63944,6 +63989,7 @@ MonoBehaviour:
     direction: {x: 1, y: 0}
   size: {x: 1, y: 1}
   spawnChance: 1
+  ores: []
 --- !u!1001 &872752134129861068
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64082,10 +64128,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bracken
       objectReference: {fileID: 0}
-    - target: {fileID: 1170687856599597479, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3623300938150301958, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -64126,45 +64168,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: agent
-      value: 
-      objectReference: {fileID: 447204263}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: health
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: states.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 6786629e73339b645b87837f50b29e65, type: 2}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: d89f6b0544de3414ab48fa303bdb0cf4, type: 2}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: c4a2dddd7d1d9d94eb780653dbdeb63f, type: 2}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[3]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 5ffd90f2594fe084cb3cce40c892a208, type: 2}
-    - target: {fileID: 3645553978841607433, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      propertyPath: 'states.Array.data[4]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 74c87a0404a2cd144a2f65defa2073fb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1170687856599597479, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 447204261}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
 --- !u!1001 &1625441547914382307
 PrefabInstance:
@@ -64549,10 +64556,6 @@ PrefabInstance:
     - target: {fileID: 8825454334778365944, guid: 62ac8d818c6f02140915c1520f5662e0, type: 3}
       propertyPath: m_Name
       value: worm
-      objectReference: {fileID: 0}
-    - target: {fileID: 8825454334778365944, guid: 62ac8d818c6f02140915c1520f5662e0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
