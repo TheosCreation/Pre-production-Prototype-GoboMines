@@ -103,9 +103,11 @@ public class OreNode : MonoBehaviour, IDamageable
             dustEffect.Play();
         }
 
-        // Check if the node is dead and destroy it if necessary
-        if (Health <= 0)
+        // If no ore or health remains, destroy the node
+        if (totalOre <= 0 || Health <= 0)
         {
+            Health = 0; // Ensure health doesn't go negative
+            totalOre = 0; // Ensure ore doesn't go negative
             DestroyOreNode();
         }
     }

@@ -14,6 +14,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
     private bool isDead = false;
     [SerializeField] private float interactDistance = 2.0f;
     [SerializeField] private LayerMask interactMask;
+    private IInteractable currentInteractable;
     public bool IsDead { get => isDead; set => isDead = value; }
     [SerializeField] private ParticleSystem hitParticles;
     public ParticleSystem HitParticlePrefab { get => hitParticles; set => hitParticles = value; }
@@ -55,21 +56,51 @@ public class PlayerController : NetworkBehaviour, IDamageable
             }
         }
     }
-    private void Interact()
+
+    private void FixedUpdate()
+    {
+        if (IsOwner)
+        {
+            CheckInteract();
+        }
+    }
+
+    private void CheckInteract()
     {
         RaycastHit hit;
-        if (Physics.Raycast(playerLook.playerCamera.transform.position, playerLook.playerCamera.transform.forward, out hit, interactDistance, interactMask))
+        string interactText = "";
+
+        if (Physics.Raycast(playerLook.playerCamera.transform.position,
+                            playerLook.playerCamera.transform.forward,
+                            out hit,
+                            interactDistance,
+                            interactMask))
         {
-            // Check if the hit object has an Interactable component
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-            if (interactable != null)
+            if (hit.collider.TryGetComponent<IInteractable>(out var interactable))
             {
-                interactable.Interact(this);
+                currentInteractable = interactable;
+                interactText = interactable.InteractionText;
             }
             else
             {
-                Debug.Log("Hit object is not interactable: " + hit.collider.name);
+                currentInteractable = null;
             }
+        }
+        else
+        {
+            currentInteractable = null;
+        }
+
+        UiManager.Instance.playerHud.UpdateInteractText(interactText);
+    }
+
+    public void Interact()
+    {
+        if (!IsOwner) return;
+
+        if(currentInteractable != null)
+        {
+            currentInteractable.Interact(this);
         }
     }
 

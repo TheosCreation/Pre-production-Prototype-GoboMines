@@ -2,10 +2,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor;
 
-public class NavMeshAreaMaskAttribute : PropertyAttribute
-{
-}
-
 [CustomPropertyDrawer(typeof(NavMeshAreaMaskAttribute))]
 public class NavMeshAreaMaskPropertyDrawer : PropertyDrawer
 {

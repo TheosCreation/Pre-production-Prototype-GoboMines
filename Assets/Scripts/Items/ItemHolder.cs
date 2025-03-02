@@ -210,7 +210,12 @@ public class ItemHolder : NetworkBehaviour
     {
         currentHoldableItems.Add(item);
         item.Attach(idlePosition);
+
+        // Automatically switch to the newly picked up item
+        currentItemIndex = currentHoldableItems.Count - 1;
+        SelectItem(currentItemIndex);
     }
+
     public void DropCurrentItem()
     {
         if (!IsOwner || currentItem == null) return;
@@ -224,10 +229,10 @@ public class ItemHolder : NetworkBehaviour
         // Set currentItem to null
         currentItem = null;
 
-        // If there are still items left, switch to the first one
+        // If there are still items left, switch to another one
         if (currentHoldableItems.Count > 0)
         {
-            currentItemIndex = 0;
+            currentItemIndex = Mathf.Clamp(currentItemIndex, 0, currentHoldableItems.Count - 1);
             SelectItem(currentItemIndex);
         }
     }
