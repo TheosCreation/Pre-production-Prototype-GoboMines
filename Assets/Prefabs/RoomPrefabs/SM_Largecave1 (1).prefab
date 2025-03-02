@@ -52,25 +52,57 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: -6730148951233844298, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542588134871402240, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -6163023337865383119, guid: c5c08a28741abf049838fe134ef04394, type: 3}
       propertyPath: m_TagString
       value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163023337865383119, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: -6090811896516078084, guid: c5c08a28741abf049838fe134ef04394, type: 3}
       propertyPath: m_TagString
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: -6090811896516078084, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -739196904103903173, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c5c08a28741abf049838fe134ef04394, type: 3}
       propertyPath: m_Name
       value: SM_Largecave1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3420317670355371348, guid: c5c08a28741abf049838fe134ef04394, type: 3}
       propertyPath: m_TagString
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: 3420317670355371348, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7688823011376348334, guid: c5c08a28741abf049838fe134ef04394, type: 3}
       propertyPath: m_TagString
       value: Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688823011376348334, guid: c5c08a28741abf049838fe134ef04394, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -164,7 +164,13 @@ public class Generator : MonoBehaviour
     {
         isGenerating = false;
         OnGenerationComplete?.Invoke();
-        GetComponent<NavMeshSurface>().BuildNavMesh();
+      /*  NavMeshSurface[] componentArr =  GetComponents<NavMeshSurface>();
+        foreach (NavMeshSurface component in componentArr)
+        {
+            component.BuildNavMesh();
+        }*/
+
+
 
     }
     // starts gen courutine kinda useless 
