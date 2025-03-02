@@ -22,4 +22,11 @@ public class UiManager : Singleton<UiManager>
     {
         Debug.Log("Ui manager notified of a item added");
     }
+
+    public void ToggleInventory()
+    {
+        bool inventoryPageStatus = inventoryPage.isActiveAndEnabled;
+        inventoryPage.SetActive(!inventoryPageStatus);
+        playerHud.SetActive(inventoryPageStatus);
+    }
 }
