@@ -92,6 +92,14 @@ public class RoamingStateSO : BaseState
     }
 }
 
+
+[CreateAssetMenu(menuName = "EnemyStates/HidingState", fileName = "HidingState")]
+public class HidingStateSO : BaseState
+{
+
+}
+
+
 [CreateAssetMenu(menuName = "EnemyStates/ChasingState", fileName = "ChasingState")]
 public class ChasingStateSO : BaseState
 {
