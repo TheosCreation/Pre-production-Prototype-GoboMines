@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CopperOreNode Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6197964730036631823, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 1005694212520704001, guid: 276f3ebdd18282d47aba1f5d8680978e, type: 3}
     - target: {fileID: 6901771072837474899, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.413
@@ -52,6 +56,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8692150951991165957, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 426d248b8a259364f9ca17b7958e4582, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

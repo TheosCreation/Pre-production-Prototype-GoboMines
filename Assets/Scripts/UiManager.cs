@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class UiManager : Singleton<UiManager>
 {
+    [SerializeField] private LoadingPage loadingPage;
     [SerializeField] private ConnectionPage connectionPage;
     [SerializeField] private PlayerHud playerHud;
     public InventoryUiPage inventoryPage;
     //[SerializeField] private PauseMenu pauseScreen;
+    public void OpenConnectionMenu()
+    {
+        loadingPage.SetActive(false);
+        connectionPage.SetActive(true);
+    }
+
     public void OpenPlayerHud()
     {
         playerHud.SetActive(true);

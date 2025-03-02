@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.AI.Navigation;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static Generator;
 using Random = UnityEngine.Random;
+
 public class Generator : MonoBehaviour
 {
     public List<GameObject> roomPrefabs;
