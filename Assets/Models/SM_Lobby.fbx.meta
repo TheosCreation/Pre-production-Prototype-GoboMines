@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a20f7f5da786d1e4b81add5f6c95663c
+guid: 1244900f392ec1a46b20539af168131c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Cave.001
-    second: {fileID: 2100000, guid: e19232e96d2ff9c43bbbe8fefc714a7d, type: 2}
+      name: Cave
+    second: {fileID: 2100000, guid: dba325e0a3460b8458162310efec4d7e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -40,7 +40,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -86,7 +86,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   humanDescription:
     serializedVersion: 3
     human: []
