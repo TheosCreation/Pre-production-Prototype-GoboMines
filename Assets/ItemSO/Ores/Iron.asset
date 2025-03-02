@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Iron
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: bfa73ac819537fd40911671eeb2fbc9d, type: 3}
   itemName: Iron
   saleValue: 2
