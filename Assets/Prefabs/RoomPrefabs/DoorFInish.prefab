@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: dca09a0d34143624889972aa47d572fa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -193,7 +193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c6a7145c586b328489addede4bc4f9d5, type: 3}
       propertyPath: m_Name
-      value: SM_Deadend 1
+      value: DoorFInish
       objectReference: {fileID: 0}
     - target: {fileID: 2679765972242554139, guid: c6a7145c586b328489addede4bc4f9d5, type: 3}
       propertyPath: m_TagString

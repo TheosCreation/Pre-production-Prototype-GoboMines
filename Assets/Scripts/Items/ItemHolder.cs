@@ -9,8 +9,10 @@ using UnityEngine.InputSystem;
 public class ItemHolder : NetworkBehaviour
 {
     [SerializeField] private List<Item> currentHoldableItems = new List<Item>();
+    public Transform idlePosition;
     [SerializeField] private Item currentItem;
     private int currentItemIndex = 0;
+    [SerializeField] private float throwForce = 0.1f;
     [SerializeField] private float scrollSwitchDelay = 0.1f;
     private NetworkVariable<int> currentItemIndexNetwork = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
@@ -34,6 +36,7 @@ public class ItemHolder : NetworkBehaviour
     private void OnAltActionCanceled(InputAction.CallbackContext ctx) => currentItem?.EndAltAction();
     private void OnCantAttackActionStarted(InputAction.CallbackContext ctx) => currentItem?.CantAttackAction();
     private void OnSpecialActionStarted(InputAction.CallbackContext ctx) => currentItem?.StartSpecialAction();
+    private void OnDropItemStarted(InputAction.CallbackContext ctx) => DropCurrentItem();
 
     
     private void Awake()
@@ -45,6 +48,7 @@ public class ItemHolder : NetworkBehaviour
         InputManager.Instance.Input.Player.AltAction.canceled += OnAltActionCanceled;
         InputManager.Instance.Input.Player.CantAttackAction.started += OnCantAttackActionStarted;
         InputManager.Instance.Input.Player.SpecialAction.started += OnSpecialActionStarted;
+        InputManager.Instance.Input.Player.DropItem.started += OnDropItemStarted;
 
     }
     public override void OnNetworkSpawn()
@@ -55,6 +59,10 @@ public class ItemHolder : NetworkBehaviour
 
         // Select the current item based on the network variable
         SelectItem(currentItemIndexNetwork.Value);
+        foreach (Item item in currentHoldableItems)
+        {
+            item.Attach(idlePosition);
+        }
 
         if (IsOwner)
         {
@@ -198,8 +206,29 @@ public class ItemHolder : NetworkBehaviour
         }
     }
 
-    internal bool Add(Weapon weapon)
+    public void Add(Item item)
     {
-        throw new NotImplementedException();
+        currentHoldableItems.Add(item);
+        item.Attach(idlePosition);
+    }
+    public void DropCurrentItem()
+    {
+        if (!IsOwner || currentItem == null) return;
+
+        // Remove the item from the list first
+        currentHoldableItems.Remove(currentItem);
+
+        // Drop the item by calling Throw
+        currentItem.Throw(transform.forward, throwForce);
+
+        // Set currentItem to null
+        currentItem = null;
+
+        // If there are still items left, switch to the first one
+        if (currentHoldableItems.Count > 0)
+        {
+            currentItemIndex = 0;
+            SelectItem(currentItemIndex);
+        }
     }
 }

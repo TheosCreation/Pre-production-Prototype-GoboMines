@@ -2587,6 +2587,7 @@ GameObject:
   - component: {fileID: 112455954}
   - component: {fileID: 112455953}
   - component: {fileID: 112455952}
+  - component: {fileID: 112455955}
   m_Layer: 0
   m_Name: AreaLight
   m_TagString: Untagged
@@ -2646,17 +2647,29 @@ MonoBehaviour:
   diameterOverride: 0.5
   celestialBodyShadingSource: 1
   sunLightOverride: {fileID: 0}
-  sunColor: {r: 1, g: 1, b: 1, a: 1}
+  sunColor:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
   sunIntensity: 130000
   moonPhase: 0.2
   moonPhaseRotation: 0
   earthshine: 1
   flareSize: 2
-  flareTint: {r: 1, g: 1, b: 1, a: 1}
+  flareTint:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
   flareFalloff: 4
   flareMultiplier: 1
   surfaceTexture: {fileID: 0}
-  surfaceTint: {r: 1, g: 1, b: 1, a: 1}
+  surfaceTint:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
   m_Distance: 1.5e+11
   m_UseRayTracedShadows: 0
   m_NumRayTracingSamples: 4
@@ -2700,7 +2713,11 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_RayTracedContactShadow: 0
-  m_ShadowTint: {r: 0, g: 0, b: 0, a: 1}
+  m_ShadowTint:
+    r: 0
+    g: 0
+    b: 0
+    a: 1
   m_PenumbraTint: 0
   m_NormalBias: 0.75
   m_SlopeBias: 0.5
@@ -2713,6 +2730,7 @@ MonoBehaviour:
   m_BarnDoorLength: 0.05
   m_preserveCachedShadow: 0
   m_OnDemandShadowRenderOnPlacement: 1
+  forceRenderOnPlacement: 0
   m_ShadowCascadeRatios:
   - 0.05
   - 0.2
@@ -2728,10 +2746,18 @@ MonoBehaviour:
   useOldInspector: 0
   useVolumetric: 1
   featuresFoldout: 1
+  m_Light: {fileID: 112455953}
+  m_ChildEmissiveMeshViewer: {fileID: 0}
+  m_EmissiveMeshFilter: {fileID: 0}
+  <emissiveMeshRenderer>k__BackingField: {fileID: 0}
+  m_NeedsPrefabInstanceCheck: 0
+  needRefreshPrefabInstanceEmissiveMeshes: 0
+  needRefreshEmissiveMeshesFromTimeLineUpdate: 0
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
   m_Version: 13
+  m_LightLayers: 1
   m_ObsoleteShadowResolutionTier: 1
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
@@ -2786,7 +2812,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 200, y: 200}
   m_BounceIntensity: 1
@@ -2816,6 +2842,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &112455955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112455951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &116501872
 GameObject:
   m_ObjectHideFlags: 0
@@ -5247,11 +5296,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Camera: {fileID: 184030900}
   clearColorMode: 0
-  backgroundColorHDR: {r: 0.025, g: 0.07, b: 0.19, a: 0}
+  backgroundColorHDR:
+    r: 0.025
+    g: 0.07
+    b: 0.19
+    a: 0
   clearDepth: 1
   volumeLayerMask:
-    serializedVersion: 2
     m_Bits: 1
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 0
@@ -5284,7 +5337,6 @@ MonoBehaviour:
   customRenderingSettings: 0
   invertFaceCulling: 0
   probeLayerMask:
-    serializedVersion: 2
     m_Bits: 4294967295
   hasPersistentHistory: 0
   screenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -5302,10 +5354,15 @@ MonoBehaviour:
   fidelityFX2SuperResolutionUseOptimalSettings: 1
   fidelityFX2SuperResolutionEnableSharpening: 0
   fidelityFX2SuperResolutionSharpening: 0
+  cameraCanRenderDLSS: 0
+  cameraCanRenderFSR2: 0
+  cameraCanRenderSTP: 0
   fsrOverrideSharpness: 0
   fsrSharpness: 0.92
   exposureTarget: {fileID: 0}
   materialMipBias: 0
+  probeCustomFixedExposure: 1
+  deExposureMultiplier: 1
   m_RenderingPathCustomFrameSettings:
     bitDatas:
       data1: 5770166122053453
@@ -5321,12 +5378,17 @@ MonoBehaviour:
     sssCustomSampleBudget: 20
     sssCustomDownsampleSteps: 0
     msaaMode: 1
+    sssResolvedSampleBudget: 0
+    sssResolvedDownsampleSteps: 0
     materialQuality: 0
   renderingPathCustomFrameSettingsOverrideMask:
     mask:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
+  m_IsDebugRegistered: 0
+  m_CameraRegisterName: TempCamera
+  <isEditorCameraPreview>k__BackingField: 0
   m_Version: 9
   m_ObsoleteRenderingPath: 0
   m_ObsoleteFrameSettings:
@@ -5374,6 +5436,11 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!20 &184030900 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4114138342125646220, guid: 5c5645663db69094491e224d1272ad3c, type: 3}
+  m_PrefabInstance: {fileID: 1523032268716921029}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &185117238
 GameObject:
   m_ObjectHideFlags: 0
@@ -17740,10 +17807,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Profile: {fileID: 11400000, guid: c9ba92b9aa4124e40b8a5f8a0100029c, type: 2}
+  m_NeedUpdateStaticLightingSky: 0
   m_StaticLightingSkyUniqueID: 0
+  m_LastComputedHash: 0
   m_StaticLightingCloudsUniqueID: 0
+  m_LastComputedCloudHash: 0
+  m_SkySettings: {fileID: 0}
+  m_SkySettingsFromProfile: {fileID: 0}
+  m_CloudSettings: {fileID: 0}
+  m_CloudSettingsFromProfile: {fileID: 0}
   m_StaticLightingVolumetricClouds: 0
+  m_LastComputedVolumetricCloudHash: 0
+  m_VolumetricClouds: {fileID: 0}
+  m_VolumetricCloudSettingsFromProfile: {fileID: -1580351994287375232, guid: c9ba92b9aa4124e40b8a5f8a0100029c, type: 2}
   bounces: 1
+  m_VolumeSkyList: []
+  m_VolumeCloudsList: []
 --- !u!4 &546563133
 Transform:
   m_ObjectHideFlags: 1
@@ -64494,6 +64573,10 @@ PrefabInstance:
     - target: {fileID: 6263093982807038371, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
       propertyPath: m_ChildAlignment
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090359629325720602, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
