@@ -4,278 +4,227 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "EnemyStates/SpiralChasingState", fileName = "SpiralChasingState")]
 public class SpiralChasingStateSO : BaseState
 {
-    [Header("Spiral Settings")]
-    [SerializeField] private float initialRadius = 10f;
-    [SerializeField] private float radiusDecreaseRate = 0.5f;
-    [SerializeField] private float minRadius = 3f;
-    [SerializeField] private float spiralSpeed = 2f;
-    [SerializeField] private float heightOffset = 0f;
+    [Header("Chase Settings")]
+    [SerializeField] private float updatePathInterval = 0.2f;
+    [SerializeField] private float stoppingDistance = 0.5f;
+    [SerializeField] private float maxRandomDistance = 10f; // Maximum distance for random position
 
-    [Header("NavMesh Settings")]
-    [SerializeField] private int navMeshAreaMask = -1;
+    [Header("Obstacle Detection")]
+    [SerializeField] private float raycastDistance = 2f;
+    [SerializeField] private float slowdownFactor = 0.5f;
+    [SerializeField] private float speedRecoveryRate = 2f;
 
-    [Header("Gap Jumping")]
-    [SerializeField] private float maxGapDistance = 5f; // Maximum distance the worm can jump across gaps
-    [SerializeField] private float jumpHeight = 2f; // Height of the jump arc
-    [SerializeField] private float jumpDuration = 1f; // How long the jump takes
-    [SerializeField] private LayerMask groundLayers; // Layers considered as valid landing spots
+    [Header("Area Selection")]
+    [SerializeField]
+    [NavMeshAreaMask]
+    private int Outside = ~0;
+    [SerializeField]
+    [NavMeshAreaMask]
+    private int both = ~0;
 
-    private float currentRadius;
-    private float currentAngle;
-    private bool isSpiraling = false;
-    private bool isJumping = false;
-    private Vector3 jumpTarget;
-    private float jumpStartTime;
-    private Vector3 jumpStartPosition;
-    private Vector3 lastSpiralPosition;
+    private int allowedAreas = ~0;
+
+    private float originalMoveSpeed;
+    private bool isSlowedDown = false;
+    private float currentSlowdownTime = 0f;
+    private float pathUpdateTimer = 0f;
+
+
+    private bool destinationReached = false;
+    private float destinationCheckTimer = 0.5f;
 
     public override void OnEnter(EnemyAI enemy)
     {
+        allowedAreas = Outside;
         base.OnEnter(enemy);
+        originalMoveSpeed = moveSpeed;
+        isSlowedDown = false;
+        currentSlowdownTime = 0f;
+        pathUpdateTimer = 0f;
+        destinationReached = false;
+        enemy.GetAgent().areaMask = allowedAreas;
+        enemy.GetAgent().stoppingDistance = stoppingDistance;
 
-        // Configure NavMeshAgent to traverse all areas
-        enemy.GetAgent().areaMask = navMeshAreaMask;
-
-        // Initialize spiral parameters
-        currentRadius = initialRadius;
-        currentAngle = 0f;
-        isSpiraling = false;
-        isJumping = false;
-
-        // Set initial destination to move toward target
-        if (enemy.GetTarget() != null)
-        {
-            enemy.GetAgent().SetDestination(enemy.GetTarget().position);
-        }
+        // Set initial path to target
+        FindNewDestination(enemy);
     }
 
     public override void OnUpdate(EnemyAI enemy)
     {
         base.OnUpdate(enemy);
 
-        NavMeshAgent agent = enemy.GetAgent();
         Transform target = enemy.GetTarget();
-
         if (target == null)
         {
-            // If no target, return to roaming
+            // No target, return to roaming
             enemy.ChangeState<RoamingStateSO>();
             return;
         }
 
-        // Handle jumping state
-        if (isJumping)
+        // Check if we've reached the destination
+        CheckIfDestinationReached(enemy);
+
+        // Update path to target periodically only if we're actively chasing
+        if (!destinationReached)
         {
-            UpdateJump(enemy);
-            return;
+            pathUpdateTimer -= Time.deltaTime;
+            if (pathUpdateTimer <= 0)
+            {
+                pathUpdateTimer = updatePathInterval;
+
+                // Only update path if we haven't reached our destination
+                if (!destinationReached && !enemy.GetAgent().pathPending)
+                {
+                    // Check if the path is invalid or if we're stuck
+                    if (!enemy.GetAgent().hasPath || enemy.GetAgent().pathStatus == NavMeshPathStatus.PathInvalid)
+                    {
+                        FindNewDestination(enemy);
+                    }
+                }
+            }
         }
 
+        // Check for obstacles with raycast
+        CheckForObstacles(enemy);
+
+        // Handle speed recovery if slowed down
+        if (isSlowedDown)
+        {
+            currentSlowdownTime += Time.deltaTime;
+            if (currentSlowdownTime >= 1f)
+            {
+                // Gradually recover speed
+                float newSpeed = Mathf.MoveTowards(enemy.GetAgent().speed, originalMoveSpeed,
+                    speedRecoveryRate * Time.deltaTime);
+                enemy.SetMoveSpeed(newSpeed);
+
+                // If fully recovered, reset slowdown state
+                if (Mathf.Approximately(newSpeed, originalMoveSpeed))
+                {
+                    isSlowedDown = false;
+                }
+            }
+        }
+
+        // If we're close enough to the target, perform attack
         float distanceToTarget = Vector3.Distance(enemy.transform.position, target.position);
-
-        // Start spiraling when close enough to target
-        if (!isSpiraling && distanceToTarget <= initialRadius)
+        if (distanceToTarget <= attackRange)
         {
-            isSpiraling = true;
-        }
-
-        if (isSpiraling)
-        {
-            // Calculate next position in spiral
-            UpdateSpiralMovement(enemy, target);
-
-            // Check if the agent is stuck or can't find a path
-            if (agent.pathStatus == NavMeshPathStatus.PathPartial ||
-                agent.pathStatus == NavMeshPathStatus.PathInvalid ||
-                (agent.pathPending == false && agent.hasPath && agent.remainingDistance > 0.5f && agent.velocity.magnitude < 0.1f))
-            {
-                TryJumpAcrossGap(enemy, lastSpiralPosition);
-            }
-        }
-        else
-        {
-            // Move directly toward target until close enough to start spiraling
-            agent.SetDestination(target.position);
-
-            // Check if direct path to target is blocked
-            if (agent.pathStatus == NavMeshPathStatus.PathPartial ||
-                agent.pathStatus == NavMeshPathStatus.PathInvalid ||
-                (agent.pathPending == false && agent.hasPath && agent.remainingDistance > 0.5f && agent.velocity.magnitude < 0.1f))
-            {
-                TryJumpAcrossGap(enemy, target.position);
-            }
-        }
-
-        // If target moves too far away, reset spiraling
-        if (isSpiraling && distanceToTarget > initialRadius * 1.5f)
-        {
-            isSpiraling = false;
-            agent.SetDestination(target.position);
+            enemy.PerformAttack();
         }
     }
 
-    private void UpdateSpiralMovement(EnemyAI enemy, Transform target)
+    private void CheckIfDestinationReached(EnemyAI enemy)
     {
         NavMeshAgent agent = enemy.GetAgent();
 
-        // Update angle based on speed
-        currentAngle += spiralSpeed * Time.deltaTime;
-
-        // Gradually decrease radius
-        currentRadius = Mathf.Max(minRadius, currentRadius - (radiusDecreaseRate * Time.deltaTime));
-
-        // Calculate position on spiral
-        Vector3 offset = new Vector3(
-            Mathf.Cos(currentAngle) * currentRadius,
-            heightOffset,
-            Mathf.Sin(currentAngle) * currentRadius
-        );
-
-        Vector3 targetPosition = target.position + offset;
-        lastSpiralPosition = targetPosition; // Store for potential gap jumping
-
-        // Check if the position is on a valid NavMesh
-        if (NavMesh.SamplePosition(targetPosition, out NavMeshHit hit, 2.0f, agent.areaMask))
+        // Check if we've reached our destination
+        if (!agent.pathPending)
         {
-            agent.SetDestination(hit.position);
-        }
-        else
-        {
-            // If no valid position found, try a larger radius
-            currentRadius += radiusDecreaseRate * 2f;
-
-            // Recalculate with new radius
-            offset = new Vector3(
-                Mathf.Cos(currentAngle) * currentRadius,
-                heightOffset,
-                Mathf.Sin(currentAngle) * currentRadius
-            );
-
-            targetPosition = target.position + offset;
-            lastSpiralPosition = targetPosition; // Update stored position
-
-            if (NavMesh.SamplePosition(targetPosition, out hit, 2.0f, agent.areaMask))
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                agent.SetDestination(hit.position);
-            }
-            else
-            {
-                // If still no valid position, try jumping
-                TryJumpAcrossGap(enemy, targetPosition);
-            }
-        }
+                if (!agent.hasPath || agent.velocity.sqrMagnitude < 0.1f)
+                {
+                    if (!destinationReached)
+                    {
+                        destinationReached = true;
 
-        // If we've reached the minimum radius, reset to create continuous spiraling
-        if (currentRadius <= minRadius + 0.1f)
-        {
-            currentRadius = initialRadius;
+                        // Switch to "both" areas when destination is reached
+                        allowedAreas = both;
+                        agent.areaMask = allowedAreas;
+
+                        // Check ground layer after a short delay
+                        enemy.StartCoroutine(CheckGroundLayerAfterDelay(enemy, 0.5f));
+                    }
+                }
+            }
         }
     }
 
-    private void TryJumpAcrossGap(EnemyAI enemy, Vector3 desiredPosition)
+    private System.Collections.IEnumerator CheckGroundLayerAfterDelay(EnemyAI enemy, float delay)
     {
+        yield return new WaitForSeconds(delay);
+
+        // Raycast downward to check ground layer
+        if (Physics.Raycast(enemy.transform.position, Vector3.down, out RaycastHit hit, 2f))
+        {
+            int defaultLayer = 0; // Default layer in Unity is 0
+            int outsideLayer = LayerMask.NameToLayer("Outside");
+
+            // First check if we're on the default layer
+            if (hit.collider.gameObject.layer == defaultLayer)
+            {
+                // We're on the default layer, keep the "both" mask
+                allowedAreas = both;
+                enemy.GetAgent().areaMask = allowedAreas;
+            }
+            // Only if we're not on default layer, check if we're on Outside layer
+            else if (hit.collider.gameObject.layer == outsideLayer)
+            {
+                // We're on the Outside layer, switch back to Outside mask
+                allowedAreas = Outside;
+                enemy.GetAgent().areaMask = allowedAreas;
+            }
+        }
+
+        // Find a new destination regardless of the layer result
+        destinationReached = false;
+        FindNewDestination(enemy);
+    }
+
+    private void FindNewDestination(EnemyAI enemy)
+    {
+        Transform target = enemy.GetTarget();
         NavMeshAgent agent = enemy.GetAgent();
-        Vector3 currentPosition = enemy.transform.position;
-        Vector3 desiredDirection = (desiredPosition - currentPosition).normalized;
 
-        // Cast rays in the desired direction to find valid landing spots
-        RaycastHit hit;
-        if (Physics.SphereCast(currentPosition + Vector3.up * 0.5f, 0.5f, desiredDirection, out hit, maxGapDistance, groundLayers))
+        // Try to get a path to the player first
+        if (target != null)
         {
-            // Check if the hit point is on the NavMesh
-            NavMeshHit navHit;
-            if (NavMesh.SamplePosition(hit.point, out navHit, 1.0f, agent.areaMask))
+            NavMeshPath path = new NavMeshPath();
+            if (agent.CalculatePath(target.position, path) && path.status == NavMeshPathStatus.PathComplete)
             {
-                // Start the jump
-                jumpTarget = navHit.position;
-                jumpStartPosition = currentPosition;
-                jumpStartTime = Time.time;
-                isJumping = true;
-
-                // Disable NavMeshAgent during the jump
-                agent.enabled = false;
-
-                Debug.Log("Worm is jumping across a gap to " + jumpTarget);
+                currentDestination = target.position;
+                agent.SetDestination(currentDestination);
+                return;
             }
+        }
+
+        // If we can't reach the player, find a random valid position
+        NavMeshHit hit;
+        Vector3 randomDirection = Random.insideUnitSphere * maxRandomDistance;
+        randomDirection += enemy.transform.position;
+
+        if (NavMesh.SamplePosition(randomDirection, out hit, maxRandomDistance, agent.areaMask))
+        {
+            currentDestination = hit.position;
+            agent.SetDestination(currentDestination);
         }
     }
 
-    private void UpdateJump(EnemyAI enemy)
+    private void CheckForObstacles(EnemyAI enemy)
     {
-        float jumpProgress = (Time.time - jumpStartTime) / jumpDuration;
-
-        if (jumpProgress >= 1.0f)
+        // Cast a ray forward to detect obstacles
+        if (Physics.Raycast(enemy.transform.position, enemy.transform.forward, out RaycastHit hit, raycastDistance))
         {
-            // Jump completed
-            enemy.transform.position = jumpTarget;
-            isJumping = false;
-
-            // Re-enable NavMeshAgent
-            NavMeshAgent agent = enemy.GetAgent();
-            agent.enabled = true;
-            agent.Warp(jumpTarget); // Ensure agent is at the correct position
-
-            // Continue spiral movement
-            if (enemy.GetTarget() != null)
+            if (hit.collider.gameObject.CompareTag("Untagged"))
             {
-                // Calculate a new spiral position based on current position relative to target
-                Vector3 directionToTarget = enemy.GetTarget().position - enemy.transform.position;
-                float distanceToTarget = directionToTarget.magnitude;
-
-                // If we're close enough to spiral
-                if (distanceToTarget <= initialRadius)
+                // Slow down the enemy
+                if (!isSlowedDown)
                 {
-                    isSpiraling = true;
-
-                    // Calculate current angle based on position
-                    Vector3 flatDirection = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
-                    currentAngle = Mathf.Atan2(flatDirection.z, flatDirection.x);
-
-                    // Set radius based on distance
-                    currentRadius = Mathf.Clamp(distanceToTarget, minRadius, initialRadius);
-                }
-                else
-                {
-                    // If too far, move directly to target
-                    isSpiraling = false;
-                    agent.SetDestination(enemy.GetTarget().position);
+                    originalMoveSpeed = enemy.GetAgent().speed;
+                    enemy.SetMoveSpeed(originalMoveSpeed * slowdownFactor);
+                    isSlowedDown = true;
+                    currentSlowdownTime = 0f;
                 }
             }
-
-            return;
-        }
-
-        // Calculate jump arc
-        Vector3 jumpVector = jumpTarget - jumpStartPosition;
-        float horizontalDistance = new Vector3(jumpVector.x, 0, jumpVector.z).magnitude;
-
-        // Current horizontal progress
-        float horizontalProgress = jumpProgress;
-        Vector3 horizontalPosition = jumpStartPosition + new Vector3(jumpVector.x, 0, jumpVector.z) * horizontalProgress;
-
-        // Calculate height using a parabolic arc
-        float height = Mathf.Sin(jumpProgress * Mathf.PI) * jumpHeight;
-
-        // Set the position
-        enemy.transform.position = new Vector3(horizontalPosition.x, jumpStartPosition.y + height, horizontalPosition.z);
-
-        // Rotate towards the jump direction
-        if (jumpVector != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(jumpVector.x, 0, jumpVector.z));
-            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, targetRotation, Time.deltaTime * 5f);
         }
     }
 
     public override void OnExit(EnemyAI enemy)
     {
         base.OnExit(enemy);
-        isSpiraling = false;
 
-        // Ensure NavMeshAgent is enabled when exiting
-        if (isJumping)
-        {
-            isJumping = false;
-            enemy.GetAgent().enabled = true;
-        }
+        // Reset speed to original when exiting state
+        enemy.SetMoveSpeed(originalMoveSpeed);
     }
 }

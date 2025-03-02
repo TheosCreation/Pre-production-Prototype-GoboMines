@@ -24,45 +24,54 @@ public class NavMeshAreaMaskPropertyDrawer : PropertyDrawer
         }
 
         Rect controlRect = EditorGUI.PrefixLabel(position, label);
-        Rect popupRect = new Rect(controlRect.x, controlRect.y, controlRect.width - 20f, controlRect.height);
-        Rect buttonRect = new Rect(controlRect.x + controlRect.width - 15f, controlRect.y, 15f, controlRect.height);
+        Rect buttonRect = new Rect(controlRect.x, controlRect.y, controlRect.width, controlRect.height);
 
-        int selectedIndex = GetSelectedIndex(mask, areaNames);
-        int newIndex = EditorGUI.Popup(popupRect, selectedIndex, areaNames);
-
-        if (GUI.Button(buttonRect, "..."))
+        if (GUI.Button(buttonRect, GetSelectedAreasText(mask, areaNames)))
         {
-            ShowAreaSelectionDialog(property, areaNames);
-        }
-        else if (newIndex != selectedIndex)
-        {
-            property.intValue = 1 << newIndex;
+            ShowAreaSelectionMenu(property, areaNames);
         }
 
         EditorGUI.EndProperty();
     }
 
-    private int GetSelectedIndex(int mask, string[] areaNames)
+    private string GetSelectedAreasText(int mask, string[] areaNames)
     {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        bool isFirst = true;
+
         for (int i = 0; i < areaNames.Length; i++)
         {
             if ((mask & (1 << i)) != 0)
             {
-                return i;
+                if (!isFirst)
+                    sb.Append(", ");
+
+                sb.Append(areaNames[i]);
+                isFirst = false;
             }
         }
-        return 0;
+
+        if (sb.Length == 0)
+            sb.Append("None");
+
+        return sb.ToString();
     }
 
-    private void ShowAreaSelectionDialog(SerializedProperty property, string[] areaNames)
+    private void ShowAreaSelectionMenu(SerializedProperty property, string[] areaNames)
     {
         GenericMenu menu = new GenericMenu();
 
         for (int i = 0; i < areaNames.Length; i++)
         {
             int index = i;
-            menu.AddItem(new GUIContent(areaNames[i]), (property.intValue & (1 << i)) != 0,
-                () => property.intValue ^= (1 << index));
+            bool isSelected = (property.intValue & (1 << i)) != 0;
+
+            menu.AddItem(new GUIContent(areaNames[i]), isSelected,
+                () =>
+                {
+                    property.intValue ^= (1 << index);
+                    property.serializedObject.ApplyModifiedProperties();
+                });
         }
 
         menu.ShowAsContext();

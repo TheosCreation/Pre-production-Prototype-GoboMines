@@ -2,7 +2,7 @@ using Unity.AI.Navigation;
 using UnityEngine;
 
 public class BakeOnComplete: MonoBehaviour
-{/*
+{
     private Generator generator { get; set; }
 
     private void Awake()
@@ -31,5 +31,5 @@ public class BakeOnComplete: MonoBehaviour
     private void HandleGenerationComplete()
     {
         GetComponent<NavMeshSurface>().BuildNavMesh();
-    }*/
+    }
 }

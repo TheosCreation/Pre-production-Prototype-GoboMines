@@ -18,9 +18,13 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 1
   currentDestination: {x: 0, y: 0, z: 0}
-  initialRadius: 10
-  radiusDecreaseRate: 0.5
-  minRadius: 3
-  spiralSpeed: 2
-  heightOffset: 0
-  navMeshAreaMask: -1
+  updatePathInterval: 0.2
+  stoppingDistance: 0.5
+  maxRandomDistance: 10
+  maxChaseDistance: 20
+  retreatCheckInterval: 0.5
+  raycastDistance: 2
+  slowdownFactor: 0.1
+  speedRecoveryRate: 2
+  Outside: -48
+  both: -32

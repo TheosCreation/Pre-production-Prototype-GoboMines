@@ -15,7 +15,7 @@ NavMeshProjectSettings:
     cost: 1
   - name: Outside
     cost: 1
-  - name: 
+  - name: Both
     cost: 1
   - name: 
     cost: 1

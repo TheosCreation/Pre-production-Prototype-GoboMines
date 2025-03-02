@@ -47,6 +47,7 @@ public class RoamingStateSO : BaseState
 
         if (IsTargetDetected(enemy))
         {
+            Debug.Log("changed");
             enemy.ChangeStateByType(nextState.GetType());
             return;
         }
@@ -78,12 +79,11 @@ public class RoamingStateSO : BaseState
 
                 if (distance < closestDistance)
                 {
-                    if (!Physics.Linecast(enemy.transform.position, collider.transform.position,
-                        LayerMask.GetMask("Default"))) 
-                    {
-                        closestDistance = distance;
-                        closestTarget = collider.transform;
-                    }
+                    
+                    closestDistance = distance;
+                    closestTarget = collider.transform;
+                    Debug.Log("target set");
+                    
                 }
             }
         }
