@@ -61,15 +61,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Pattern:
-        m_Texture: {fileID: 2800000, guid: d0b63dfa3e7ff4543bd97f7ed95f091a, type: 3}
+        m_Texture: {fileID: 2800000, guid: e93a8fd2c6f834a4db0b63332be0e388, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Primary:
-        m_Texture: {fileID: 11700000, guid: ce65d700a604a84479105cfae9802d7e, type: 2}
+        m_Texture: {fileID: 11700000, guid: 5ec150e7fb413924e864d7daad605fb9, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Secondary:
-        m_Texture: {fileID: 11700000, guid: 39f9b7b559600e743bc4b2cd880b46ad, type: 2}
+        m_Texture: {fileID: 11700000, guid: 35a7df59e3a9e5948a53056cdad50ec4, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_942a5f60666f41e688785bfd41abfaf8_Out_0_Texture2D:
