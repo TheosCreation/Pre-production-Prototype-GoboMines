@@ -373,6 +373,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1410642440}
     m_Modifications:
+    - target: {fileID: 2417515677568419230, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1880075821
+      objectReference: {fileID: 0}
     - target: {fileID: 6177946120646514272, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
       propertyPath: m_Name
       value: StartingZone

@@ -391,12 +391,12 @@ public class Generator : MonoBehaviour
                                   new Vector3((effectiveSize.x * GridManager.Instance.cellSize) / 2f, 0,
                                               (effectiveSize.y * GridManager.Instance.cellSize) / 2f);
 
-        GameObject roomObj = Instantiate(prefab, worldPosition, rotation, transform);
+        GameObject roomObj = Instantiate(prefab, worldPosition, rotation);
         Room room = roomObj.GetComponent<Room>();
-        roomObj.GetComponent<NetworkObject>().Spawn(true);
 
         InitilizeRoomAndGrid(room, bottomLeftCell, rotation);
 
+        roomObj.GetComponent<NetworkObject>().Spawn(true);
 
         return room;
     }
