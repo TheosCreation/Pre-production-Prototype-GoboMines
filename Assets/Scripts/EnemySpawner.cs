@@ -82,8 +82,6 @@ public class EnemySpawner : MonoBehaviour
         if (outsideSurface != null)
             outsideSurface.BuildNavMesh();
 
-        UiManager.Instance.OpenConnectionMenu();
-
         // Procedurally determine spawn areas.
         CalculateSpawnAreas();
 

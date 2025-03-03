@@ -9,6 +9,6 @@ public class ElevatorButton : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-        elevatorManager.ToggleElevator();
+        elevatorManager.ToggleElevatorServerRpc();
     }
 }

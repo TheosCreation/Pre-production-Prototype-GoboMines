@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class Generator : MonoBehaviour
 {
     public List<GameObject> roomPrefabs;
-    public GameObject initialRoomPrefab;
+    public Room initialRoom;
     public int maxRooms = 10;
     public float placementDelay = 0.5f;
 
@@ -42,7 +42,12 @@ public class Generator : MonoBehaviour
 
     private bool isGenerating = false;
 
-    void Start()
+    private void Start()
+    {
+        GameManager.Instance.onHostEvent.AddListener(Init);
+    }
+
+    public void Init()
     {
         if (useSeed)
         {
@@ -80,7 +85,14 @@ public class Generator : MonoBehaviour
         isGenerating = true;
 
         Vector2Int halfGridSize = new Vector2Int(GridManager.Instance.gridSize.x / 2, GridManager.Instance.gridSize.y / 2);
-        Room initialRoom = SpawnRoom(initialRoomPrefab, halfGridSize, Quaternion.identity, Vector2Int.zero);
+        Vector2Int effectiveSize = initialRoom.GetEffectiveSize(Quaternion.identity);
+        Vector2Int bottomLeftCell = new Vector2Int(
+            halfGridSize.x - Mathf.FloorToInt(effectiveSize.x / 2f),
+            halfGridSize.y - Mathf.FloorToInt(effectiveSize.y / 2f)
+        );
+
+        InitilizeRoomAndGrid(initialRoom, bottomLeftCell, Quaternion.identity);
+
         processedCells.Add(halfGridSize);
 
         yield return new WaitForSeconds(placementDelay);
@@ -164,13 +176,14 @@ public class Generator : MonoBehaviour
     {
         isGenerating = false;
         OnGenerationComplete?.Invoke();
-      /*  NavMeshSurface[] componentArr =  GetComponents<NavMeshSurface>();
-        foreach (NavMeshSurface component in componentArr)
-        {
-            component.BuildNavMesh();
-        }*/
+        /*  NavMeshSurface[] componentArr =  GetComponents<NavMeshSurface>();
+          foreach (NavMeshSurface component in componentArr)
+          {
+              component.BuildNavMesh();
+          }*/
 
 
+        UiManager.Instance.OpenPlayerHud();
 
     }
     // starts gen courutine kinda useless 
@@ -380,20 +393,21 @@ public class Generator : MonoBehaviour
         GameObject roomObj = Instantiate(prefab, worldPosition, rotation, transform);
         Room room = roomObj.GetComponent<Room>();
 
-        room.InitializeRoom();
+        InitilizeRoomAndGrid(room, bottomLeftCell, rotation);
 
-        foreach (Room.DoorInfo door in room.doors)
-        {
-            Vector2Int rotatedDirection = RotateDirection(door.direction, (int)rotation.eulerAngles.y);
-
-        }
-
-        placedRooms.Add(room);
-
-        GridManager.Instance.OccupyCells(room, bottomLeftCell, rotation);
 
         return room;
     }
+
+    public void InitilizeRoomAndGrid(Room room, Vector2Int bottomLeftCell, Quaternion roomRotation)
+    {
+        room.InitializeRoom();
+
+        placedRooms.Add(room);
+
+        GridManager.Instance.OccupyCells(room, bottomLeftCell, roomRotation);
+    }
+
     private Vector2Int GetDoorTargetCell(Vector2Int bottomLeftCell, Vector2Int effectiveSize, Vector2Int doorDir)
     {
         Vector2Int roomCenter = bottomLeftCell + new Vector2Int(effectiveSize.x / 2, effectiveSize.y / 2);

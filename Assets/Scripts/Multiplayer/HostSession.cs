@@ -22,7 +22,10 @@ public class HostSession : MonoBehaviour
 
     public async void JoinSession()
     {
+        UiManager.Instance.OpenLoadingPage();
         // Await the completion of the asynchronous StartSessionAsHost method
         await SessionManager.Instance.StartSessionAsHost();
+        GridManager.Instance.InitializeGrid();
+        GameManager.Instance.onHostEvent.Invoke();
     }
 }

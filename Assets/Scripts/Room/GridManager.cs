@@ -21,13 +21,8 @@ public class GridManager : Singleton<GridManager>
     public List<OreNode> ores;
     
     public bool ShowGizmos = true;
-    protected override void Awake()
-    {
-        base.Awake();
-        InitializeGrid();
-    }
 
-    void InitializeGrid()
+    public void InitializeGrid()
     {
         grid = new CellData[gridSize.x, gridSize.y];
         for (int x = 0; x < gridSize.x; x++)
