@@ -98,6 +98,16 @@ public class NetworkSpawnHandler : NetworkBehaviour
             LocalClientHandler.Instance.HandlePlayerSpawned(clientId);
         }
     }
+    [ServerRpc(RequireOwnership = false)]
+    public void RemovePlayerServerRpc(ulong clientId, ServerRpcParams serverRpcParams)
+    {
+        PlayerController playerToRemove = playersConnected.Find(player => player.OwnerClientId == clientId);
+        if (playerToRemove != null)
+        {
+            playersConnected.Remove(playerToRemove);
+            Debug.Log($"Removed player with Client ID: {clientId} due to death.");
+        }
+    }
 
     public void SpawnParticles(ParticleSystem prefab, Vector3 spawnPosition, Quaternion spawnRotation)
     {
