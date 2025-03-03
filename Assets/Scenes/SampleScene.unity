@@ -425,7 +425,8 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 800005831}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2417515677568419230, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
