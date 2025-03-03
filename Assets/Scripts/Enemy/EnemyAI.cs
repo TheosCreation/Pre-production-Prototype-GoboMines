@@ -155,10 +155,10 @@ public class EnemyAI : MonoBehaviour, IDamageable
         {
             hitParticle.Play();
         }
-        if (hitSound != null)
-        {
-            AudioSource.PlayClipAtPoint(hitSound, transform.position);
-        }
+        //if (hitSound != null)
+        //{
+        //    AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        //}
 
         IDamageable damageable = target.GetComponent<IDamageable>();
         if (damageable != null)
