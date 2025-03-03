@@ -161,6 +161,6 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
         lastDamageTime = Time.time;
         Health -= amount;
-        playerLook.TriggerScreenShake(amount, 2);
+        playerLook.TriggerScreenShake(1, amount*0.05f);
     }
 }
