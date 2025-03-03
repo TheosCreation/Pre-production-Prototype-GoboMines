@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using static GridManager;
 using Random = UnityEngine.Random;
@@ -392,6 +393,7 @@ public class Generator : MonoBehaviour
 
         GameObject roomObj = Instantiate(prefab, worldPosition, rotation, transform);
         Room room = roomObj.GetComponent<Room>();
+        roomObj.GetComponent<NetworkObject>().Spawn(true);
 
         InitilizeRoomAndGrid(room, bottomLeftCell, rotation);
 

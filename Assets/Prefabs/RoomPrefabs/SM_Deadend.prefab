@@ -90,6 +90,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c6a7145c586b328489addede4bc4f9d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3834086014796203632}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c6a7145c586b328489addede4bc4f9d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8186935748988437130}
     - targetCorrespondingSourceObject: {fileID: 2679765972242554139, guid: c6a7145c586b328489addede4bc4f9d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7869113859282638306}
@@ -128,6 +131,31 @@ MonoBehaviour:
   doors: []
   size: {x: 1, y: 1}
   spawnChance: 0.216
+--- !u!114 &-8186935748988437130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634482564480010537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1031348331
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &1255893581893787180 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7682402259774772652, guid: c6a7145c586b328489addede4bc4f9d5, type: 3}
@@ -283,6 +311,14 @@ PrefabInstance:
     - target: {fileID: 127537070303770290, guid: a32d78dc9926aed4492426e285b57b0e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1838817027161164125, guid: a32d78dc9926aed4492426e285b57b0e, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 851331308
+      objectReference: {fileID: 0}
+    - target: {fileID: 1838817027161164125, guid: a32d78dc9926aed4492426e285b57b0e, type: 3}
+      propertyPath: SynchronizeTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4417869013057050159, guid: a32d78dc9926aed4492426e285b57b0e, type: 3}
       propertyPath: m_Name
