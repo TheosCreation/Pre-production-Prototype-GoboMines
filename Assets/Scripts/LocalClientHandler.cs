@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LocalClientHandler : Singleton<LocalClientHandler>
 {
@@ -10,24 +11,31 @@ public class LocalClientHandler : Singleton<LocalClientHandler>
     {
         base.Awake();
         tempCamera = GetComponentInChildren<Camera>();
+
+        // Subscribe to the interact input event.
+        InputManager.Instance.Input.Player.Interact.started += OnCycleCamera;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        // Only check for input when the temporary camera is active.
-        if (tempCamera.gameObject.activeSelf)
-        {
-            // Using the InputManager's Player.Interact action instead of Input.GetMouseButtonDown(0)
-            if (InputManager.Instance.Input.Player.Interact.triggered)
-            {
-                if (NetworkSpawnHandler.Instance.playersConnected.Count == 0)
-                    return;
+        // Unsubscribe from the input event.
+        if (InputManager.Instance != null && InputManager.Instance.Input != null)
+            InputManager.Instance.Input.Player.Interact.started -= OnCycleCamera;
+    }
 
-                // Cycle to the next player
-                currentCameraIndex = (currentCameraIndex + 1) % NetworkSpawnHandler.Instance.playersConnected.Count;
-                SetCameraToPlayer(currentCameraIndex);
-            }
-        }
+    // This event handler is called when the player presses the interact key.
+    private void OnCycleCamera(InputAction.CallbackContext ctx)
+    {
+        // Only process if the temporary camera is active.
+        if (!tempCamera.gameObject.activeSelf)
+            return;
+
+        if (NetworkSpawnHandler.Instance.playersConnected.Count == 0)
+            return;
+
+        // Cycle to the next player's camera.
+        currentCameraIndex = (currentCameraIndex + 1) % NetworkSpawnHandler.Instance.playersConnected.Count;
+        SetCameraToPlayer(currentCameraIndex);
     }
 
     public void TempCamera(bool enabled)
@@ -58,6 +66,6 @@ public class LocalClientHandler : Singleton<LocalClientHandler>
         TempCamera(false);
         PauseManager.Instance.SetPaused(false);
         UiManager.Instance.OpenPlayerHud();
-        // Apply settings to the player's look sensitivity and other options as needed.
+        // Additional settings for player look sensitivity can be applied here.
     }
 }

@@ -46,12 +46,20 @@ public class PlayerController : NetworkBehaviour, IDamageable
         {
             return;
         }
-       
+
         LocalClientHandler.Instance.TempCamera(true);
         LocalClientHandler.Instance.SetCameraToPlayer(0);
-        Destroy(gameObject);
+
+        if (NetworkSpawnHandler.Instance != null)
+        {
+            NetworkSpawnHandler.Instance.RemovePlayerServerRpc(OwnerClientId, default);
+
+        }
+
         NetworkObject.Despawn(gameObject);
+        Destroy(gameObject);
     }
+
 
     private void OnInteractStarted(InputAction.CallbackContext ctx) => Interact();
     private void OnInventoryStarted(InputAction.CallbackContext ctx) => OpenCloseInventory();
