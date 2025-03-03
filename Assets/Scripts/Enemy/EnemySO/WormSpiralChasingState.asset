@@ -17,14 +17,13 @@ MonoBehaviour:
   detectionRange: 15
   attackRange: 2
   attackCooldown: 1
-  currentDestination: {x: 0, y: 0, z: 0}
+  currentDestination: {x: -24.314148, y: 0.13055831, z: 3.4011898}
+  allowedAreas: -32
   updatePathInterval: 0.2
   stoppingDistance: 0.5
   maxRandomDistance: 10
-  maxChaseDistance: 20
-  retreatCheckInterval: 0.5
-  raycastDistance: 2
+  raycastDistance: 1
   slowdownFactor: 0.1
-  speedRecoveryRate: 2
+  speedRecoveryRate: 3
   Outside: -48
   both: -32

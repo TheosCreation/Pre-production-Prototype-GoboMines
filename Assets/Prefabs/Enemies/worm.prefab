@@ -827,7 +827,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
-  m_WalkableMask: 23
+  m_WalkableMask: 16
   m_ObstacleAvoidanceType: 4
 --- !u!114 &8005022079470497945
 MonoBehaviour:
@@ -849,9 +849,10 @@ MonoBehaviour:
   target: {fileID: 0}
   timer: {fileID: 0}
   hitParticle: {fileID: 0}
-  hitSound: {fileID: 0}
+  hitSounds: []
   isDead: 0
   health: 100
+  damage: 10
 --- !u!95 &1917854557519359979
 Animator:
   serializedVersion: 7
