@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -23,7 +24,35 @@ public class PlayerController : NetworkBehaviour, IDamageable
     public AudioClip[] HitSounds { get => hitSounds; set => hitSounds = value; }
     
     [SerializeField] private int health = 100;
-    public int Health { get => health; set => health = value; }
+
+    [SerializeField] private float damageCooldown = 1f; 
+    private float lastDamageTime = -Mathf.Infinity;
+    public int Health { 
+        get => health;
+        set
+        {
+            health = value;
+            if (health < 0)
+            {
+                Die();
+            }
+
+        }
+    }
+
+    private void Die()
+    {
+        if (!IsOwner)
+        {
+            return;
+        }
+       
+        LocalClientHandler.Instance.TempCamera(true);
+        LocalClientHandler.Instance.SetCameraToPlayer(0);
+        Destroy(gameObject);
+        NetworkObject.Despawn(gameObject);
+    }
+
     private void OnInteractStarted(InputAction.CallbackContext ctx) => Interact();
     private void OnInventoryStarted(InputAction.CallbackContext ctx) => OpenCloseInventory();
 
@@ -112,12 +141,26 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     public void TakeDamage(int amount, PlayerController fromPlayer)
     {
+        if (Time.time - lastDamageTime < damageCooldown)
+        {
+            return;
+        };
+
+        lastDamageTime = Time.time;
+
         ulong attackerId = fromPlayer.OwnerClientId;
         Health -= amount;
     }
 
     public void TakeDamage(int amount, GameObject fromObject)
     {
+        if (Time.time - lastDamageTime < damageCooldown)
+        {
+            return;
+        }
+
+        lastDamageTime = Time.time;
         Health -= amount;
+        playerLook.TriggerScreenShake(amount, 2);
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,42 +8,37 @@ public class SpiralChasingStateSO : BaseState
     [Header("Chase Settings")]
     [SerializeField] private float updatePathInterval = 0.2f;
     [SerializeField] private float stoppingDistance = 0.5f;
-    [SerializeField] private float maxRandomDistance = 10f; // Maximum distance for random position
+    [SerializeField] private float maxChaseRadius = 10f;
+    [SerializeField] private float spiralValue = 10f; 
+    [Header("NavMesh Area Costs")]
+    [SerializeField, NavMeshAreaMask]
+    private int outsideArea = 0; 
+    [SerializeField, NavMeshAreaMask]
+    private int insideArea = 1;  
+    [SerializeField] private float outsideAreaCost = 1f;  
+    [SerializeField] private float insideAreaCost = 10f;  
 
-    [Header("Obstacle Detection")]
-    [SerializeField] private float raycastDistance = 2f;
-    [SerializeField] private float slowdownFactor = 0.5f;
-    [SerializeField] private float speedRecoveryRate = 2f;
+    [Header("Transition Effects")]
+    [SerializeField] private float transitionSlowdownFactor = 0.5f;
+    [SerializeField] private float transitionSlowdownDuration = 1f; 
+    [SerializeField] private ParticleSystem transitionParticleEffect; 
 
-    [Header("Area Selection")]
-    [SerializeField]
-    [NavMeshAreaMask]
-    private int Outside = 0;
-    [SerializeField]
-    [NavMeshAreaMask]
-    private int both = 0;
-
-
-    private float originalMoveSpeed;
-    private bool isSlowedDown = false;
-    private float currentSlowdownTime = 0f;
     private float pathUpdateTimer = 0f;
-
-
-    private bool destinationReached = false;
-    private float destinationCheckTimer = 0.5f;
+    private float spiralAngle = 0f;
+    private bool transitionTriggered = false;
 
     public override void OnEnter(EnemyAI enemy)
     {
-        allowedAreas = Outside;
         base.OnEnter(enemy);
-        originalMoveSpeed = moveSpeed;
-        isSlowedDown = false;
-        currentSlowdownTime = 0f;
+        NavMeshAgent agent = enemy.GetAgent();
+        agent.stoppingDistance = stoppingDistance;
+
+        agent.SetAreaCost(outsideArea, outsideAreaCost);
+        agent.SetAreaCost(insideArea, insideAreaCost);
+
+        spiralAngle = 0f;
         pathUpdateTimer = 0f;
-        destinationReached = false;
-        enemy.GetAgent().areaMask = allowedAreas;
-        enemy.GetAgent().stoppingDistance = stoppingDistance;
+        transitionTriggered = false;
 
         FindNewDestination(enemy);
     }
@@ -58,40 +54,15 @@ public class SpiralChasingStateSO : BaseState
             return;
         }
 
-        CheckIfDestinationReached(enemy);
-
-        if (!destinationReached)
+        pathUpdateTimer -= Time.deltaTime;
+        if (pathUpdateTimer <= 0f)
         {
-            pathUpdateTimer -= Time.deltaTime;
-            if (pathUpdateTimer <= 0)
+            pathUpdateTimer = updatePathInterval;
+
+            if (!enemy.GetAgent().pathPending &&
+                enemy.GetAgent().remainingDistance <= enemy.GetAgent().stoppingDistance)
             {
-                pathUpdateTimer = updatePathInterval;
-
-                if (!destinationReached && !enemy.GetAgent().pathPending)
-                {
-                    if (!enemy.GetAgent().hasPath || enemy.GetAgent().pathStatus == NavMeshPathStatus.PathInvalid)
-                    {
-                        FindNewDestination(enemy);
-                    }
-                }
-            }
-        }
-
-        CheckForObstacles(enemy);
-
-        if (isSlowedDown)
-        {
-            currentSlowdownTime += Time.deltaTime;
-            if (currentSlowdownTime >= 1f)
-            {
-                float newSpeed = Mathf.MoveTowards(enemy.GetAgent().speed, originalMoveSpeed,
-                    speedRecoveryRate * Time.deltaTime);
-                enemy.SetMoveSpeed(newSpeed);
-
-                if (Mathf.Approximately(newSpeed, originalMoveSpeed))
-                {
-                    isSlowedDown = false;
-                }
+                FindNewDestination(enemy);
             }
         }
 
@@ -100,55 +71,13 @@ public class SpiralChasingStateSO : BaseState
         {
             enemy.PerformAttack();
         }
-    }
 
-    private void CheckIfDestinationReached(EnemyAI enemy)
-    {
-        NavMeshAgent agent = enemy.GetAgent();
-
-        if (!agent.pathPending)
+        // Safeguard: if the agent appears stuck, reset its path.
+        if (enemy.GetAgent().velocity.sqrMagnitude < 0.01f && enemy.GetAgent().hasPath)
         {
-            if (agent.remainingDistance <= agent.stoppingDistance)
-            {
-                if (!agent.hasPath || agent.velocity.sqrMagnitude < 0.1f)
-                {
-                    if (!destinationReached)
-                    {
-                        destinationReached = true;
-
-                        allowedAreas = both;
-                        agent.areaMask = allowedAreas;
-
-                        enemy.StartCoroutine(CheckGroundLayerAfterDelay(enemy, 0.5f));
-                    }
-                }
-            }
+            enemy.GetAgent().ResetPath();
+            FindNewDestination(enemy);
         }
-    }
-
-    private System.Collections.IEnumerator CheckGroundLayerAfterDelay(EnemyAI enemy, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (Physics.Raycast(enemy.transform.position, Vector3.down, out RaycastHit hit, 2f))
-        {
-            int defaultLayer = 0; 
-            int outsideLayer = LayerMask.NameToLayer("Outside");
-
-            if (hit.collider.gameObject.layer == defaultLayer)
-            {
-                allowedAreas = both;
-                enemy.GetAgent().areaMask = allowedAreas;
-            }
-            else if (hit.collider.gameObject.layer == outsideLayer)
-            {
-                allowedAreas = Outside;
-                enemy.GetAgent().areaMask = allowedAreas;
-            }
-        }
-
-        destinationReached = false;
-        FindNewDestination(enemy);
     }
 
     private void FindNewDestination(EnemyAI enemy)
@@ -158,47 +87,65 @@ public class SpiralChasingStateSO : BaseState
 
         if (target != null)
         {
-            NavMeshPath path = new NavMeshPath();
-            if (agent.CalculatePath(target.position, path) && path.status == NavMeshPathStatus.PathComplete)
+            // Calculate a spiral offset around the target.
+            float radius = Mathf.Clamp(Vector3.Distance(enemy.transform.position, target.position),
+                                         stoppingDistance, maxChaseRadius);
+            Vector3 offset = new Vector3(Mathf.Cos(spiralAngle), 0, Mathf.Sin(spiralAngle)) * radius;
+            currentDestination = target.position + offset;
+
+            // Increase the angle for the spiral effect.
+            spiralAngle += Mathf.PI / spiralValue;
+
+            int outsideLayer = LayerMask.NameToLayer("Outside");
+            RaycastHit destHit;
+            if (Physics.Raycast(currentDestination + Vector3.up * 5f, Vector3.down, out destHit, 10f))
             {
-                currentDestination = target.position;
-                agent.SetDestination(currentDestination);
-                return;
+                if (destHit.collider.gameObject.layer == outsideLayer)
+                {
+                    RaycastHit currentHit;
+                    if (Physics.Raycast(enemy.transform.position + Vector3.up * 5f, Vector3.down, out currentHit, 10f))
+                    {
+                        if (currentHit.collider.gameObject.layer != outsideLayer && !transitionTriggered)
+                        {
+                            transitionTriggered = true;
+                            float originalSpeed = agent.speed;
+                            enemy.SetMoveSpeed(originalSpeed * transitionSlowdownFactor);
+                            if (transitionParticleEffect != null)
+                            {
+                                transitionParticleEffect.Play();
+                            }
+                            enemy.StartCoroutine(ResetTransition(enemy, originalSpeed));
+                        }
+                    }
+                }
             }
-        }
 
-        NavMeshHit hit;
-        Vector3 randomDirection = Random.insideUnitSphere * maxRandomDistance;
-        randomDirection += enemy.transform.position;
-
-        if (NavMesh.SamplePosition(randomDirection, out hit, maxRandomDistance, agent.areaMask))
-        {
-            currentDestination = hit.position;
             agent.SetDestination(currentDestination);
+        }
+        else
+        {
+            NavMeshHit hit;
+            Vector3 randomDirection = Random.insideUnitSphere * maxChaseRadius + enemy.transform.position;
+            if (NavMesh.SamplePosition(randomDirection, out hit, maxChaseRadius, agent.areaMask))
+            {
+                currentDestination = hit.position;
+                agent.SetDestination(currentDestination);
+            }
         }
     }
 
-    private void CheckForObstacles(EnemyAI enemy)
+    private IEnumerator ResetTransition(EnemyAI enemy, float originalSpeed)
     {
-        if (Physics.Raycast(enemy.transform.position, enemy.transform.forward, out RaycastHit hit, raycastDistance))
-        {
-            if (hit.collider.gameObject.CompareTag("Untagged"))
-            {
-                if (!isSlowedDown)
-                {
-                    originalMoveSpeed = enemy.GetAgent().speed;
-                    enemy.SetMoveSpeed(originalMoveSpeed * slowdownFactor);
-                    isSlowedDown = true;
-                    currentSlowdownTime = 0f;
-                }
-            }
-        }
+        yield return new WaitForSeconds(transitionSlowdownDuration);
+        enemy.SetMoveSpeed(originalSpeed);
+        transitionTriggered = false;
     }
 
     public override void OnExit(EnemyAI enemy)
     {
         base.OnExit(enemy);
-
-        enemy.SetMoveSpeed(originalMoveSpeed);
+        NavMeshAgent agent = enemy.GetAgent();
+        agent.SetAreaCost(outsideArea, outsideAreaCost);
+        agent.SetAreaCost(insideArea, insideAreaCost);
     }
 }
