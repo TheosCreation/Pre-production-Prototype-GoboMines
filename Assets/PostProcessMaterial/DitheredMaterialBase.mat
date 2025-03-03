@@ -93,10 +93,10 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _BlendOp: 0
-    - _ColorRes: 512
+    - _ColorRes: 128
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DitherSpread: 0.006
+    - _DitherSpread: 0.01
     - _DstBlend: 0
     - _EnableExternalAlpha: 0
     - _Pixelate: 32

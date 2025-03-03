@@ -116,11 +116,11 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
-  m_Dithering: 0
+  m_Dithering: 1
   m_ClearDepth: 1
   m_AllowXRRendering: 1
   m_AllowHDROutput: 1
@@ -858,6 +858,7 @@ MonoBehaviour:
   hitParticles: {fileID: 383448402169193323, guid: ee8ef27bbd4210446950a0d80902fcb3, type: 3}
   hitSounds: []
   health: 100
+  damageCooldown: 1
 --- !u!114 &1213804237299153649
 MonoBehaviour:
   m_ObjectHideFlags: 0
