@@ -26,7 +26,7 @@ public class Weapon : Item
     public bool isJammed = false;
     public bool isUnJamming = false;
     [SerializeField] protected AudioClip jammedSound;
-    private Timer unJamTimer;
+    protected Timer unJamTimer;
     [Range(0.0f, 1.0f)] public float jamChance = 0.3f;
     public float unJamTime = 0.3f;
 
@@ -82,22 +82,15 @@ public class Weapon : Item
         otherAudioSource.PlayOneShot(jammedSound);
     }
 
+    protected void FinishUnJamming()
+    {
+        isUnJamming = false;
+        isJammed = false;
+    }
     public override void StartSpecialAction()
     {
         if(!IsOwner) return;
 
-        if (isJammed && !isUnJamming)
-        {
-            isUnJamming = true;
-            unJamTimer.SetTimer(unJamTime, FinishUnJamming);
-            animator.SetBool("Jammed", false);
-        }
-    }
-
-    private void FinishUnJamming()
-    {
-        isUnJamming = false;
-        isJammed = false;
     }
 
     protected void CheckForJam()

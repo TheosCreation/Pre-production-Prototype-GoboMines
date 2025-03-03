@@ -31,6 +31,16 @@ public class Pickaxe : Weapon
 
             if (damageable != null)
             {
+                // Only the server should handle sound creation
+                if (!IsServer) return;
+
+                if (damageable.HitSounds.Length > 0)
+                {
+                    AudioClip hitSound = damageable.HitSounds[Random.Range(0, damageable.HitSounds.Length)];
+                    NetworkSpawnHandler.Instance.SpawnSound(hitSound, hit.point);
+                }
+
+                NetworkSpawnHandler.Instance.SpawnParticles(damageable.HitParticlePrefab, hit.point, Quaternion.LookRotation(-hit.normal));
 
                 damageable.TakeDamage(damage, player);
             }

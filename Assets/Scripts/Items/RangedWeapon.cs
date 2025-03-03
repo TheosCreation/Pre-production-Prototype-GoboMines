@@ -147,7 +147,16 @@ public class RangedWeapon : Weapon
     {
         base.CantAttackAction();
 
-        StartReload();
+        if (isJammed && !isUnJamming)
+        {
+            isUnJamming = true;
+            unJamTimer.SetTimer(unJamTime, FinishUnJamming);
+            animator.SetBool("Jammed", false);
+        }
+        else
+        {
+            StartReload();
+        }
     }
 
     private void StartReload()

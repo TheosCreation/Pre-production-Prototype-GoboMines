@@ -4,11 +4,10 @@ public class OreNode : MonoBehaviour, IDamageable
 {
     public int totalOre = 100; // Total ore in the node
     private int initialOre;
-    public ParticleSystem sparkleEffect; // Sparkle effect when in vicinity
-    public ParticleSystem dustEffect; // Dust effect when mining
-    
-    public ParticleSystem HitParticlePrefab { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public AudioClip HitSound { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public ParticleSystem dustEffectPrefab; // Dust effect when mining
+    public ParticleSystem HitParticlePrefab { get => dustEffectPrefab; set => dustEffectPrefab = value; }
+    [SerializeField] private AudioClip[] hitSounds;
+    public AudioClip[] HitSounds { get => hitSounds; set => hitSounds = value; }
 
     private bool isDead = false;
     public bool IsDead { get => isDead; set => isDead = value; }
@@ -72,11 +71,6 @@ public class OreNode : MonoBehaviour, IDamageable
             Debug.Log("Ore Mined: " + oreToMine);
         }
 
-        if (dustEffect != null)
-        {
-            dustEffect.Play();
-        }
-
         if (Health <= 0)
         {
             DestroyOreNode();
@@ -96,12 +90,6 @@ public class OreNode : MonoBehaviour, IDamageable
         }
 
         Health -= amount;
-
-        // Play dust effect if available
-        if (dustEffect != null)
-        {
-            dustEffect.Play();
-        }
 
         // If no ore or health remains, destroy the node
         if (totalOre <= 0 || Health <= 0)

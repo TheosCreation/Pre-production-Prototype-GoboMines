@@ -19,8 +19,8 @@ public class PlayerController : NetworkBehaviour, IDamageable
     [SerializeField] private ParticleSystem hitParticles;
     public ParticleSystem HitParticlePrefab { get => hitParticles; set => hitParticles = value; }
 
-    [SerializeField] private AudioClip hitSound;
-    public AudioClip HitSound { get => hitSound; set => hitSound = value; }
+    [SerializeField] private AudioClip[] hitSounds;
+    public AudioClip[] HitSounds { get => hitSounds; set => hitSounds = value; }
     private int health = 100;
     public int Health { get => health; set => health = value; }
     private void OnInteractStarted(InputAction.CallbackContext ctx) => Interact();

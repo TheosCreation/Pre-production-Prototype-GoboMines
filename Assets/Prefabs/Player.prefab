@@ -1157,6 +1157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a1c2d055d7fa741ac3ee55d7d69079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxWeight: 100
 --- !u!167 &-8389024638368381983
 AudioReverbZone:
   m_ObjectHideFlags: 0
@@ -1520,6 +1521,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2729693625962773825}
     m_Modifications:
+    - target: {fileID: 965971994913663468, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6104344713988259404, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1571,6 +1576,14 @@ PrefabInstance:
     - target: {fileID: 7297852592851933183, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.0383
+      objectReference: {fileID: 0}
+    - target: {fileID: 7345620120843948508, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0387
+      objectReference: {fileID: 0}
+    - target: {fileID: 7345620120843948508, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0943
       objectReference: {fileID: 0}
     - target: {fileID: 8315762631109156069, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
       propertyPath: m_Name

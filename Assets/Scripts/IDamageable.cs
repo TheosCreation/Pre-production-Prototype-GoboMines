@@ -3,7 +3,7 @@ using UnityEngine;
 interface IDamageable
 {
     ParticleSystem HitParticlePrefab { get; set; }
-    AudioClip HitSound { get; set; }
+    AudioClip[] HitSounds { get; set; }
 
     bool IsDead { get; set; }
 

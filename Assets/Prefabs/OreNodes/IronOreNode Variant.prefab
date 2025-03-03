@@ -64,6 +64,30 @@ PrefabInstance:
       propertyPath: totalOre
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 8206873785357955189, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: dustEffectPrefab
+      value: 
+      objectReference: {fileID: 3770685137807421089, guid: a7323e0fe316d93468d8c3c2facc2269, type: 3}
+    - target: {fileID: 8206873785357955189, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: hitSounds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206873785357955189, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: 'hitSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 9e20dfd6855ce4f4bacb3b2a462499d5, type: 3}
+    - target: {fileID: 8206873785357955189, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: 'hitSounds.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 05b1873ff5c803149980345ee5698798, type: 3}
+    - target: {fileID: 8206873785357955189, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: 'hitSounds.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 05561a29e18ac9240a2243e938b1fa7e, type: 3}
+    - target: {fileID: 8206873785357955189, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
+      propertyPath: 'hitSounds.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 5a36b70c9310cc541a53e0c8edfb1f86, type: 3}
     - target: {fileID: 8692150951991165957, guid: 0bebfed85dc02b1449a4acb7ad06ff17, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

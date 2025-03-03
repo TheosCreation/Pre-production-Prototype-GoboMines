@@ -14,10 +14,12 @@ public class PlayerHud : UiPage
         weightBar.UpdateBar(weight / maxWeight);
     }
 
-    public void UpdateAmmo(float ammo)
+    public void UpdateAmmo(int ammo, int ammoReserve)
     {
-
+        ammoLeftTextBox.text = ammo.ToString();
+        ammoReserveTextBox.text = ammo.ToString();
     }
+
     public void UpdateInteractText(string interactionText)
     {
         interactionTextBox.text = interactionText;
