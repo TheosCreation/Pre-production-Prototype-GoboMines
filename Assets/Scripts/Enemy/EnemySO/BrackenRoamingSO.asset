@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoamingStateSO
   moveSpeed: 5
   rotationSpeed: 500
-  detectionRange: 15
+  detectionRange: 30
   attackRange: 2
   attackCooldown: 1
-  currentDestination: {x: -44.57591, y: -0.14166665, z: 51.99639}
-  roamRadius: 10
+  currentDestination: {x: -10.208854, y: 0.040941894, z: -44.742313}
+  allowedAreas: -56
+  roamRadius: 500
   nextState: {fileID: 11400000, guid: c4a2dddd7d1d9d94eb780653dbdeb63f, type: 2}
-  allowedAreas: -1
   maxPathLength: 1000
   maxCornerCount: 10
   detectionCheckInterval: 0.5

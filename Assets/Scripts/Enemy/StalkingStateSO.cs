@@ -6,7 +6,7 @@ public class StalkingStateSO : BaseState
 {
     public float lineOfSightDistance = 15f;
     public float playerViewThreshold = 0.8f;
-
+    public bool enableDebugging = true;
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
@@ -23,6 +23,11 @@ public class StalkingStateSO : BaseState
         {
             enemy.GetAgent().SetDestination(enemy.GetTarget().position);
         }
+        if (enableDebugging)
+        {
+            Vector3 direction = (enemy.GetTarget().position - enemy.transform.position).normalized;
+            Debug.DrawRay(enemy.transform.position, direction * lineOfSightDistance, HasLineOfSight(enemy) ? Color.green : Color.red);
+        }
     }
 
     private bool HasLineOfSight(EnemyAI enemy)
@@ -30,12 +35,16 @@ public class StalkingStateSO : BaseState
         Transform target = enemy.GetTarget();
         if (target == null) return false;
 
-        Vector3 direction = (target.position - enemy.transform.position).normalized;
-        if (Physics.Raycast(enemy.transform.position, direction, out RaycastHit hit, lineOfSightDistance))
+        NavMeshHit hit;
+        if (NavMesh.Raycast(enemy.transform.position, target.position, out hit, NavMesh.AllAreas))
         {
-            return hit.collider.CompareTag("Player");
+            if (enableDebugging)
+            {
+                Debug.DrawRay(enemy.transform.position, hit.position - enemy.transform.position, Color.magenta);
+            }
+            return false;
         }
-        return false;
+        return true;
     }
 
     private bool IsPlayerLookingAtMe(EnemyAI enemy)
@@ -44,6 +53,10 @@ public class StalkingStateSO : BaseState
         if (target == null) return false;
 
         Vector3 toEnemy = (enemy.transform.position - target.position).normalized;
+        if (enableDebugging)
+        {
+            Debug.DrawRay(target.position, target.forward * 5f, Color.blue);
+        }
         return Vector3.Dot(target.forward, toEnemy) > playerViewThreshold;
     }
 

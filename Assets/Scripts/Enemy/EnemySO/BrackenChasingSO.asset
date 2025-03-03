@@ -18,3 +18,4 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 1
   currentDestination: {x: 0, y: 0, z: 0}
+  allowedAreas: 8
