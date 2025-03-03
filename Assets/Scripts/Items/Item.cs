@@ -9,6 +9,8 @@ public class Item : NetworkBehaviour, IInteractable
     public bool IkLeftHandOn = false;
     public bool IkRightHandOn = true;
     public bool isHeld = false;
+    public bool canSell = false;
+    public ItemSO itemSO;
 
     protected BoxCollider bc;
     protected Rigidbody rb;
