@@ -48,7 +48,7 @@ float DistanceAttenuation(float distanceSqr, half2 distanceAttenuation)
     float distance = sqrt(distanceSqr);
     float range = rsqrt(distanceAttenuationFloat.x);
     float distance01 = saturate(1 - (distance / range));
-    float lightAtten = pow(distance01, 0.1);
+    float lightAtten = pow(distance01, 2);
     return lightAtten;
 }
 
