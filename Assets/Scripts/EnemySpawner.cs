@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
 using UnityEngine.AI;
+using Unity.Netcode;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -272,7 +273,8 @@ public class EnemySpawner : MonoBehaviour
             if (spawnPos != Vector3.zero)
             {
                 int randIdx = Random.Range(0, insideEnemyPrefabs.Length);
-                Instantiate(insideEnemyPrefabs[randIdx], spawnPos, Quaternion.identity);
+                GameObject enemy = Instantiate(insideEnemyPrefabs[randIdx], spawnPos, Quaternion.identity);
+                enemy.GetComponent<NetworkObject>().Spawn();
             }
             else
             {
