@@ -7,6 +7,7 @@ public class StalkingStateSO : BaseState
     public float lineOfSightDistance = 15f;
     public float playerViewThreshold = 0.8f;
     public bool enableDebugging = true;
+
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
@@ -15,6 +16,12 @@ public class StalkingStateSO : BaseState
 
     public override void OnUpdate(EnemyAI enemy)
     {
+        if (enemy.GetTarget() != null && Vector3.Distance(enemy.transform.position, enemy.GetTarget().position) < attackRange)
+        {
+            enemy.ChangeState<AttackingStateSO>(); 
+            return;
+        }
+
         if (IsPlayerLookingAtMe(enemy))
         {
             enemy.ChangeState<HidingStateSO>();
@@ -36,7 +43,7 @@ public class StalkingStateSO : BaseState
         if (target == null) return false;
 
         NavMeshHit hit;
-        if (NavMesh.Raycast(enemy.transform.position, target.position, out hit, NavMesh.AllAreas))
+        if (NavMesh.Raycast(enemy.transform.position, target.position, out hit, ~0))
         {
             if (enableDebugging)
             {

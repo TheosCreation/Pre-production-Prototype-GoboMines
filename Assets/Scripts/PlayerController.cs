@@ -21,7 +21,8 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     [SerializeField] private AudioClip hitSound;
     public AudioClip HitSound { get => hitSound; set => hitSound = value; }
-    private int health = 100;
+
+    [SerializeField] private int health = 100;
     public int Health { get => health; set => health = value; }
     private void OnInteractStarted(InputAction.CallbackContext ctx) => Interact();
     private void OnInventoryStarted(InputAction.CallbackContext ctx) => OpenCloseInventory();
@@ -117,6 +118,6 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     public void TakeDamage(int amount, GameObject fromObject)
     {
-        throw new System.NotImplementedException();
+        Health -= amount;
     }
 }

@@ -27,7 +27,6 @@ public class AttackingStateSO : BaseState
 
         if (IsWithinAttackRange(enemy))
         {
-            agent.isStopped = true;
             if (Time.time >= nextAttackTime)
             {
                 enemy.PerformAttack();
@@ -38,7 +37,6 @@ public class AttackingStateSO : BaseState
         }
         else
         {
-            agent.isStopped = false;
             enemy.SetMoveSpeed(moveSpeed);
         }
 

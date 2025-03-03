@@ -15,9 +15,9 @@ public abstract class BaseState : ScriptableObject, IEnemyState
 
     [Header("Destination")]
     public Vector3 currentDestination;
+    
     [SerializeField]
     [NavMeshAreaMask]
-
     protected int allowedAreas = 0;
     public virtual void OnEnter(EnemyAI enemy)
     {
