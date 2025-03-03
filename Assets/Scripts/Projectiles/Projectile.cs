@@ -126,13 +126,13 @@ public class Projectile : NetworkBehaviour
             {
                 //m_weaponUser.OnHit(true); //for a hitmarker indicator
                 damageable.TakeDamage((int)(m_damage * headShotMultiplier), m_weaponUser);
-                HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSound);
+                HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSounds);
             }
             else
             {
                 // m_weaponUser.OnHit(false); // for a hitmarker indicator
                 damageable.TakeDamage(m_damage, m_weaponUser);
-                HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSound);
+                HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSounds);
             }
         }
         else
@@ -150,7 +150,7 @@ public class Projectile : NetworkBehaviour
     }
 
 
-    protected void HitDamageable(Vector3 hitPosition, Vector3 normal, ParticleSystem particleToSpawn, AudioClip audioToPlay)
+    protected void HitDamageable(Vector3 hitPosition, Vector3 normal, ParticleSystem particleToSpawn, AudioClip[] audioToPlay)
     {
         if (!IsServer) return; // Only the server spawns particles and sounds
 
@@ -166,8 +166,12 @@ public class Projectile : NetworkBehaviour
         float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constantMax;
         NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
 
-        // Play hit sound
-        //CreateHitSound(audioToPlay, hitPosition);
+        if (audioToPlay.Length > 0)
+        {
+            AudioClip hitSound = audioToPlay[Random.Range(0, audioToPlay.Length)];
+            NetworkSpawnHandler.Instance.SpawnSound(hitSound, hitPosition);
+        }
+
     }
 
     protected void HitOther(Vector3 hitPosition, Vector3 wallNormal, string tag)
@@ -186,24 +190,10 @@ public class Projectile : NetworkBehaviour
         float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constantMax;
         NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
 
-        // Play hit sound based on tag
-        //AudioClip clipToPlay = null;
-        //switch (tag)
+        //if (audioToPlay.Length > 0)
         //{
-        //    case "Stone":
-        //        clipToPlay = GameManager.Instance.prefabs.stoneImpactSound;
-        //        break;
-        //    case "Wood":
-        //        clipToPlay = GameManager.Instance.prefabs.woodImpactSound;
-        //        break;
-        //    default:
-        //        Debug.Log($"Hit sounds for tag: {tag} not implemented");
-        //        break;
-        //}
-
-        //if (clipToPlay != null)
-        //{
-        //    CreateHitSound(clipToPlay, hitPosition);
+        //    AudioClip hitSound = audioToPlay[Random.Range(0, audioToPlay.Length)];
+        //    NetworkSpawnHandler.Instance.SpawnSound(hitSound, hitPosition);
         //}
     }
 }

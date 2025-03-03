@@ -10,6 +10,7 @@ public class NetworkSpawnHandler : NetworkBehaviour
 
     public PlayerController playerPrefab;
     public float playerHeight = 2f;
+    public AudioSource audioSourceExamplePrefab;
 
     private void Awake()
     {
@@ -96,5 +97,30 @@ public class NetworkSpawnHandler : NetworkBehaviour
             Debug.Log($"Client {clientId} notified of player spawn.");
             LocalClientHandler.Instance.HandlePlayerSpawned(clientId);
         }
+    }
+
+    public void SpawnParticles(ParticleSystem prefab, Vector3 spawnPosition, Quaternion spawnRotation)
+    {
+        // Only the server should handle sound creation
+        if (!IsServer) return;
+
+        // Spawn hit particles
+        ParticleSystem hitParticles = Instantiate(prefab, spawnPosition, spawnRotation);
+        NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+
+        // Despawn the sound maker after the clip finishes
+        float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constant;
+        NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
+    }
+
+    public void SpawnSound(AudioClip audioClip, Vector3 spawnPosition, float volume = 1.0f)
+    {
+        AudioSource soundSource = Instantiate(audioSourceExamplePrefab, spawnPosition, Quaternion.identity);
+        NetworkObject netObj = soundSource.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+        soundSource.PlayOneShot(audioClip, volume);
+
+        NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, audioClip.length + 0.1f);
     }
 }

@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     [Header("Combat")]
     [SerializeField] private ParticleSystem hitParticle;
-    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip[] hitSounds;
     [SerializeField] private bool isDead = false;
     [SerializeField] private int health = 100;
     [SerializeField] private int damage = 10;
@@ -35,7 +35,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     private float currentAttackCooldown;
 
     public ParticleSystem HitParticlePrefab { get => hitParticle; set => hitParticle = value; }
-    public AudioClip HitSound { get => hitSound; set => hitSound = value; }
+    public AudioClip[] HitSounds { get => hitSounds; set => hitSounds = value; }
     public bool IsDead { get => isDead; set => isDead = value; }
     public int Health
     {
