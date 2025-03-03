@@ -9,6 +9,13 @@ public class EnemySpawner : MonoBehaviour
     // References to the two separate NavMeshSurface game objects.
     public NavMeshSurface insideSurface;
     public NavMeshSurface outsideSurface;
+    [SerializeField]
+    [NavMeshAreaMask]
+    protected int insideArea = 0;
+    [SerializeField]
+    [NavMeshAreaMask]
+    protected int outsideArea = 0;
+
 
     [Header("Enemy Prefab Options")]
     // The enemy prefabs for each type.
@@ -90,6 +97,7 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     private void CalculateSpawnAreas()
     {
+     
         if (insideSurface != null)
         {
             Bounds bounds = CalculateNavMeshBounds(insideSurface);
@@ -262,7 +270,7 @@ public class EnemySpawner : MonoBehaviour
         // Spawn inside enemies.
         for (int i = 0; i < insideEnemyCount; i++)
         {
-            Vector3 spawnPos = GetValidSpawnPosition(insideAreaCenter, insideAreaSize);
+            Vector3 spawnPos = GetValidSpawnPosition(insideAreaCenter, insideAreaSize, insideArea);
             if (spawnPos != Vector3.zero)
             {
                 int randIdx = Random.Range(0, insideEnemyPrefabs.Length);
@@ -277,7 +285,7 @@ public class EnemySpawner : MonoBehaviour
         // Spawn outside enemies.
         for (int i = 0; i < outsideEnemyCount; i++)
         {
-            Vector3 spawnPos = GetValidSpawnPosition(outsideAreaCenter, outsideAreaSize);
+            Vector3 spawnPos = GetValidSpawnPosition(outsideAreaCenter, outsideAreaSize,outsideArea);
             if (spawnPos != Vector3.zero)
             {
                 int randIdx = Random.Range(0, outsideEnemyPrefabs.Length);
@@ -293,7 +301,7 @@ public class EnemySpawner : MonoBehaviour
     /// <summary>
     /// Attempts to find a valid world position on the NavMesh within the given bounds.
     /// </summary>
-    private Vector3 GetValidSpawnPosition(Vector3 areaCenter, Vector3 areaSize)
+    private Vector3 GetValidSpawnPosition(Vector3 areaCenter, Vector3 areaSize, int area)
     {
         for (int i = 0; i < maxSpawnAttempts; i++)
         {
@@ -303,7 +311,7 @@ public class EnemySpawner : MonoBehaviour
                 Random.Range(areaCenter.z - areaSize.z * 0.5f, areaCenter.z + areaSize.z * 0.5f)
             );
 
-            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, spawnSampleRadius, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, spawnSampleRadius, area))
             {
                 return hit.position;
             }

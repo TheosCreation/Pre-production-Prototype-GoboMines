@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e796232bfdcc4a45b64f0d232479a83, type: 3}
   m_Name: BrackenHidingSO
   m_EditorClassIdentifier: Assembly-CSharp::HidingStateSO
-  moveSpeed: 5
+  moveSpeed: 20
   rotationSpeed: 500
   detectionRange: 15
   attackRange: 2
   attackCooldown: 1
   currentDestination: {x: 0, y: 0, z: 0}
   allowedAreas: 8
-  hideDistance: 7
+  farHideDistance: 20
   minSafeDistance: 10
   layerMask:
     serializedVersion: 2
     m_Bits: 0
-  maxSearchAttempts: 5
+  maxSearchAttempts: 100
+  sampleRadius: 10

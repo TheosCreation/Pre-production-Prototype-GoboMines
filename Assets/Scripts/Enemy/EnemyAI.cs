@@ -19,10 +19,12 @@ public class EnemyAI : MonoBehaviour, IDamageable
     [SerializeField] private Transform target;
     [SerializeField] public Timer timer;
 
+    [Header("Combat")]
     [SerializeField] private ParticleSystem hitParticle;
     [SerializeField] private AudioClip[] hitSounds;
     [SerializeField] private bool isDead = false;
     [SerializeField] private int health = 100;
+    [SerializeField] private int damage = 10;
 
 
 
@@ -138,6 +140,32 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     public void PerformAttack()
     {
+        if (target == null)
+            return;
+
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+        /*  if (distanceToTarget > currentAttackRange)
+              return;*/
+        Debug.Log("Attacking");
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * currentRotationSpeed);
+
+        if (hitParticle != null)
+        {
+            hitParticle.Play();
+        }
+        if (hitSound != null)
+        {
+            AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        }
+
+        IDamageable damageable = target.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage, gameObject);
+        }
+        
     }
 
     public void TakeDamage(int amount, PlayerController fromPlayer)

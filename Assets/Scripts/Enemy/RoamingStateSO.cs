@@ -39,7 +39,6 @@ public class RoamingStateSO : BaseState
 
         if (IsTargetDetected(enemy))
         {
-            Debug.Log("changed");
             enemy.ChangeStateByType(nextState.GetType());
             return;
         }
@@ -61,12 +60,10 @@ public class RoamingStateSO : BaseState
 
         Transform closestTarget = null;
         float closestDistance = float.MaxValue;
-        // Debug.Log("checking for targets");
         foreach (Collider collider in colliders)
         {
             if (collider.CompareTag("Player"))
             {
-                Debug.Log("targetFound");
                 float distance = Vector3.Distance(enemy.transform.position, collider.transform.position);
 
                 if (distance < closestDistance)
@@ -74,7 +71,6 @@ public class RoamingStateSO : BaseState
                     
                     closestDistance = distance;
                     closestTarget = collider.transform;
-                    Debug.Log("target set");
                     
                 }
             }
@@ -110,7 +106,7 @@ public class RoamingStateSO : BaseState
             attempts++;
         }
 
-        Debug.LogWarning("Failed to find valid roaming position after " + maxAttempts + " attempts");
+     //   Debug.LogWarning("Failed to find valid roaming position after " + maxAttempts + " attempts");
     }
 
     private bool HasReachedDestination(EnemyAI enemy)
