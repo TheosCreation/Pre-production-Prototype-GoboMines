@@ -10,7 +10,7 @@ public class UiManager : Singleton<UiManager>
     //[SerializeField] private PauseMenu pauseScreen;
     private void Start()
     {
-        OpenLoadingPage();
+        OpenConnectionMenu();
     }
     public void OpenLoadingPage()
     {
@@ -21,14 +21,16 @@ public class UiManager : Singleton<UiManager>
     }
     public void OpenConnectionMenu()
     {
-        loadingPage.SetActive(false);
         connectionPage.SetActive(true);
+        loadingPage.SetActive(false);
+        playerHud.SetActive(false);
     }
 
     public void OpenPlayerHud()
     {
         playerHud.SetActive(true);
         connectionPage.SetActive(false);
+        loadingPage.SetActive(false);
     }
 
     public void PauseMenu(bool isPaused)

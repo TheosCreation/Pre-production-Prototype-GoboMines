@@ -1,26 +1,29 @@
+using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
-public class ElevatorManager : MonoBehaviour
+public class ElevatorManager : NetworkBehaviour
 {
-    private bool isMoving = false;
-    [SerializeField] private Animator animator;
+    private NetworkVariable<bool> isMoving = new NetworkVariable<bool>(false);
+    [SerializeField] private NetworkAnimator animator;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponent<NetworkAnimator>();
     }
 
-    public void ToggleElevator()
+    [ServerRpc(RequireOwnership = false)]
+    public void ToggleElevatorServerRpc()
     {
-        if (!isMoving)
+        if (!isMoving.Value)
         {
             animator.SetTrigger("Move");
-            isMoving = true;
+            isMoving.Value = true;
         }
     }
 
     public void FinishMoving()
     {
-        isMoving = false;
+        isMoving.Value = false;
     }
 }

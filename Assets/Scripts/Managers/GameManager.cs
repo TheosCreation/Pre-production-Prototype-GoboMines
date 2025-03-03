@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 public struct GlobalPrefabs
@@ -10,4 +11,5 @@ public struct GlobalPrefabs
 public class GameManager : SingletonPersistent<GameManager>
 {
     public GlobalPrefabs prefabs;
+    public UnityEvent onHostEvent;
 }
