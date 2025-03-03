@@ -365,8 +365,8 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 20
-  m_Range: 30
+  m_Intensity: 5
+  m_Range: 15
   m_SpotAngle: 66.93192
   m_InnerSpotAngle: 0
   m_CookieSize: 10
@@ -856,7 +856,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   hitParticles: {fileID: 383448402169193323, guid: ee8ef27bbd4210446950a0d80902fcb3, type: 3}
-  hitSound: {fileID: 0}
+  hitSounds: []
+  health: 100
 --- !u!114 &1213804237299153649
 MonoBehaviour:
   m_ObjectHideFlags: 0
