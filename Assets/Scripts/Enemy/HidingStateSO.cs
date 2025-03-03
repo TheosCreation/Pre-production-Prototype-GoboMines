@@ -15,7 +15,6 @@ public class HidingStateSO : BaseState
 
     public override void OnEnter(EnemyAI enemy)
     {
-        Debug.Log("Entering Hiding State");
         enemyRef = enemy;
 
         if (IsInPlayerSight(enemy))
@@ -49,12 +48,10 @@ public class HidingStateSO : BaseState
         {
             if (!IsInPlayerSight(enemy))
             {
-                Debug.Log("Successfully hidden, switching to stalking.");
-                enemy.ChangeState<RoamingStateSO>();
+                enemy.ChangeState<StalkingStateSO>();
             }
             else
             {
-                Debug.Log("Still in sight, finding a new hiding spot.");
                 hidePosition = FindHidingSpot(enemy);
                 if (hidePosition != Vector3.zero)
                 {
@@ -66,7 +63,6 @@ public class HidingStateSO : BaseState
 
     public override void OnExit(EnemyAI enemy)
     {
-        Debug.Log("Exiting Hiding State");
     }
 
     private bool IsInPlayerSight(EnemyAI enemy)

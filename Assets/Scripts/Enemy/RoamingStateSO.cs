@@ -9,10 +9,6 @@ public class RoamingStateSO : BaseState
     public float roamRadius = 10f;
     public BaseState nextState;
 
-    [Header("Area Selection")]
-    [SerializeField]
-    [NavMeshAreaMask]
-    private int allowedAreas = ~0;
 
     [Header("Path Validation")]
     [SerializeField] private float maxPathLength = 1000;

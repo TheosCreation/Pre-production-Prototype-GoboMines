@@ -17,12 +17,11 @@ public class SpiralChasingStateSO : BaseState
     [Header("Area Selection")]
     [SerializeField]
     [NavMeshAreaMask]
-    private int Outside = ~0;
+    private int Outside = 0;
     [SerializeField]
     [NavMeshAreaMask]
-    private int both = ~0;
+    private int both = 0;
 
-    private int allowedAreas = ~0;
 
     private float originalMoveSpeed;
     private bool isSlowedDown = false;
