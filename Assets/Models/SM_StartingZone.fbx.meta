@@ -8,27 +8,32 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Cave
-    second: {fileID: 7927636434711514464, guid: 1244900f392ec1a46b20539af168131c, type: 3}
+    second: {fileID: 2100000, guid: ac222723d2758cf4395f56925b1815ab, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Metal.002
-    second: {fileID: 2100000, guid: 40a2c611eb8754c47b1b1bbef1bdd128, type: 2}
+    second: {fileID: 2100000, guid: 4e59ea98dc77ea747b4438b0ac0f11c8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Metal.003
-    second: {fileID: 2100000, guid: 40a2c611eb8754c47b1b1bbef1bdd128, type: 2}
+    second: {fileID: 2100000, guid: b10a599766423d84e88ef7c273480101, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Metal.004
-    second: {fileID: 2100000, guid: 40a2c611eb8754c47b1b1bbef1bdd128, type: 2}
+    second: {fileID: 2100000, guid: e0a3e02ea2ba90146b8e52e41874a183, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Rope
     second: {fileID: 2100000, guid: d7a5e4559cae34147bb82cd2887cbac1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Safezone
+    second: {fileID: 2100000, guid: abc056516b4f94046ab5ddfdb8a8dd8b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
