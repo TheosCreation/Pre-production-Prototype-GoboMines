@@ -106,11 +106,8 @@ public class Projectile : NetworkBehaviour
             hitNormal = Vector3.up; // Fallback normal
         }
 
-        // Check if we hit ourselves
-        NetworkObject hitObject = contactPoint.otherCollider.GetComponentInParent<NetworkObject>();
-        if (hitObject != null && hitObject.OwnerClientId == m_weaponUser.OwnerClientId)
+        if (contactPoint.otherCollider.gameObject.GetInstanceID() == m_weaponUser.gameObject.GetInstanceID())
         {
-            // Ignore collision if we hit ourselves
             return;
         }
 
@@ -145,6 +142,7 @@ public class Projectile : NetworkBehaviour
         // Destroy the projectile on collision
         if (destroyOnHit)
         {
+            Destroy(gameObject);
             NetworkObject.Despawn();
         }
     }
@@ -155,7 +153,7 @@ public class Projectile : NetworkBehaviour
         if (!IsServer) return; // Only the server spawns particles and sounds
 
         // Spawn hit particles
-        ParticleSystem hitParticles = Instantiate(particleToSpawn, hitPosition, Quaternion.LookRotation(-normal)).GetComponent<ParticleSystem>();
+        ParticleSystem hitParticles = Instantiate(particleToSpawn, hitPosition, Quaternion.LookRotation(normal)).GetComponent<ParticleSystem>();
         NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
         netObj.Spawn(true);
 
@@ -180,7 +178,7 @@ public class Projectile : NetworkBehaviour
 
         // Spawn hit particles with offset
         Vector3 particlePositionOffset = wallNormal * particleSpawnOffset;
-        ParticleSystem hitParticles = Instantiate(GameManager.Instance.prefabs.hitWallPrefab, hitPosition + particlePositionOffset, Quaternion.LookRotation(-wallNormal)).GetComponent<ParticleSystem>();
+        ParticleSystem hitParticles = Instantiate(GameManager.Instance.prefabs.hitWallPrefab, hitPosition + particlePositionOffset, Quaternion.LookRotation(wallNormal)).GetComponent<ParticleSystem>();
         NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
         netObj.Spawn(true);
 

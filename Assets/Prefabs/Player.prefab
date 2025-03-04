@@ -366,9 +366,9 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 5
-  m_Range: 15
+  m_Range: 20
   m_SpotAngle: 66.93192
-  m_InnerSpotAngle: 0
+  m_InnerSpotAngle: 32.23697
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -456,7 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minTimeBetweenFlickers: 2
   maxTimeBetweenFlickers: 5
-  flickerDuration: 0.1
+  flickerDuration: 0.16
   fadeSpeed: 10
 --- !u!1 &2764406585089394764
 GameObject:
@@ -483,7 +483,7 @@ Transform:
   m_GameObject: {fileID: 2764406585089394764}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.504, z: 0}
+  m_LocalPosition: {x: 0, y: 0.176, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -916,8 +916,8 @@ MonoBehaviour:
   deceleration: 20
   airDeceleration: 20
   groundCheckerThrashold: 0.4
-  maxGroundDistance: 0.6
-  groundStickSmooth: 2
+  maxGroundDistance: 0.3
+  groundStickSmooth: 6
   fallDistanceDamageThreshold: 2
   minimumFallDistanceToLandEvent: 0.5
   minimumHorizontalSpeedToFastEvent: 0
@@ -1008,10 +1008,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1.544373
+  m_Radius: 0.35
+  m_Height: 1.9287658
   m_Direction: 1
-  m_Center: {x: 0, y: 1.2, z: 0}
+  m_Center: {x: 0, y: 1.0078037, z: 0}
 --- !u!54 &2983732470369302092
 Rigidbody:
   m_ObjectHideFlags: 0

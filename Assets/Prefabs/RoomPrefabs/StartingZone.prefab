@@ -527,6 +527,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: -6251330848715481668, guid: 4931f7137f767e3429719ff28fb16587, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dba325e0a3460b8458162310efec4d7e, type: 2}
     - target: {fileID: -6090811896516078084, guid: 4931f7137f767e3429719ff28fb16587, type: 3}
       propertyPath: m_TagString
       value: Door
