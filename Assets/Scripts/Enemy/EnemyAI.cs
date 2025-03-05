@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour, IDamageable
+public class EnemyAI : NetworkBehaviour, IDamageable
 {
     [Header("State Assets")]
     [Tooltip("Assign all state assets here")]
@@ -62,6 +63,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if(!IsOwner) return;
+
         currentState?.OnUpdate(this);
     }
     private void BuildStateDictionary()
