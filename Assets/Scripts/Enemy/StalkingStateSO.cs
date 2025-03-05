@@ -7,7 +7,7 @@ public class StalkingStateSO : BaseState
     public float lineOfSightDistance = 15f;
     public float playerViewThreshold = 0.8f;
     public bool enableDebugging = true;
-
+    public LayerMask raycastLayerMask;
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
@@ -26,33 +26,18 @@ public class StalkingStateSO : BaseState
         {
             enemy.ChangeState<HidingStateSO>();
         }
-        else if (!HasLineOfSight(enemy))
+        else 
         {
             enemy.GetAgent().SetDestination(enemy.GetTarget().position);
         }
         if (enableDebugging)
         {
             Vector3 direction = (enemy.GetTarget().position - enemy.transform.position).normalized;
-            Debug.DrawRay(enemy.transform.position, direction * lineOfSightDistance, HasLineOfSight(enemy) ? Color.green : Color.red);
+            Debug.DrawRay(enemy.transform.position, direction * lineOfSightDistance, HasDirectLineOfSight(enemy) ? Color.green : Color.red);
         }
     }
 
-    private bool HasLineOfSight(EnemyAI enemy)
-    {
-        Transform target = enemy.GetTarget();
-        if (target == null) return false;
 
-        NavMeshHit hit;
-        if (NavMesh.Raycast(enemy.transform.position, target.position, out hit, ~0))
-        {
-            if (enableDebugging)
-            {
-                Debug.DrawRay(enemy.transform.position, hit.position - enemy.transform.position, Color.magenta);
-            }
-            return false;
-        }
-        return true;
-    }
 
     private bool IsPlayerLookingAtMe(EnemyAI enemy)
     {
@@ -64,7 +49,7 @@ public class StalkingStateSO : BaseState
         {
             Debug.DrawRay(target.position, target.forward * 5f, Color.blue);
         }
-        return Vector3.Dot(target.forward, toEnemy) > playerViewThreshold;
+        return (Vector3.Dot(target.forward, toEnemy) > playerViewThreshold) && HasDirectLineOfSight(enemy);
     }
 
     private Transform FindNearestPlayer(EnemyAI enemy)
@@ -83,5 +68,21 @@ public class StalkingStateSO : BaseState
             }
         }
         return nearest;
+    }
+
+    private bool HasDirectLineOfSight(EnemyAI enemy)
+    {
+        Transform player = enemy.GetTarget();
+        if (player == null)
+            return false;
+
+        Vector3 direction = (enemy.transform.position - player.position).normalized;
+
+        if (Physics.Raycast(player.position, direction, out RaycastHit hit, lineOfSightDistance, ~0))
+        {
+            return hit.transform == enemy.transform;
+        }
+
+        return false;
     }
 }
