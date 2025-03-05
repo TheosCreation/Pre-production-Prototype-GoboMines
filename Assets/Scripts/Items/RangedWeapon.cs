@@ -134,6 +134,10 @@ public class RangedWeapon : Weapon
         {
             attackingAudioSource.PlayOneShot(jammedSound);
         }
+        else
+        {
+            StartReload();
+        }
     }
 
 
@@ -158,7 +162,7 @@ public class RangedWeapon : Weapon
         if (ammo < magSize && !isReloading.Value)
         {
             isReloading.Value = true;
-            isJammed = false;
+            FinishUnJamming();
             //animator.SetTrigger("Reload");
             reloadTimer.SetTimer(reloadTime, FinishReload);
             if (ammo == 0)

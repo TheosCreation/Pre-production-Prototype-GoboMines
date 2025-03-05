@@ -155,7 +155,7 @@ MonoBehaviour:
   isReloading:
     m_InternalValue: 0
   magSize: 7
-  reloadTime: 0.5
+  reloadTime: 3
   isJammed: 0
   isUnJamming: 0
   jammedSound: {fileID: 8300000, guid: aa097e28a459caa4c826c024cb1ed92a, type: 3}
