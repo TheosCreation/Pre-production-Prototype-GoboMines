@@ -34,7 +34,7 @@ public class ItemHolder : NetworkBehaviour
     private void OnAttackCanceled(InputAction.CallbackContext ctx) => currentItem?.EndAttacking();
     private void OnAltActionStarted(InputAction.CallbackContext ctx) => currentItem?.StartAltAction();
     private void OnAltActionCanceled(InputAction.CallbackContext ctx) => currentItem?.EndAltAction();
-    private void OnCantAttackActionStarted(InputAction.CallbackContext ctx) => currentItem?.CantAttackAction();
+    private void OnCantAttackActionStarted(InputAction.CallbackContext ctx) => currentItem?.TryFixAttackingAction();
     private void OnSpecialActionStarted(InputAction.CallbackContext ctx) => currentItem?.StartSpecialAction();
     private void OnDropItemStarted(InputAction.CallbackContext ctx) => DropCurrentItem();
 

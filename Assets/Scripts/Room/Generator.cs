@@ -394,9 +394,10 @@ public class Generator : MonoBehaviour
         GameObject roomObj = Instantiate(prefab, worldPosition, rotation);
         Room room = roomObj.GetComponent<Room>();
 
-        InitilizeRoomAndGrid(room, bottomLeftCell, rotation);
-
         roomObj.GetComponent<NetworkObject>().Spawn(true);
+        roomObj.transform.parent = this.transform;
+
+        InitilizeRoomAndGrid(room, bottomLeftCell, rotation);
 
         return room;
     }

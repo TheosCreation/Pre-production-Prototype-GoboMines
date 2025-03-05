@@ -14,8 +14,7 @@ public class RangedWeapon : Weapon
     [Header("Projectile Settings")]
     [SerializeField] protected Transform muzzleTransform;
 
-    [SerializeField] public Projectile projectilePrefab;
-    [SerializeField] public ParticleSystem muzzleFlashParticle;
+    [SerializeField] private Beam beamPrefab;
     [SerializeField] public ParticleSystem casingParticle;
 
     [SerializeField] protected AudioClip reloadEmptySound;
@@ -61,13 +60,10 @@ public class RangedWeapon : Weapon
 
         Ammo--;
 
-        FireProjectile();
+        AttackServerRpc();
 
         ApplyRecoil();
 
-
-        muzzleFlashParticle.Play();
-
         // play vfx for casings and muzzleflash
         if (casingParticle != null)
         {
@@ -75,43 +71,30 @@ public class RangedWeapon : Weapon
         }
     }
 
-    [ClientRpc]
-    protected override void AttackClientRpc()
-    {
-        if (IsOwner) return;
-
-        muzzleFlashParticle.Play();
-
-        // play vfx for casings and muzzleflash
-        if (casingParticle != null)
-        {
-            casingParticle.Play();
-        }
-    }
-
-    protected void FireProjectile()
-    {
-        if (IsClient || IsHost)
-        {
-            // Send a request to the server to spawn the projectile
-            FireProjectileServerRpc();
-        }
-    }
 
     [ServerRpc]
-    private void FireProjectileServerRpc()
+    private void AttackServerRpc()
     {
         Vector3 firePosition = player.playerLook.playerCamera.transform.position;
 
         Vector3 direction = player.playerLook.playerCamera.transform.forward;
 
-        // Spawn the projectile on the server
-        Projectile projectile = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
-        NetworkObject projectileNetworkObject = projectile.GetComponent<NetworkObject>();
-        projectileNetworkObject.Spawn(true); // Spawn the projectile on the network
-
-        // Initialize the projectile
-        projectile.Initialize(firePosition, direction, player, damage);
+        RaycastHit hit;
+        if (Physics.Raycast(firePosition, direction, out hit))
+        {
+            Beam revolverBeam = Instantiate(beamPrefab, muzzleTransform.position, Quaternion.LookRotation(direction));
+            revolverBeam.GetComponent<NetworkObject>().Spawn();
+            revolverBeam.DrawBeamClientRpc(hit.point);
+            if(hit.collider.TryGetComponent<IDamageable>(out IDamageable hitDamageable))
+            {
+                hitDamageable.TakeDamage(damage, player);
+                SpawnHitParticles(hit.point, hit.normal, hitDamageable.HitParticlePrefab);
+            }
+            else
+            {
+                SpawnHitParticles(hit.point, hit.normal, GameManager.Instance.prefabs.hitWallPrefab);
+            }
+        }
     }
 
     private void ApplyRecoil()
@@ -140,14 +123,25 @@ public class RangedWeapon : Weapon
 
     protected override bool CanAttack()
     {
-        return ammo > 0 && !isReloading.Value;
+        return ammo > 0 && !isReloading.Value && !isJammed;
     }
 
     public override void CantAttackAction()
     {
         base.CantAttackAction();
 
-        if (isJammed && !isUnJamming)
+        if (isJammed)
+        {
+            attackingAudioSource.PlayOneShot(jammedSound);
+        }
+    }
+
+
+    public override void TryFixAttackingAction()
+    {
+        if (isUnJamming) return;
+
+        if (isJammed)
         {
             isUnJamming = true;
             unJamTimer.SetTimer(unJamTime, FinishUnJamming);
@@ -187,5 +181,19 @@ public class RangedWeapon : Weapon
             isReloading.Value = false;
             Ammo = magSize;
         }
+    }
+
+    protected void SpawnHitParticles(Vector3 hitPosition, Vector3 wallNormal, ParticleSystem particleToSpawn)
+    {
+        if (!IsServer) return; // Only the server spawns particles
+
+        // Spawn hit particles with offset
+        Vector3 particlePositionOffset = wallNormal * 0.1f;
+        ParticleSystem hitParticles = Instantiate(particleToSpawn, hitPosition + particlePositionOffset, Quaternion.LookRotation(wallNormal)).GetComponent<ParticleSystem>();
+        NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+
+        float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constantMax;
+        NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
     }
 }

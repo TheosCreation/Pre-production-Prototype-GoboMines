@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Room : MonoBehaviour
+public class Room : NetworkBehaviour
 {
     [System.Serializable]
     public class DoorInfo
@@ -37,10 +36,7 @@ public class Room : MonoBehaviour
         doors.Clear();
         Vector3 center = CalculateCenter();
         FindDoorsIterative(center);
-    }
 
-    private void Start()
-    {
         FindAndSpawnOres();
     }
 
@@ -70,6 +66,8 @@ public class Room : MonoBehaviour
     {
         OreNode randomOre = GridManager.Instance.ores[UnityEngine.Random.Range(0, GridManager.Instance.ores.Count)];
         OreNode oreSpawned = Instantiate(randomOre, transformToSpawn.position, transformToSpawn.rotation);
+        oreSpawned.GetComponent<NetworkObject>().Spawn();
+        oreSpawned.transform.parent = transform.parent;
     }
 
     private void FindDoorsIterative(Vector3 center)

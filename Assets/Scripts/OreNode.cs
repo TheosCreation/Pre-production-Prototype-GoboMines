@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class OreNode : NetworkBehaviour, IDamageable
 {
-    public int totalOre = 100; // Total ore in the node
+    public NetworkVariable<int> totalOre = new NetworkVariable<int>(100); // Total ore in the node
     private int initialOre;
     public ParticleSystem dustEffectPrefab; // Dust effect when mining
     public ParticleSystem HitParticlePrefab { get => dustEffectPrefab; set => dustEffectPrefab = value; }
@@ -16,33 +16,33 @@ public class OreNode : NetworkBehaviour, IDamageable
     public OreSO ore;
 
     public int maxHealth = 100;
-    private int health = 100; // Health of the node
+    private NetworkVariable<int> health = new NetworkVariable<int>(100);
 
-
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        // Initialize health and totalOre with NetworkVariables
-        health = maxHealth;
-        initialOre = totalOre;
+        health.Value = maxHealth;
+        initialOre = totalOre.Value;
     }
 
     public int Health
     {
-        get => health;
+        get => health.Value;
         set
         {
-            health = value;
-            if (health <= 0)
+            health.Value = value;
+            if (health.Value <= 0)
             {
                 IsDead = true;
-                DestroyOreNode();
+                DestroyOreNodeServerRpc();
             }
         }
     }
 
-    private void DestroyOreNode()
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyOreNodeServerRpc()
     {
-        NetworkObject.Despawn(true);
+        NetworkObject.Despawn();
+        Destroy(gameObject);
     }
 
     public void TakeDamage(int damage, PlayerController fromPlayer)
@@ -61,9 +61,9 @@ public class OreNode : NetworkBehaviour, IDamageable
         int oreAfterHit = Mathf.RoundToInt(initialOre * Mathf.Pow((float)Health / maxHealth, powerFactor));
 
         int oreToMine = oreBeforeHit - oreAfterHit;
-        oreToMine = Mathf.Clamp(oreToMine, 0, totalOre);
+        oreToMine = Mathf.Clamp(oreToMine, 0, totalOre.Value);
 
-        totalOre -= oreToMine;
+        totalOre.Value -= oreToMine;
 
         // Add the mined ore to the player's inventory
         if (oreToMine > 0)
@@ -76,11 +76,11 @@ public class OreNode : NetworkBehaviour, IDamageable
 
     public void TakeDamage(int amount, GameObject fromObject)
     {
-        int oreToMine = Mathf.Min(totalOre, amount); 
+        int oreToMine = Mathf.Min(totalOre.Value, amount); 
 
         if (oreToMine > 0)
         {
-            totalOre -= oreToMine;
+            totalOre.Value -= oreToMine;
 
             // Drop Ore At Object Location Or Give To Object Inventory
         }

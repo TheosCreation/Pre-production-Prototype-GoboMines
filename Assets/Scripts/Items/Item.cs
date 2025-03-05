@@ -30,6 +30,7 @@ public class Item : NetworkBehaviour, IInteractable
     public virtual void EndAltAction() { }
     public virtual void CantAttackAction() { }
 
+    public virtual void TryFixAttackingAction() { }
     public virtual void StartSpecialAction() { }
 
     public virtual void Equip() { }
