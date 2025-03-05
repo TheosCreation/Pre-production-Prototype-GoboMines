@@ -63,7 +63,6 @@ public class EnemyAI : NetworkBehaviour, IDamageable
     {
         if (IsServer) // Only the server should control AI state changes
         {
-            Debug.Log("Called");
             ChangeState<RoamingStateSO>();
         }
     }
