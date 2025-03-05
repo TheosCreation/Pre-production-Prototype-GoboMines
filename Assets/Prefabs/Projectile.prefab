@@ -125,7 +125,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   speed: 20
   particleSpawnOffset: 0.1
-  alignmentDistance: 3
+  alignmentDistance: 1
   headShotMultiplier: 1.5
   destroyOnHit: 1
   trail: {fileID: 3112667033668040100}

@@ -40,7 +40,7 @@ public class Pickaxe : Weapon
                     NetworkSpawnHandler.Instance.SpawnSound(hitSound, hit.point);
                 }
 
-                NetworkSpawnHandler.Instance.SpawnParticles(damageable.HitParticlePrefab, hit.point, Quaternion.LookRotation(-hit.normal));
+                NetworkSpawnHandler.Instance.SpawnParticles(damageable.HitParticlePrefab, hit.point, Quaternion.LookRotation(hit.normal));
 
                 damageable.TakeDamage(damage, player);
             }

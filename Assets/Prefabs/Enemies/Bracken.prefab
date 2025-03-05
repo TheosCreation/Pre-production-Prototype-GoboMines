@@ -202,7 +202,7 @@ MonoBehaviour:
   homePosition: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
   timer: {fileID: 0}
-  hitParticle: {fileID: 0}
+  hitParticle: {fileID: 383448402169193323, guid: ee8ef27bbd4210446950a0d80902fcb3, type: 3}
   hitSounds: []
   isDead: 0
   health: 100

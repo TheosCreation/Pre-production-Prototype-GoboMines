@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4931f7137f767e3429719ff28fb16587
+guid: 5b2fa277982f33e4bab794aab4b238b4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,38 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Cave
-    second: {fileID: 2100000, guid: ac222723d2758cf4395f56925b1815ab, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Metal.002
-    second: {fileID: 2100000, guid: 4e59ea98dc77ea747b4438b0ac0f11c8, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Metal.003
-    second: {fileID: 2100000, guid: b10a599766423d84e88ef7c273480101, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Metal.004
-    second: {fileID: 2100000, guid: e0a3e02ea2ba90146b8e52e41874a183, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Rope
-    second: {fileID: 2100000, guid: d7a5e4559cae34147bb82cd2887cbac1, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Safezone
-    second: {fileID: 2100000, guid: abc056516b4f94046ab5ddfdb8a8dd8b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Wood.001
-    second: {fileID: 2100000, guid: ab7feac809db4af4e8ec1dfd5f66d537, type: 2}
+      name: lambert1
+    second: {fileID: 2100000, guid: cd3692594e15b2241aa160d258b4fb46, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -65,10 +35,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 50
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -123,7 +93,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 50
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
