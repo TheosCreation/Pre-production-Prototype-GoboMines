@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class BaseState : ScriptableObject, IEnemyState
+public abstract class BaseState : IEnemyState
 {
     [Header("Movement Settings")]
   
@@ -19,13 +19,13 @@ public abstract class BaseState : ScriptableObject, IEnemyState
     [SerializeField]
     [NavMeshAreaMask]
     protected int allowedAreas = 0;
-    public virtual void OnEnter(EnemyAI enemy)
+    public override void OnEnter(EnemyAI enemy)
     {
         enemy.GetAgent().areaMask = allowedAreas;
         ApplySettings(enemy);
     }
 
-    public virtual void OnUpdate(EnemyAI enemy)
+    public override void OnUpdate(EnemyAI enemy)
     {
         // Set a timer to find a new target if needed.
         if (!enemy.timer.IsRunning)
@@ -34,9 +34,9 @@ public abstract class BaseState : ScriptableObject, IEnemyState
         }
     }
 
-    public virtual void OnExit(EnemyAI enemy) { }
+    public override void OnExit(EnemyAI enemy) { }
 
-    public virtual void ApplySettings(EnemyAI enemy)
+    public override void ApplySettings(EnemyAI enemy)
     {
     
         enemy.SetMoveSpeed(moveSpeed);

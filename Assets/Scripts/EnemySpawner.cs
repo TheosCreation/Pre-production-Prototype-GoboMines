@@ -256,8 +256,7 @@
                 if (spawnPos != Vector3.zero)
                 {
                     int randIdx = Random.Range(0, insideEnemyPrefabs.Length);
-                    GameObject enemy = Instantiate(insideEnemyPrefabs[randIdx], spawnPos, Quaternion.identity);
-                    enemy.GetComponent<NetworkObject>().Spawn();
+                    SpawnEnemy(insideEnemyPrefabs[randIdx], spawnPos);
                 }
                 else
                 {
@@ -272,7 +271,7 @@
                 if (spawnPos != Vector3.zero)
                 {
                     int randIdx = Random.Range(0, outsideEnemyPrefabs.Length);
-                    Instantiate(outsideEnemyPrefabs[randIdx], spawnPos, Quaternion.identity);
+                    SpawnEnemy(outsideEnemyPrefabs[randIdx], spawnPos);
                 }
                 else
                 {
@@ -281,22 +280,28 @@
             }
         }
 
-     
-        private Vector3 GetValidSpawnPosition(Vector3 areaCenter, Vector3 areaSize, int area)
-        {
-            for (int i = 0; i < maxSpawnAttempts; i++)
-            {
-                Vector3 randomPoint = new Vector3(
-                    Random.Range(areaCenter.x - areaSize.x * 0.5f, areaCenter.x + areaSize.x * 0.5f),
-                    areaCenter.y, // Adjust this if your level's height varies.
-                    Random.Range(areaCenter.z - areaSize.z * 0.5f, areaCenter.z + areaSize.z * 0.5f)
-                );
+    public void SpawnEnemy(GameObject prefab, Vector3 spawnPos)
+    {
+        GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
+        enemy.GetComponent<NetworkObject>().Spawn();
+    }
 
-                if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, spawnSampleRadius, area))
-                {
-                    return hit.position;
-                }
-            }
-            return Vector3.zero;
-        }
+     
+     private Vector3 GetValidSpawnPosition(Vector3 areaCenter, Vector3 areaSize, int area)
+     {
+         for (int i = 0; i < maxSpawnAttempts; i++)
+         {
+             Vector3 randomPoint = new Vector3(
+                 Random.Range(areaCenter.x - areaSize.x * 0.5f, areaCenter.x + areaSize.x * 0.5f),
+                 areaCenter.y, // Adjust this if your level's height varies.
+                 Random.Range(areaCenter.z - areaSize.z * 0.5f, areaCenter.z + areaSize.z * 0.5f)
+             );
+
+             if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, spawnSampleRadius, area))
+             {
+                 return hit.position;
+             }
+         }
+         return Vector3.zero;
+     }
     }

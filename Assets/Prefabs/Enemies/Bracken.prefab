@@ -108,8 +108,8 @@ GameObject:
   - component: {fileID: 3623300938150301958}
   - component: {fileID: 9001897265982138717}
   - component: {fileID: 9059656630888690404}
-  - component: {fileID: 3645553978841607433}
   - component: {fileID: 1391815639758228728}
+  - component: {fileID: 3645553978841607433}
   - component: {fileID: 2140061397961574290}
   - component: {fileID: 2416460020172527639}
   m_Layer: 0
@@ -180,34 +180,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3645553978841607433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170687856599597479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b61907329fd1d444fb56ae3c26271f68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  states:
-  - {fileID: 11400000, guid: c4a2dddd7d1d9d94eb780653dbdeb63f, type: 2}
-  - {fileID: 11400000, guid: 6786629e73339b645b87837f50b29e65, type: 2}
-  - {fileID: 11400000, guid: 74c87a0404a2cd144a2f65defa2073fb, type: 2}
-  - {fileID: 11400000, guid: 5ffd90f2594fe084cb3cce40c892a208, type: 2}
-  - {fileID: 11400000, guid: d89f6b0544de3414ab48fa303bdb0cf4, type: 2}
-  agent: {fileID: 9059656630888690404}
-  homePosition: {x: 0, y: 0, z: 0}
-  target: {fileID: 0}
-  timer: {fileID: 0}
-  hitParticle: {fileID: 383448402169193323, guid: ee8ef27bbd4210446950a0d80902fcb3, type: 3}
-  hitSounds: []
-  isDead: 0
-  health: 100
-  damage: 10
 --- !u!114 &1391815639758228728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +205,35 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &3645553978841607433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170687856599597479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61907329fd1d444fb56ae3c26271f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  states:
+  - {fileID: 11400000, guid: c4a2dddd7d1d9d94eb780653dbdeb63f, type: 2}
+  - {fileID: 11400000, guid: 6786629e73339b645b87837f50b29e65, type: 2}
+  - {fileID: 11400000, guid: 74c87a0404a2cd144a2f65defa2073fb, type: 2}
+  - {fileID: 11400000, guid: 5ffd90f2594fe084cb3cce40c892a208, type: 2}
+  - {fileID: 11400000, guid: d89f6b0544de3414ab48fa303bdb0cf4, type: 2}
+  currentState: {fileID: 0}
+  agent: {fileID: 9059656630888690404}
+  homePosition: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+  timer: {fileID: 0}
+  hitParticle: {fileID: 383448402169193323, guid: ee8ef27bbd4210446950a0d80902fcb3, type: 3}
+  hitSounds: []
+  isDead: 0
+  health: 100
+  damage: 10
 --- !u!95 &2140061397961574290
 Animator:
   serializedVersion: 7

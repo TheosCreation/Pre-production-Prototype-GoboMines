@@ -33,7 +33,6 @@ public class RoamingStateSO : BaseState
     }
 
     public override void OnUpdate(EnemyAI enemy)
-
     {
         CheckForTargets(enemy);
 

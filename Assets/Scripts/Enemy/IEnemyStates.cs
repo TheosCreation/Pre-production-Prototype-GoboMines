@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
-public interface IEnemyState
+[Serializable]
+public class IEnemyState : ScriptableObject
 {
-    void OnEnter(EnemyAI enemy);
-    void OnUpdate(EnemyAI enemy);
-    void OnExit(EnemyAI enemy);
-    void ApplySettings(EnemyAI enemy);
+    public virtual void OnEnter(EnemyAI enemy) { }
+    public virtual void OnUpdate(EnemyAI enemy) { }
+    public virtual void OnExit(EnemyAI enemy) { }
+    public virtual void ApplySettings(EnemyAI enemy) { }
 }
