@@ -57,13 +57,17 @@ public class EnemyAI : NetworkBehaviour, IDamageable
 
         timer = transform.AddComponent<Timer>();
         BuildStateDictionary();
-
-        ChangeState<RoamingStateSO>();
     }
-
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer) // Only the server should control AI state changes
+        {
+            ChangeState<RoamingStateSO>();
+        }
+    }
     private void Update()
     {
-        if(!IsOwner) return;
+        if(!IsServer) return;
 
         currentState?.OnUpdate(this);
     }
