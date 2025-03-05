@@ -34,8 +34,9 @@ public class HidingStateSO : BaseState
 
     public override void OnUpdate(EnemyAI enemy)
     {
-        if (Vector3.Distance(enemy.transform.position, hidePosition) < enemy.GetAgent().stoppingDistance + 0.5f)
+        if (Vector3.Distance(enemy.transform.position, hidePosition) <= enemy.GetAgent().stoppingDistance + 5f)
         {
+            enemy.GetAgent().ResetPath();
             enemy.ChangeState<RoamingStateSO>();
         }
     }

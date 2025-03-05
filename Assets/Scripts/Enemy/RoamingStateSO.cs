@@ -43,6 +43,7 @@ public class RoamingStateSO : BaseState
         }
         if (HasReachedDestination(enemy))
         {
+            enemy.GetAgent().ResetPath();
             SetNewRoamingPosition(enemy);
         }
     }
@@ -111,7 +112,7 @@ public class RoamingStateSO : BaseState
     private bool HasReachedDestination(EnemyAI enemy)
     {
         NavMeshAgent agent = enemy.GetAgent();
-        return !agent.pathPending && agent.remainingDistance < 0.1f;
+        return !agent.pathPending && agent.remainingDistance < 1f;
     }
 
     private bool IsTargetDetected(EnemyAI enemy)
