@@ -71,10 +71,8 @@
             }
         }
 
-        /// <summary>
-        /// Called when generation is complete.
-        /// Rebuilds the nav meshes, calculates spawn areas, then spawns enemies.
-        /// </summary>
+
+
         private void HandleGenerationComplete()
         {
             // Rebuild nav meshes if needed.
@@ -90,10 +88,6 @@
             SpawnEnemies();
         }
 
-        /// <summary>
-        /// Calculates the spawn area center and size for both inside and outside surfaces.
-        /// Uses a simpler approach that samples the NavMesh to find valid areas.
-        /// </summary>
         private void CalculateSpawnAreas()
         {
      
@@ -138,9 +132,7 @@
             }
         }
 
-        /// <summary>
-        /// Determines if a Vector3 size is (or is nearly) zero.
-        /// </summary>
+    
         private bool IsZeroSize(Vector3 size)
         {
             return Mathf.Approximately(size.x, 0f) &&
@@ -148,9 +140,7 @@
                    Mathf.Approximately(size.z, 0f);
         }
 
-        /// <summary>
-        /// Calculates the bounds of a NavMeshSurface by sampling points on the NavMesh.
-        /// </summary>
+
         private Bounds CalculateNavMeshBounds(NavMeshSurface surface)
         {
             // First, try to get bounds from renderers or colliders in the surface's hierarchy
@@ -165,9 +155,7 @@
             return SampleNavMeshBounds(surface.transform.position);
         }
 
-        /// <summary>
-        /// Gets bounds from renderers or colliders in the given GameObject's hierarchy.
-        /// </summary>
+
         private Bounds GetBoundsFromComponents(GameObject obj)
         {
             Bounds bounds = new Bounds();
@@ -209,9 +197,6 @@
             return bounds;
         }
 
-        /// <summary>
-        /// Samples the NavMesh in a grid pattern around a center point to determine bounds.
-        /// </summary>
         private Bounds SampleNavMeshBounds(Vector3 center)
         {
             Bounds bounds = new Bounds();
@@ -261,9 +246,7 @@
             return bounds;
         }
 
-        /// <summary>
-        /// Spawns enemies at random valid positions in the procedural spawn areas.
-        /// </summary>
+ 
         private void SpawnEnemies()
         {
             // Spawn inside enemies.
@@ -298,9 +281,7 @@
             }
         }
 
-        /// <summary>
-        /// Attempts to find a valid world position on the NavMesh within the given bounds.
-        /// </summary>
+     
         private Vector3 GetValidSpawnPosition(Vector3 areaCenter, Vector3 areaSize, int area)
         {
             for (int i = 0; i < maxSpawnAttempts; i++)
