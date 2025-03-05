@@ -66,12 +66,10 @@ public class Room : MonoBehaviour
 
     }
 
-    private void SpawnRandomOre(Transform parent)
+    private void SpawnRandomOre(Transform transformToSpawn)
     {
         OreNode randomOre = GridManager.Instance.ores[UnityEngine.Random.Range(0, GridManager.Instance.ores.Count)];
-        OreNode oreSpawned = Instantiate(randomOre, parent);
-        oreSpawned.transform.localPosition = Vector3.zero;
-        oreSpawned.transform.localRotation = Quaternion.identity;
+        OreNode oreSpawned = Instantiate(randomOre, transformToSpawn.position, transformToSpawn.rotation);
     }
 
     private void FindDoorsIterative(Vector3 center)
