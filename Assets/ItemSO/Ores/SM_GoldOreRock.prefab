@@ -209,5 +209,6 @@ MonoBehaviour:
   IkRightHandOn: 1
   isHeld: 0
   canSell: 1
+  holdable: 0
   itemSO: {fileID: 11400000, guid: 8cc9200c02696da4f887a4f883bfa117, type: 2}
   interactionText: Pickup Gold Ore

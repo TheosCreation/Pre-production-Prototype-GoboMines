@@ -204,6 +204,7 @@ MonoBehaviour:
   IkRightHandOn: 1
   isHeld: 0
   canSell: 1
+  holdable: 0
   itemSO: {fileID: 11400000, guid: 97dbee6bf5c332d45a5474ecaba304d5, type: 2}
   interactionText: Pickup Diamond Ore
 --- !u!4 &1971123029766337982 stripped

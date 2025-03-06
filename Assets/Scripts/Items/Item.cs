@@ -10,6 +10,7 @@ public class Item : NetworkBehaviour, IInteractable
     public bool IkRightHandOn = true;
     public bool isHeld = false;
     public bool canSell = false;
+    public bool holdable = true;
     public ItemSO itemSO;
 
     protected BoxCollider bc;
@@ -37,7 +38,15 @@ public class Item : NetworkBehaviour, IInteractable
 
     public void Interact(PlayerController player)
     {
-        player.itemHolder.Add(this);
+        if(holdable)
+        {
+            player.itemHolder.Add(this);
+        }
+        else
+        {
+            player.inventory.AddItemToInventory(this.itemSO, 1);
+            NetworkObject.Despawn(true);
+        }
     }
 
     public virtual void Attach(Transform transformToAttach)

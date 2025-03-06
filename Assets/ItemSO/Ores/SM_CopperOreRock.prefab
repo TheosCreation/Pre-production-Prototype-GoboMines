@@ -209,5 +209,6 @@ MonoBehaviour:
   IkRightHandOn: 1
   isHeld: 0
   canSell: 1
+  holdable: 0
   itemSO: {fileID: 11400000, guid: 3b930e4afc1aa5e4a9e5520592b150d4, type: 2}
   interactionText: 

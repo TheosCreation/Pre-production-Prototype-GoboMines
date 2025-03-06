@@ -10,6 +10,16 @@ public class InventoryUiPage : UiPage
 
     public void UpdateInventory(Dictionary<ItemSO, int> items)
     {
+        if(items.Count == 0)
+        {
+            foreach (var displayedItem in displayedItems)
+            {
+                Destroy(displayedItem.Value.gameObject);
+            }
+
+            displayedItems.Clear();
+        }
+
         foreach (var item in items)
         {
             if (displayedItems.ContainsKey(item.Key))

@@ -209,5 +209,6 @@ MonoBehaviour:
   IkRightHandOn: 1
   isHeld: 0
   canSell: 1
+  holdable: 0
   itemSO: {fileID: 11400000, guid: 2c693f9a50be5044c98c50d6e620ad4e, type: 2}
   interactionText: Pickup Iron Ore
