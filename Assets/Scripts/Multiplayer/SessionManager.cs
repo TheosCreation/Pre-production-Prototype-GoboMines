@@ -68,6 +68,7 @@ public class SessionManager : Singleton<SessionManager>
 
         ActiveSession = await MultiplayerService.Instance.CreateSessionAsync(options);
         Debug.Log($"Session {ActiveSession.Id} created! Join code: {ActiveSession.Code}");
+        UiManager.Instance.playerHud.UpdateConnectionCodeText(ActiveSession.Code);
     }
 
     public async Task JoinSessionById(string sessionId)
@@ -80,6 +81,7 @@ public class SessionManager : Singleton<SessionManager>
     {
         ActiveSession = await MultiplayerService.Instance.JoinSessionByCodeAsync(sessionCode);
         Debug.Log($"Session {ActiveSession.Id} joined!");
+        UiManager.Instance.playerHud.UpdateConnectionCodeText(ActiveSession.Code);
     }
 
     public async Task KickPlayer(string playerId)

@@ -31,13 +31,16 @@ public class Room : NetworkBehaviour
         return bounds.center;
     }
 
-    public void InitializeRoom()
+    public void InitializeRoom(bool spawnOres)
     {
         doors.Clear();
         Vector3 center = CalculateCenter();
         FindDoorsIterative(center);
 
-        FindAndSpawnOres();
+        if (spawnOres)
+        {
+            FindAndSpawnOres();
+        }
     }
 
     private void FindAndSpawnOres()

@@ -78,6 +78,8 @@ MonoBehaviour:
   IkLeftHandOn: 1
   IkRightHandOn: 1
   isHeld: 0
+  canSell: 0
+  itemSO: {fileID: 0}
   interactionText: Pickup Pickaxe
   isEquip: 0
   equipTime: 0.5
@@ -85,7 +87,11 @@ MonoBehaviour:
   damage: 20
   isAttacking: 0
   attacksPerSecond: 1
-  attackingSounds: []
+  attackingSounds:
+  - {fileID: 8300000, guid: d786581da93cf86408979a0aa090d0d3, type: 3}
+  - {fileID: 8300000, guid: 1d12c2b57e699fd46829c36d3b93568a, type: 3}
+  - {fileID: 8300000, guid: 7fa01a1b1b8b6b841b582715414d1793, type: 3}
+  - {fileID: 8300000, guid: ea549a402a0d9704081ec400afc08f25, type: 3}
   isReloading:
     m_InternalValue: 0
   magSize: 45

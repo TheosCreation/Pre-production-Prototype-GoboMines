@@ -137,6 +137,7 @@ public class Weapon : Item
 
         equipTimer.SetTimer(equipTime, EquipFinish);
         otherAudioSource.PlayOneShot(equipSound);
+        UiManager.Instance.playerHud.UpdateAmmo(0, 0);
 
         //recoil = Vector2.zero;
     }

@@ -23,14 +23,23 @@ public class RangedWeapon : Weapon
     private Timer reloadTimer;
     private Vector3 shotDirection;
 
-    private int ammo = 0;
-    public int Ammo
+    private int ammoReserve = 500;
+    private int ammoInMag = 0;
+    public int AmmoInMag
     {
-        get => ammo;
+        get => ammoInMag;
         set
         {
-            ammo = value;
-            //UiManager.Instance.playerHud.UpdateAmmoCount(ammo, magSize);
+            ammoInMag = value;
+            if(ammoInMag == 0)
+            {
+                animator.SetBool("Empty", true);
+            }
+            else
+            {
+                animator.SetBool("Empty", false);
+            }
+            UiManager.Instance.playerHud.UpdateAmmo(ammoInMag, ammoReserve);
         }
     }
 
@@ -38,7 +47,7 @@ public class RangedWeapon : Weapon
     {
         base.Awake();
 
-        ammo = magSize;
+        ammoInMag = magSize;
         reloadTimer = gameObject.AddComponent<Timer>();
     }
 
@@ -46,6 +55,8 @@ public class RangedWeapon : Weapon
     {
         base.Equip();
 
+
+        UiManager.Instance.playerHud.UpdateAmmo(ammoInMag, ammoReserve);
         isReloading.Value = false;
         isAttacking = false;
 
@@ -58,7 +69,7 @@ public class RangedWeapon : Weapon
     {
         base.Attack();
 
-        Ammo--;
+        AmmoInMag--;
 
         AttackServerRpc();
 
@@ -123,7 +134,7 @@ public class RangedWeapon : Weapon
 
     protected override bool CanAttack()
     {
-        return ammo > 0 && !isReloading.Value && !isJammed;
+        return ammoInMag > 0 && !isReloading.Value && !isJammed;
     }
 
     public override void CantAttackAction()
@@ -159,20 +170,19 @@ public class RangedWeapon : Weapon
 
     private void StartReload()
     {
-        if (ammo < magSize && !isReloading.Value)
+        // Only start reloading if there's room in the magazine, you're not already reloading, and there’s ammo in reserve.
+        if (ammoInMag < magSize && !isReloading.Value && ammoReserve > 0)
         {
             isReloading.Value = true;
             FinishUnJamming();
-            //animator.SetTrigger("Reload");
             reloadTimer.SetTimer(reloadTime, FinishReload);
-            if (ammo == 0)
+            player.networkedAnimator.SetTrigger("Reload");
+            if (ammoInMag == 0)
             {
-                player.networkedAnimator.SetTrigger("ReloadEmpty");
                 otherAudioSource.PlayOneShot(reloadEmptySound);
             }
             else
             {
-                player.networkedAnimator.SetTrigger("Reload");
                 otherAudioSource.PlayOneShot(reloadSound);
             }
         }
@@ -182,8 +192,12 @@ public class RangedWeapon : Weapon
     {
         if (isReloading.Value)
         {
+            int bulletsNeeded = magSize - ammoInMag;
+            int bulletsToReload = Mathf.Min(ammoReserve, bulletsNeeded);
+            AmmoInMag += bulletsToReload;
+            ammoReserve -= bulletsToReload;
+
             isReloading.Value = false;
-            Ammo = magSize;
         }
     }
 
