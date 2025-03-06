@@ -25,4 +25,16 @@ public class InventoryUiPage : UiPage
             }
         }
     }
+
+    public void NotifyPlayerDropAllItems()
+    {
+        foreach (var player in NetworkSpawnHandler.Instance.playersConnected)
+        {
+            if (player.IsOwner) // or use player.IsLocalPlayer if that's what you have
+            {
+                player.DropAllItems();
+                break; // Exit once the local player's items are dropped
+            }
+        }
+    }
 }

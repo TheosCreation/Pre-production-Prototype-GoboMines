@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Netcode;
 
 public class SellItemManager : MonoBehaviour
 {
@@ -36,6 +37,6 @@ public class SellItemManager : MonoBehaviour
     {
         CurrencyManager.Instance.AddMoney(item.itemSO.saleValue);
 
-        Destroy(item.gameObject);
+        item.GetComponent<NetworkObject>().Despawn(true);
     }
 }

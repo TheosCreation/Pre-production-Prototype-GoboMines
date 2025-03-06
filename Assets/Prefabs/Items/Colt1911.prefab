@@ -155,7 +155,7 @@ MonoBehaviour:
   isReloading:
     m_InternalValue: 0
   magSize: 7
-  reloadTime: 2.5
+  reloadTime: 2
   isJammed: 0
   isUnJamming: 0
   jammedSound: {fileID: 8300000, guid: aa097e28a459caa4c826c024cb1ed92a, type: 3}
@@ -516,6 +516,18 @@ PrefabInstance:
     - target: {fileID: -5833661098405571102, guid: 2c680bf74b776224689e65e216ee47c6, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4226156463210825400, guid: 2c680bf74b776224689e65e216ee47c6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0048
+      objectReference: {fileID: 0}
+    - target: {fileID: -4226156463210825400, guid: 2c680bf74b776224689e65e216ee47c6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0497
+      objectReference: {fileID: 0}
+    - target: {fileID: -4226156463210825400, guid: 2c680bf74b776224689e65e216ee47c6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: -4184299497446228117, guid: 2c680bf74b776224689e65e216ee47c6, type: 3}
       propertyPath: m_LocalScale.x

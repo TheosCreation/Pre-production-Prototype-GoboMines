@@ -149,9 +149,14 @@ public class ItemHolder : NetworkBehaviour
     }
     private void SelectItem(int newValue)
     {
-        if (newValue < currentHoldableItems.Count)
+        if (newValue >= 0 && newValue < currentHoldableItems.Count)
         {
             currentItem = currentHoldableItems[newValue];
+        }
+        else
+        {
+            // Optionally handle invalid indices; for example, disable the current item
+            currentItem = null;
         }
 
         foreach (var item in currentHoldableItems)
@@ -159,6 +164,7 @@ public class ItemHolder : NetworkBehaviour
             item.gameObject.SetActive(item == currentItem);
         }
     }
+
 
     private void UpdateHandTargets()
     {

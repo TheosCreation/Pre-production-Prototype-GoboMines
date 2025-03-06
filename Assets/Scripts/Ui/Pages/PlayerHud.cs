@@ -11,8 +11,8 @@ public class PlayerHud : UiPage
 
     public void UpdateWeightBar(float weight, float maxWeight)
     {
-        weightBar.textBox.text = $"Weight {weight}/{maxWeight}";
-        weightBar.UpdateBar(weight / maxWeight);
+        //weightBar.textBox.text = $"Weight {weight}/{maxWeight}";
+        //weightBar.UpdateBar(weight / maxWeight);
     }
 
     public void UpdateAmmo(int ammo, int ammoReserve)

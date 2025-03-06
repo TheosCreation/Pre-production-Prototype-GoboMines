@@ -48,5 +48,14 @@ public class UiManager : Singleton<UiManager>
         bool inventoryPageStatus = inventoryPage.isActiveAndEnabled;
         inventoryPage.SetActive(!inventoryPageStatus);
         playerHud.SetActive(inventoryPageStatus);
+        if(inventoryPageStatus)
+        {
+            PauseManager.Instance.UnPause();
+        }
+        else
+        {
+
+            PauseManager.Instance.Pause();
+        }
     }
 }

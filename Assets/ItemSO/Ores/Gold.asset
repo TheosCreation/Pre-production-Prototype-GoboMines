@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c960c43eb06ba40bb9cd6f3fbefb17, type: 3}
   m_Name: Gold
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  itemPrefab: {fileID: 6201177616146306478, guid: 294ffac67f1c1f845a781e17553752fa, type: 3}
   icon: {fileID: 21300000, guid: 385eae3cc9e94d64f841a39264d3ed0d, type: 3}
   itemName: Gold
   weight: 14
