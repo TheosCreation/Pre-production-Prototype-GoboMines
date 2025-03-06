@@ -58,7 +58,7 @@ public class PauseManager : Singleton<PauseManager>
         isPaused = true;
     }
 
-    private void UnPause()
+    public void UnPause()
     {
         //Time.timeScale = 1;
         InputManager.Instance.EnablePlayerInput();
@@ -66,5 +66,6 @@ public class PauseManager : Singleton<PauseManager>
         //DiscordManager.ChangeActivity(GameManager.Instance.currentGamemode, GameManager.Instance.GameState.currentLevelIndex);
 
         Cursor.lockState = CursorLockMode.Locked;
+        isPaused = false;
     }
 }

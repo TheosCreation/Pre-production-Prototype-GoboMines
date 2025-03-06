@@ -1,23 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Netcode;
 
-public class SellItemManager : MonoBehaviour
+public class SellItemManager : NetworkBehaviour
 {
-    private List<Item> itemsInRange = new List<Item>();
+    public List<Item> itemsInRange = new List<Item>();
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
-        Item item = other.GetComponent<Item>();
-        if (item != null && !itemsInRange.Contains(item) && item.canSell)
+        if (!IsServer) return;
+
+        if (other.TryGetComponent<Item>(out Item item) && item.canSell)
         {
             itemsInRange.Add(item);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerExit(Collider other)
     {
-        Item item = other.GetComponent<Item>();
-        if (item != null && itemsInRange.Contains(item) && item.canSell)
+        if (!IsServer) return;
+        if (other.TryGetComponent<Item>(out Item item) && itemsInRange.Contains(item) && item.canSell)
         {
             itemsInRange.Remove(item);
         }
@@ -25,9 +27,14 @@ public class SellItemManager : MonoBehaviour
 
     public void SellItems()
     {
+        if (!IsServer) return;
+
         foreach (Item item in new List<Item>(itemsInRange))
         {
-            SellItem(item);
+            if (item != null)
+            {
+                SellItem(item);
+            }
         }
         itemsInRange.Clear(); // Clear the list after selling
     }
@@ -36,6 +43,6 @@ public class SellItemManager : MonoBehaviour
     {
         CurrencyManager.Instance.AddMoney(item.itemSO.saleValue);
 
-        Destroy(item.gameObject);
+        item.GetComponent<NetworkObject>().Despawn(true);
     }
 }

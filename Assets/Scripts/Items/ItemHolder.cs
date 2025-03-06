@@ -34,7 +34,7 @@ public class ItemHolder : NetworkBehaviour
     private void OnAttackCanceled(InputAction.CallbackContext ctx) => currentItem?.EndAttacking();
     private void OnAltActionStarted(InputAction.CallbackContext ctx) => currentItem?.StartAltAction();
     private void OnAltActionCanceled(InputAction.CallbackContext ctx) => currentItem?.EndAltAction();
-    private void OnCantAttackActionStarted(InputAction.CallbackContext ctx) => currentItem?.CantAttackAction();
+    private void OnCantAttackActionStarted(InputAction.CallbackContext ctx) => currentItem?.TryFixAttackingAction();
     private void OnSpecialActionStarted(InputAction.CallbackContext ctx) => currentItem?.StartSpecialAction();
     private void OnDropItemStarted(InputAction.CallbackContext ctx) => DropCurrentItem();
 
@@ -149,9 +149,14 @@ public class ItemHolder : NetworkBehaviour
     }
     private void SelectItem(int newValue)
     {
-        if (newValue < currentHoldableItems.Count)
+        if (newValue >= 0 && newValue < currentHoldableItems.Count)
         {
             currentItem = currentHoldableItems[newValue];
+        }
+        else
+        {
+            // Optionally handle invalid indices; for example, disable the current item
+            currentItem = null;
         }
 
         foreach (var item in currentHoldableItems)
@@ -159,6 +164,7 @@ public class ItemHolder : NetworkBehaviour
             item.gameObject.SetActive(item == currentItem);
         }
     }
+
 
     private void UpdateHandTargets()
     {

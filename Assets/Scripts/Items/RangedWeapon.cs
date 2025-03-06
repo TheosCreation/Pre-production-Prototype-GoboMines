@@ -14,8 +14,7 @@ public class RangedWeapon : Weapon
     [Header("Projectile Settings")]
     [SerializeField] protected Transform muzzleTransform;
 
-    [SerializeField] public Projectile projectilePrefab;
-    [SerializeField] public ParticleSystem muzzleFlashParticle;
+    [SerializeField] private Beam beamPrefab;
     [SerializeField] public ParticleSystem casingParticle;
 
     [SerializeField] protected AudioClip reloadEmptySound;
@@ -24,14 +23,23 @@ public class RangedWeapon : Weapon
     private Timer reloadTimer;
     private Vector3 shotDirection;
 
-    private int ammo = 0;
-    public int Ammo
+    private int ammoReserve = 500;
+    private int ammoInMag = 0;
+    public int AmmoInMag
     {
-        get => ammo;
+        get => ammoInMag;
         set
         {
-            ammo = value;
-            //UiManager.Instance.playerHud.UpdateAmmoCount(ammo, magSize);
+            ammoInMag = value;
+            if(ammoInMag == 0)
+            {
+                animator.SetBool("Empty", true);
+            }
+            else
+            {
+                animator.SetBool("Empty", false);
+            }
+            UiManager.Instance.playerHud.UpdateAmmo(ammoInMag, ammoReserve);
         }
     }
 
@@ -39,7 +47,7 @@ public class RangedWeapon : Weapon
     {
         base.Awake();
 
-        ammo = magSize;
+        ammoInMag = magSize;
         reloadTimer = gameObject.AddComponent<Timer>();
     }
 
@@ -47,6 +55,8 @@ public class RangedWeapon : Weapon
     {
         base.Equip();
 
+
+        UiManager.Instance.playerHud.UpdateAmmo(ammoInMag, ammoReserve);
         isReloading.Value = false;
         isAttacking = false;
 
@@ -59,15 +69,12 @@ public class RangedWeapon : Weapon
     {
         base.Attack();
 
-        Ammo--;
+        AmmoInMag--;
 
-        FireProjectile();
+        AttackServerRpc();
 
         ApplyRecoil();
 
-
-        muzzleFlashParticle.Play();
-
         // play vfx for casings and muzzleflash
         if (casingParticle != null)
         {
@@ -75,43 +82,30 @@ public class RangedWeapon : Weapon
         }
     }
 
-    [ClientRpc]
-    protected override void AttackClientRpc()
-    {
-        if (IsOwner) return;
-
-        muzzleFlashParticle.Play();
-
-        // play vfx for casings and muzzleflash
-        if (casingParticle != null)
-        {
-            casingParticle.Play();
-        }
-    }
-
-    protected void FireProjectile()
-    {
-        if (IsClient || IsHost)
-        {
-            // Send a request to the server to spawn the projectile
-            FireProjectileServerRpc();
-        }
-    }
 
     [ServerRpc]
-    private void FireProjectileServerRpc()
+    private void AttackServerRpc()
     {
         Vector3 firePosition = player.playerLook.playerCamera.transform.position;
 
         Vector3 direction = player.playerLook.playerCamera.transform.forward;
 
-        // Spawn the projectile on the server
-        Projectile projectile = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
-        NetworkObject projectileNetworkObject = projectile.GetComponent<NetworkObject>();
-        projectileNetworkObject.Spawn(true); // Spawn the projectile on the network
-
-        // Initialize the projectile
-        projectile.Initialize(firePosition, direction, player, damage);
+        RaycastHit hit;
+        if (Physics.Raycast(firePosition, direction, out hit))
+        {
+            Beam revolverBeam = Instantiate(beamPrefab, muzzleTransform.position, Quaternion.LookRotation(direction));
+            revolverBeam.GetComponent<NetworkObject>().Spawn();
+            revolverBeam.DrawBeamClientRpc(hit.point);
+            if(hit.collider.TryGetComponent<IDamageable>(out IDamageable hitDamageable))
+            {
+                hitDamageable.TakeDamage(damage, player);
+                SpawnHitParticles(hit.point, hit.normal, hitDamageable.HitParticlePrefab);
+            }
+            else
+            {
+                SpawnHitParticles(hit.point, hit.normal, GameManager.Instance.prefabs.hitWallPrefab);
+            }
+        }
     }
 
     private void ApplyRecoil()
@@ -140,14 +134,29 @@ public class RangedWeapon : Weapon
 
     protected override bool CanAttack()
     {
-        return ammo > 0 && !isReloading.Value;
+        return ammoInMag > 0 && !isReloading.Value && !isJammed;
     }
 
     public override void CantAttackAction()
     {
         base.CantAttackAction();
 
-        if (isJammed && !isUnJamming)
+        if (isJammed)
+        {
+            attackingAudioSource.PlayOneShot(jammedSound);
+        }
+        else
+        {
+            StartReload();
+        }
+    }
+
+
+    public override void TryFixAttackingAction()
+    {
+        if (isUnJamming) return;
+
+        if (isJammed)
         {
             isUnJamming = true;
             unJamTimer.SetTimer(unJamTime, FinishUnJamming);
@@ -161,20 +170,19 @@ public class RangedWeapon : Weapon
 
     private void StartReload()
     {
-        if (ammo < magSize && !isReloading.Value)
+        // Only start reloading if there's room in the magazine, you're not already reloading, and there’s ammo in reserve.
+        if (ammoInMag < magSize && !isReloading.Value && ammoReserve > 0)
         {
             isReloading.Value = true;
-            isJammed = false;
-            //animator.SetTrigger("Reload");
+            FinishUnJamming();
             reloadTimer.SetTimer(reloadTime, FinishReload);
-            if (ammo == 0)
+            player.networkedAnimator.SetTrigger("Reload");
+            if (ammoInMag == 0)
             {
-                player.networkedAnimator.SetTrigger("ReloadEmpty");
                 otherAudioSource.PlayOneShot(reloadEmptySound);
             }
             else
             {
-                player.networkedAnimator.SetTrigger("Reload");
                 otherAudioSource.PlayOneShot(reloadSound);
             }
         }
@@ -184,8 +192,26 @@ public class RangedWeapon : Weapon
     {
         if (isReloading.Value)
         {
+            int bulletsNeeded = magSize - ammoInMag;
+            int bulletsToReload = Mathf.Min(ammoReserve, bulletsNeeded);
+            AmmoInMag += bulletsToReload;
+            ammoReserve -= bulletsToReload;
+
             isReloading.Value = false;
-            Ammo = magSize;
         }
+    }
+
+    protected void SpawnHitParticles(Vector3 hitPosition, Vector3 wallNormal, ParticleSystem particleToSpawn)
+    {
+        if (!IsServer) return; // Only the server spawns particles
+
+        // Spawn hit particles with offset
+        Vector3 particlePositionOffset = wallNormal * 0.1f;
+        ParticleSystem hitParticles = Instantiate(particleToSpawn, hitPosition + particlePositionOffset, Quaternion.LookRotation(wallNormal)).GetComponent<ParticleSystem>();
+        NetworkObject netObj = hitParticles.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+
+        float duration = hitParticles.main.duration + hitParticles.main.startLifetime.constantMax;
+        NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
     }
 }

@@ -71,7 +71,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
         inventory = GetComponent<Inventory>();
 
         InputManager.Instance.Input.Player.Interact.started += OnInteractStarted;
-        InputManager.Instance.Input.Player.Inventory.started += OnInventoryStarted;
+        InputManager.Instance.Input.UI.Inventory.started += OnInventoryStarted;
     }
 
     public override void OnDestroy()
@@ -80,7 +80,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
 
         InputManager.Instance.Input.Player.Interact.started -= OnInteractStarted;
-        InputManager.Instance.Input.Player.Inventory.started -= OnInventoryStarted;
+        InputManager.Instance.Input.UI.Inventory.started -= OnInventoryStarted;
     }
     public override void OnNetworkSpawn()
     {
@@ -170,5 +170,10 @@ public class PlayerController : NetworkBehaviour, IDamageable
         lastDamageTime = Time.time;
         Health -= amount;
         playerLook.TriggerScreenShake(0.2f, amount*0.005f);
+    }
+
+    public void DropAllItems()
+    {
+        inventory.DropAllItems();
     }
 }

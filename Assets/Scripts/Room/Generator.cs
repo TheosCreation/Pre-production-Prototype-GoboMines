@@ -76,7 +76,7 @@ public class Generator : MonoBehaviour
             DontDestroyOnLoad(templateObject);
 
             Room roomComponent = templateObject.GetComponent<Room>();
-            roomComponent.InitializeRoom();
+            roomComponent.InitializeRoom(false);
             roomTemplates[prefab] = roomComponent;
         }
     }
@@ -394,16 +394,17 @@ public class Generator : MonoBehaviour
         GameObject roomObj = Instantiate(prefab, worldPosition, rotation);
         Room room = roomObj.GetComponent<Room>();
 
-        InitilizeRoomAndGrid(room, bottomLeftCell, rotation);
-
         roomObj.GetComponent<NetworkObject>().Spawn(true);
+        roomObj.transform.parent = this.transform;
+
+        InitilizeRoomAndGrid(room, bottomLeftCell, rotation);
 
         return room;
     }
 
     public void InitilizeRoomAndGrid(Room room, Vector2Int bottomLeftCell, Quaternion roomRotation)
     {
-        room.InitializeRoom();
+        room.InitializeRoom(true);
 
         placedRooms.Add(room);
 

@@ -1165,7 +1165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5065647184808783466
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1259,6 +1259,7 @@ MonoBehaviour:
   interactionTextBox: {fileID: 1602268926847410699}
   ammoLeftTextBox: {fileID: 2584745549940473351}
   ammoReserveTextBox: {fileID: 9161745307303573157}
+  connectionCodeTextBox: {fileID: 0}
 --- !u!1001 &1373008829226588418
 PrefabInstance:
   m_ObjectHideFlags: 0

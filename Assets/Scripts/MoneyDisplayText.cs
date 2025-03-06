@@ -13,6 +13,6 @@ public class MoneyDisplayText : MonoBehaviour
 
     private void UpdateText(float money)
     {
-        m_textbox.text = money.ToString();
+        m_textbox.text = "Total Cash: " + money.ToString();
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c960c43eb06ba40bb9cd6f3fbefb17, type: 3}
   m_Name: Copper
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  itemPrefab: {fileID: 8922550076315836893, guid: f92e9071e61dff948917113c37436db6, type: 3}
   icon: {fileID: 21300000, guid: f59a3f4ad0f87ed45a99eed6589eb7c8, type: 3}
   itemName: Copper
   weight: 5

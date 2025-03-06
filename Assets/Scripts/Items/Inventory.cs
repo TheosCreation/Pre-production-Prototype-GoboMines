@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -62,4 +63,38 @@ public class Inventory : MonoBehaviour
         UiManager.Instance.playerHud.UpdateWeightBar(weight, maxWeight);
     }
 
+    public void DropAllItems()
+    {
+        // Iterate over each item and its quantity in the inventory.
+        foreach (var kvp in items)
+        {
+            ItemSO item = kvp.Key;
+            int count = kvp.Value;
+
+            for (int i = 0; i < count; i++)
+            {
+                // Determine a drop position near the player with a small random offset.
+                Vector3 dropPosition = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+                Quaternion dropRotation = Quaternion.identity;
+
+                // Instantiate the prefab associated with the ore.
+                Item droppedOre = Instantiate(item.itemPrefab, dropPosition, dropRotation);
+
+                // Retrieve the NetworkObject component and spawn it on the network.
+                NetworkObject netObj = droppedOre.GetComponent<NetworkObject>();
+                if (netObj != null)
+                {
+                    netObj.Spawn();
+                }
+                else
+                {
+                    Debug.LogWarning("Dropped ore does not have a NetworkObject component.");
+                }
+            }
+        }
+
+        items.Clear();
+        UiManager.Instance.inventoryPage.UpdateInventory(items);
+        UiManager.Instance.playerHud.UpdateWeightBar(0, maxWeight);
+    }
 }

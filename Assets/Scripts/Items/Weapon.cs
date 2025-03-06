@@ -59,7 +59,7 @@ public class Weapon : Item
 
         attackTimer -= Time.deltaTime;
 
-        if (attackTimer < 0.0f && isAttacking && isEquip && !isJammed)
+        if (attackTimer < 0.0f && isAttacking && isEquip)
         {
             //use jamChance and set isJammed to true, we cannot fire when gun is jammed
             attackTimer = CalculateAttackRate();
@@ -110,6 +110,7 @@ public class Weapon : Item
         if (!IsOwner) return;
     }
 
+
     private void OnEnable()
     {
         Equip();
@@ -136,6 +137,7 @@ public class Weapon : Item
 
         equipTimer.SetTimer(equipTime, EquipFinish);
         otherAudioSource.PlayOneShot(equipSound);
+        UiManager.Instance.playerHud.UpdateAmmo(0, 0);
 
         //recoil = Vector2.zero;
     }
@@ -180,7 +182,7 @@ public class Weapon : Item
         if (attackingSounds.Length > 0 && attackingAudioSource != null)
         {
             AudioClip randomClip = attackingSounds[UnityEngine.Random.Range(0, attackingSounds.Length)];
-            attackingAudioSource.PlayOneShot(randomClip);
+            attackingAudioSource.PlayOneShot(randomClip, 0.5f);
         }
     }
 
