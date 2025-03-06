@@ -19,8 +19,8 @@ TagManager:
   - OreNodes
   - Interactable
   - Outside
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

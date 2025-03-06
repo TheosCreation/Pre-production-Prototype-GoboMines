@@ -17,13 +17,16 @@ MonoBehaviour:
   detectionRange: 15
   attackRange: 2
   attackCooldown: 1
-  currentDestination: {x: -24.314148, y: 0.13055831, z: 3.4011898}
+  currentDestination: {x: 2.975977, y: 0.020708203, z: 4.1739154}
   allowedAreas: -32
   updatePathInterval: 0.2
   stoppingDistance: 0.5
-  maxRandomDistance: 10
-  raycastDistance: 1
-  slowdownFactor: 0.1
-  speedRecoveryRate: 3
-  Outside: -48
-  both: -32
+  maxChaseRadius: 10
+  spiralValue: 10
+  outsideArea: 0
+  insideArea: 1
+  outsideAreaCost: 1
+  insideAreaCost: 10
+  transitionSlowdownFactor: 0.1
+  transitionSlowdownDuration: 2
+  transitionParticleEffect: {fileID: 4809575355807023318, guid: 9c27285e8ac3b324793b3dbc1a0d34ea, type: 3}

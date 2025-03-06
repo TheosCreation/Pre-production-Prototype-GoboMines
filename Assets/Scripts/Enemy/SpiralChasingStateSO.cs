@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,10 +27,11 @@ public class SpiralChasingStateSO : BaseState
     private float pathUpdateTimer = 0f;
     private float spiralAngle = 0f;
     private bool transitionTriggered = false;
-
+    private int outsideLayer = LayerMask.NameToLayer("Outside");
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
+        outsideLayer = LayerMask.NameToLayer("Outside");
         NavMeshAgent agent = enemy.GetAgent();
         agent.stoppingDistance = stoppingDistance;
 
@@ -72,7 +74,7 @@ public class SpiralChasingStateSO : BaseState
             enemy.PerformAttack();
         }
 
-        // Safeguard: if the agent appears stuck, reset its path.
+        // safeguard
         if (enemy.GetAgent().velocity.sqrMagnitude < 0.01f && enemy.GetAgent().hasPath)
         {
             enemy.GetAgent().ResetPath();
@@ -87,16 +89,14 @@ public class SpiralChasingStateSO : BaseState
 
         if (target != null)
         {
-            // Calculate a spiral offset around the target.
             float radius = Mathf.Clamp(Vector3.Distance(enemy.transform.position, target.position),
                                          stoppingDistance, maxChaseRadius);
             Vector3 offset = new Vector3(Mathf.Cos(spiralAngle), 0, Mathf.Sin(spiralAngle)) * radius;
             currentDestination = target.position + offset;
 
-            // Increase the angle for the spiral effect.
             spiralAngle += Mathf.PI / spiralValue;
 
-            int outsideLayer = LayerMask.NameToLayer("Outside");
+
             RaycastHit destHit;
             if (Physics.Raycast(currentDestination + Vector3.up * 5f, Vector3.down, out destHit, 10f))
             {
@@ -110,9 +110,18 @@ public class SpiralChasingStateSO : BaseState
                             transitionTriggered = true;
                             float originalSpeed = agent.speed;
                             enemy.SetMoveSpeed(originalSpeed * transitionSlowdownFactor);
+                            Vector3 insideDirection = (target.position - enemy.transform.position).normalized;
                             if (transitionParticleEffect != null)
                             {
-                                transitionParticleEffect.Play();
+                                ParticleSystem particle = Instantiate(transitionParticleEffect, enemy.transform.position, Quaternion.LookRotation(enemy.transform.forward)).GetComponent<ParticleSystem>();
+                                NetworkObject netObj = particle.GetComponent<NetworkObject>();
+                                netObj.Spawn(true);
+
+
+                                float duration = particle.main.duration + particle.main.startLifetime.constantMax;
+                                NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, duration);
+                    
+
                             }
                             enemy.StartCoroutine(ResetTransition(enemy, originalSpeed));
                         }
