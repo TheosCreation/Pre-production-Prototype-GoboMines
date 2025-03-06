@@ -12,6 +12,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Decorations
+    second: {fileID: 2100000, guid: d2b7b2b37d5532b4f80b5aa502226207, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Metal.002
     second: {fileID: 2100000, guid: 4e59ea98dc77ea747b4438b0ac0f11c8, type: 2}
   - first:
