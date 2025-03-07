@@ -19,7 +19,7 @@ public class Shop : NetworkBehaviour, IInteractable
         // For example, select the first item from the list.
         Item selectedItem = purchasableItems[0];
         if (CurrencyManager.Instance.GetTotalMoney() < selectedItem.itemSO.saleValue) return;
-
+        CurrencyManager.Instance.TakeMoney(selectedItem.itemSO.saleValue);
         if (selectedItem.holdable)
         {
             // Ensure that the item prefab is assigned.

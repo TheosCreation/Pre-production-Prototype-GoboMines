@@ -143,7 +143,7 @@ MonoBehaviour:
   isHeld: 0
   canSell: 0
   holdable: 1
-  itemSO: {fileID: 0}
+  itemSO: {fileID: 11400000, guid: e62855e4c81b56048a01a5d44445b18a, type: 2}
   interactionText: Pickup Colt 1911
   isEquip: 0
   equipTime: 0.5

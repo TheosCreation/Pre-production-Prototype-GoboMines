@@ -13,6 +13,12 @@ public class CurrencyManager : Singleton<CurrencyManager>
         OnMoneyChanged?.Invoke(totalMoney);
     }
 
+    public void TakeMoney(int saleValue)
+    {
+        totalMoney -= saleValue;
+        OnMoneyChanged?.Invoke(totalMoney);
+    }
+
     public int GetTotalMoney()
     {
         return totalMoney;
