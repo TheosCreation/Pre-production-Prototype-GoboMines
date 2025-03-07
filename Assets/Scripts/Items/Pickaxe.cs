@@ -22,7 +22,6 @@ public class Pickaxe : Weapon
         RaycastHit hit;
         if(Physics.Raycast(firePosition, direction, out hit, attackRange, hitMask))
         {
-            Debug.Log("Hit something");
             IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
             if (damageable == null)
             {
@@ -31,9 +30,6 @@ public class Pickaxe : Weapon
 
             if (damageable != null)
             {
-                // Only the server should handle sound creation
-                if (!IsServer) return;
-
                 if (damageable.HitSounds.Length > 0)
                 {
                     AudioClip hitSound = damageable.HitSounds[Random.Range(0, damageable.HitSounds.Length)];

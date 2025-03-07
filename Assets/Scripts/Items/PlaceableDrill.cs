@@ -43,6 +43,11 @@ public class PlacableDrill : Item
 
             if (damageable != null)
             {
+                if (damageable.HitSounds.Length > 0)
+                {
+                    AudioClip hitSound = damageable.HitSounds[Random.Range(0, damageable.HitSounds.Length)];
+                    NetworkSpawnHandler.Instance.SpawnSound(hitSound, hit.point);
+                }
 
                 damageable.TakeDamage(damage, drill);
             }

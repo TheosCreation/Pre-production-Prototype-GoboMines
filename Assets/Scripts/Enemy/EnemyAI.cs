@@ -4,6 +4,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class EnemyAI : NetworkBehaviour, IDamageable
 {
@@ -179,6 +180,11 @@ public class EnemyAI : NetworkBehaviour, IDamageable
         IDamageable damageable = target.GetComponent<IDamageable>();
         if (damageable != null)
         {
+            if (damageable.HitSounds.Length > 0)
+            {
+                AudioClip hitSound = damageable.HitSounds[Random.Range(0, damageable.HitSounds.Length)];
+                NetworkSpawnHandler.Instance.SpawnSound(hitSound, transform.position);
+            }
             damageable.TakeDamage(damage, gameObject);
         }
         

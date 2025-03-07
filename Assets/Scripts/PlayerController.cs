@@ -4,6 +4,7 @@ using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 public class PlayerController : NetworkBehaviour, IDamageable
 {
@@ -22,7 +23,9 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     [SerializeField] private AudioClip[] hitSounds;
     public AudioClip[] HitSounds { get => hitSounds; set => hitSounds = value; }
-    
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioSource aud;
+
     [SerializeField] private int health = 100;
 
     [SerializeField] private float damageCooldown = 1f; 
@@ -52,9 +55,10 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
         if (NetworkSpawnHandler.Instance != null)
         {
-            NetworkSpawnHandler.Instance.RemovePlayerServerRpc(OwnerClientId, default);
-
+            NetworkSpawnHandler.Instance.MarkPlayerToRespawnServerRpc(OwnerClientId, default);
         }
+
+        NetworkSpawnHandler.Instance.SpawnSound(deathSound, transform.position);
 
         NetworkObject.Despawn(gameObject);
         Destroy(gameObject);
@@ -151,6 +155,8 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     public void TakeDamage(int amount, PlayerController fromPlayer)
     {
+        if(!IsOwner) return;
+
         if (Time.time - lastDamageTime < damageCooldown)
         {
             return;
@@ -160,10 +166,14 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
         ulong attackerId = fromPlayer.OwnerClientId;
         Health -= amount;
+        playerLook.TriggerScreenShake(0.2f, amount * 0.005f);
+        UiManager.Instance.playerHud.damageFlash.Play();
     }
 
     public void TakeDamage(int amount, GameObject fromObject)
     {
+        if (!IsOwner) return;
+
         if (Time.time - lastDamageTime < damageCooldown)
         {
             return;
@@ -172,6 +182,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
         lastDamageTime = Time.time;
         Health -= amount;
         playerLook.TriggerScreenShake(0.2f, amount*0.005f);
+        UiManager.Instance.playerHud.damageFlash.Play();
     }
 
     public void DropAllItems()

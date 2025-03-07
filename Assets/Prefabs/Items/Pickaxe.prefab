@@ -109,7 +109,7 @@ MonoBehaviour:
   attackRange: 3
   hitMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1600
 --- !u!82 &2542430659442235550
 AudioSource:
   m_ObjectHideFlags: 0

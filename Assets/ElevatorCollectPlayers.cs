@@ -23,8 +23,7 @@ public class ElevatorCollectPlayers : MonoBehaviour
 
     public bool CheckIfPlayerAreIn()
     {
-        NetworkSpawnHandler.Instance.UpdatePlayersConnectedServerRpc();
-        if (playerInRange.Count == NetworkSpawnHandler.Instance.playersConnected.Count)
+        if (playerInRange.Count == NetworkSpawnHandler.Instance.playersAlive.Count)
         {
             return true;
         }

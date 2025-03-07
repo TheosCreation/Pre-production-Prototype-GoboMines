@@ -49,6 +49,7 @@ public class Weapon : Item
         equipTimer = gameObject.AddComponent<Timer>();
         pickupTimer = gameObject.AddComponent<Timer>();
         unJamTimer = gameObject.AddComponent<Timer>();
+        Init();
     }
 
     public override void Init()

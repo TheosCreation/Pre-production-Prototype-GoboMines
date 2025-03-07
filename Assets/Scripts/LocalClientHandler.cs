@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,10 +29,10 @@ public class LocalClientHandler : Singleton<LocalClientHandler>
         if (!tempCamera.gameObject.activeSelf)
             return;
 
-        if (NetworkSpawnHandler.Instance.playersConnected.Count == 0)
+        if (NetworkSpawnHandler.Instance.playersAlive.Count == 0)
             return;
 
-        currentCameraIndex = (currentCameraIndex + 1) % NetworkSpawnHandler.Instance.playersConnected.Count;
+        currentCameraIndex = (currentCameraIndex + 1) % NetworkSpawnHandler.Instance.playersAlive.Count;
         SetCameraToPlayer(currentCameraIndex);
 
     }
@@ -50,15 +51,15 @@ public class LocalClientHandler : Singleton<LocalClientHandler>
 
     public void SetCameraToPlayer(int index)
     {
-        if (NetworkSpawnHandler.Instance.playersConnected.Count == 0)
+        if (NetworkSpawnHandler.Instance.playersAlive.Count == 0)
             return;
 
-        currentCameraIndex = index % NetworkSpawnHandler.Instance.playersConnected.Count;
+        currentCameraIndex = index % NetworkSpawnHandler.Instance.playersAlive.Count;
         tempCamera.gameObject.SetActive(true);
 
-        playerCamera = NetworkSpawnHandler.Instance.playersConnected[currentCameraIndex].playerLook.playerCamera;
-
-      
+        playerCamera = NetworkSpawnHandler.Instance.playersAlive.Values
+                .ElementAt(currentCameraIndex)
+                .playerLook.playerCamera;
     }
 
     public void HandlePlayerSpawned(ulong clientId)

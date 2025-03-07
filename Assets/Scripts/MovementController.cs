@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -131,9 +132,10 @@ public class MovementController : NetworkBehaviour
     private Vector3 stepHit;
     private Vector3 stepdownHit;
     private Vector3 groundHitPosition;
-
+    private int lastFootstep = 0;
     private Rigidbody m_rigidbody;
     private CapsuleCollider m_collider;
+    private float footstepTimer = 0f;
 
     private void Awake()
     {
@@ -168,6 +170,14 @@ public class MovementController : NetworkBehaviour
 
         //movement
         MoveWalk();
+        if (isMoving)
+        {
+            footstepTimer = Mathf.MoveTowards(footstepTimer, 0f, Mathf.Min(m_rigidbody.linearVelocity.magnitude, 15f) / 15f * Time.fixedDeltaTime * movementSpeed * 1.5f);
+        }
+        if (footstepTimer <= 0f)
+        {
+            Footstep();
+        }
 
         if (!isMoving)
         {
@@ -179,6 +189,44 @@ public class MovementController : NetworkBehaviour
         ApplyGroundAdjustment();
 
         UpdateAnimator();
+    }
+    public void Footstep(float volume = 0.5f, bool force = false, float delay = 0f)
+    {
+        if(!isGrounded) return;
+
+        footstepTimer = 1f;
+
+        PlayRandomFootstepClip(footstepSounds, delay);
+    }
+
+    private void PlayRandomFootstepClip(AudioClip[] clips, float delay = 0f)
+    {
+        if (clips != null && clips.Length != 0)
+        {
+            int num = Random.Range(0, clips.Length);
+            if (clips.Length > 1 && num == lastFootstep)
+            {
+                num = (num + 1) % clips.Length;
+            }
+            lastFootstep = num;
+            PlayFootstepClip(clips[num], delay);
+        }
+    }
+    private void PlayFootstepClip(AudioClip clip, float delay = 0f)
+    {
+        if (!(clip == null))
+        {
+            movementAudioSource.clip = clip;
+            movementAudioSource.pitch = Random.Range(0.9f, 1.1f);
+            if (delay == 0f)
+            {
+                movementAudioSource.Play();
+            }
+            else
+            {
+                movementAudioSource.PlayDelayed(delay);
+            }
+        }
     }
 
     private void ApplyGroundAdjustment()
@@ -260,6 +308,8 @@ public class MovementController : NetworkBehaviour
             jumpTimer.SetTimer(jumpTime, JumpEnd);
 
             // play sound
+            int num = Random.Range(0, jumpSounds.Length);
+            movementAudioSource.PlayOneShot(jumpSounds[num]);
         }
     }
 
@@ -279,6 +329,7 @@ public class MovementController : NetworkBehaviour
         else if (!prevGrounded && isGrounded)
         {
             height2 = transform.position.y;
+            movementAudioSource.PlayOneShot(landSound);
             if (height1 - height2 > fallDistanceDamageThreshold)
             {
                 // apply fall damage

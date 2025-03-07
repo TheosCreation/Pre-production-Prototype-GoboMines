@@ -53,7 +53,8 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public void HandleGenerationComplete()
+    [ClientRpc]
+    public void BakeNavMeshAndSpawnsClientRpc()
     {
         if (insideSurface != null)
         { 
@@ -65,11 +66,8 @@ public class EnemySpawner : MonoBehaviour
         }
 
         CalculateSpawnAreas();
-
-        SpawnEnemies();
-
-        StartCoroutine(SpawnEnemiesOverTime());
     }
+
 
     private void CalculateSpawnAreas()
     {
@@ -218,8 +216,10 @@ public class EnemySpawner : MonoBehaviour
         return bounds;
     }
 
-    private void SpawnEnemies()
+    public void SpawnEnemies()
     {
+        StartCoroutine(SpawnEnemiesOverTime());
+
         // Spawn inside enemies.
         for (int i = 0; i < insideEnemyCount; i++)
         {

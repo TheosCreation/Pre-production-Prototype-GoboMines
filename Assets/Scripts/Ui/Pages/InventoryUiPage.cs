@@ -40,7 +40,7 @@ public class InventoryUiPage : UiPage
 
     public void NotifyPlayerDropAllItems()
     {
-        foreach (var player in NetworkSpawnHandler.Instance.playersConnected)
+        foreach (var player in NetworkSpawnHandler.Instance.playersAlive.Values)
         {
             if (player.IsOwner) // or use player.IsLocalPlayer if that's what you have
             {

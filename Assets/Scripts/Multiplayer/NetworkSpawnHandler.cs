@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,7 +7,9 @@ public class NetworkSpawnHandler : NetworkBehaviour
 {
     public static NetworkSpawnHandler Instance;
 
-    public List<PlayerController> playersConnected;
+    public List<ulong> clientsConnected = new List<ulong>();
+    public Dictionary<ulong, PlayerController> playersAlive = new Dictionary<ulong, PlayerController>();
+    public List<ulong> clientsToRespawn = new List<ulong>();
 
     public PlayerController playerPrefab;
     public float playerHeight = 2f;
@@ -31,12 +34,10 @@ public class NetworkSpawnHandler : NetworkBehaviour
         if (IsServer)
         {
             Debug.Log($"Client disconnected: {clientId}");
-            PlayerController playerToRemove = playersConnected.Find(player => player.OwnerClientId == clientId);
-            if (playerToRemove != null)
-            {
-                playersConnected.Remove(playerToRemove);
-                Debug.Log($"Removed player with Client ID: {clientId}");
-            }
+            clientsConnected.Remove(clientId);
+
+            RemovePlayer(clientId);
+            Debug.Log($"Removed player with Client ID: {clientId}");
         }
     }
 
@@ -46,6 +47,7 @@ public class NetworkSpawnHandler : NetworkBehaviour
         if (IsServer)
         {
             Debug.Log($"Client connected: {clientId}");
+            clientsConnected.Add(clientId);
             RequestPlayerSpawnServerRpc(clientId);
         }
     }
@@ -79,7 +81,7 @@ public class NetworkSpawnHandler : NetworkBehaviour
         networkObject.SpawnAsPlayerObject(clientId);
 
         // Add the player to the list
-        playersConnected.Add(newPlayer);
+        playersAlive.Add(clientId, newPlayer);
 
         // Debug ownership
         Debug.Log($"Player spawned with OwnerClientId: {networkObject.OwnerClientId}, Expected: {clientId}");
@@ -99,14 +101,10 @@ public class NetworkSpawnHandler : NetworkBehaviour
         }
     }
     [ServerRpc(RequireOwnership = false)]
-    public void RemovePlayerServerRpc(ulong clientId, ServerRpcParams serverRpcParams)
+    public void MarkPlayerToRespawnServerRpc(ulong clientId, ServerRpcParams serverRpcParams)
     {
-        PlayerController playerToRemove = playersConnected.Find(player => player.OwnerClientId == clientId);
-        if (playerToRemove != null)
-        {
-            playersConnected.Remove(playerToRemove);
-            Debug.Log($"Removed player with Client ID: {clientId} due to death.");
-        }
+        RemovePlayer(clientId);
+        clientsToRespawn.Add(clientId);
     }
 
     public void SpawnParticles(ParticleSystem prefab, Vector3 spawnPosition, Quaternion spawnRotation)
@@ -134,15 +132,26 @@ public class NetworkSpawnHandler : NetworkBehaviour
         NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, audioClip.length + 0.1f);
     }
 
-    [ServerRpc]
-    public void UpdatePlayersConnectedServerRpc()
+    private void RemovePlayer(ulong clientId)
     {
-        foreach (PlayerController player in playersConnected)
+        if (playersAlive.ContainsKey(clientId))
         {
-            if(player == null)
-            {
-                playersConnected.Remove(player);
-            }
+            playersAlive.Remove(clientId);
         }
+        if (clientsToRespawn.Contains(clientId))
+        {
+            clientsToRespawn.Remove(clientId);
+        }
+    }
+
+
+    [ServerRpc]
+    public void RespawnConnectedPlayersServerRpc()
+    {
+        foreach (ulong clientToRespawn in clientsToRespawn)
+        {
+            RequestPlayerSpawnServerRpc(clientToRespawn);
+        }
+        clientsToRespawn.Clear();
     }
 }

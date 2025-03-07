@@ -8,6 +8,7 @@ public class PlayerHud : UiPage
     [SerializeField] private TMP_Text ammoLeftTextBox;
     [SerializeField] private TMP_Text ammoReserveTextBox;
     [SerializeField] private TMP_Text connectionCodeTextBox;
+    public FlashImage damageFlash;
 
     public void UpdateWeightBar(float weight, float maxWeight)
     {

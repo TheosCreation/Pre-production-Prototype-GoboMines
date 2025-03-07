@@ -101,6 +101,12 @@ public class RangedWeapon : Weapon
             revolverBeam.DrawBeamClientRpc(hit.point);
             if(hit.collider.TryGetComponent<IDamageable>(out IDamageable hitDamageable))
             {
+                if (hitDamageable.HitSounds.Length > 0)
+                {
+                    AudioClip hitSound = hitDamageable.HitSounds[Random.Range(0, hitDamageable.HitSounds.Length)];
+                    NetworkSpawnHandler.Instance.SpawnSound(hitSound, hit.point);
+                }
+
                 hitDamageable.TakeDamage(damage, player);
                 SpawnHitParticles(hit.point, hit.normal, hitDamageable.HitParticlePrefab);
             }

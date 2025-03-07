@@ -43,7 +43,8 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         timeOfDay = 0;
         isDayProgressing = true;
-        enemySpawner.HandleGenerationComplete();
+        enemySpawner.BakeNavMeshAndSpawnsClientRpc();
+        enemySpawner.SpawnEnemies();
         ambientTarget.SetActive(true);
     }
 
@@ -54,6 +55,7 @@ public class GameManager : SingletonPersistent<GameManager>
         generator.ResetDungeon();
         enemySpawner.ResetEnemies();
         ambientTarget.SetActive(true);
+        NetworkSpawnHandler.Instance.RespawnConnectedPlayersServerRpc();
     }
 
     private void CalculateQuota()

@@ -50,7 +50,7 @@ public abstract class BaseState : IEnemyState
     {
         PlayerController closestPlayer = null;
         float closestDistance = float.MaxValue;
-        foreach (PlayerController player in NetworkSpawnHandler.Instance.playersConnected)
+        foreach (PlayerController player in NetworkSpawnHandler.Instance.playersAlive.Values)
         {
             float dist = Vector3.Distance(enemy.transform.position, player.transform.position);
             if (dist < closestDistance)
