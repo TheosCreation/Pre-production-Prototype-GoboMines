@@ -17,7 +17,7 @@ public class AmbientSoundPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((int)GameManager.Instance.timeOfDay % 20 == 1)
+        if (((int)GameManager.Instance.timeOfDay % 20 == 1) && (1 - (GameManager.Instance.timeOfDay / (int)GameManager.Instance.timeOfDay) <= 0.01));
         {
             if (UnityEngine.Random.Range(0, 100) <= 30 )
             {
