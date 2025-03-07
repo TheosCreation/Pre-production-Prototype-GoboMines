@@ -28,6 +28,8 @@ public class Generator : MonoBehaviour
 
     public delegate void GenerationCompleteHandler();
     public event GenerationCompleteHandler OnGenerationComplete;
+    public delegate void GenerationResetHandler();
+    public event GenerationCompleteHandler OnGenerationReset;
     List<int> rotationAngles = new List<int> { 0, 90, 180, 270 };
 
     [System.Serializable]
@@ -425,6 +427,7 @@ public class Generator : MonoBehaviour
 
     private void ResetDungeon()
     {
+        OnGenerationReset?.Invoke();
         currentMaxRooms = maxRooms + (GameManager.Instance.day * roomsIncreaseFactor);
         foreach (Room room in placedRooms)
         {
