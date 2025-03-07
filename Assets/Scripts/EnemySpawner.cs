@@ -42,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 outsideAreaSize;
 
     private Generator generator;
-
+    private List<GameObject> enemyList;
     private void Awake()
     {
         generator = FindFirstObjectByType<Generator>();
@@ -50,18 +50,27 @@ public class EnemySpawner : MonoBehaviour
         if (generator != null)
         {
             generator.OnGenerationComplete += HandleGenerationComplete;
+            generator.OnGenerationReset += ResetEnemies;
         }
         else
         {
             Debug.LogError("EnemySpawner: No Generator instance found in the scene!");
         }
     }
-
+    private void ResetEnemies()
+    {
+        foreach (GameObject enemy in enemyList)
+        {
+            if (enemy == null) { continue; }
+            enemy.GetComponent<EnemyAI>().Die();
+        }
+    }
     private void OnDestroy()
     {
         if (generator != null)
         {
             generator.OnGenerationComplete -= HandleGenerationComplete;
+            generator.OnGenerationReset -= ResetEnemies;
         }
     }
 
@@ -313,6 +322,7 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
         enemy.GetComponent<NetworkObject>().Spawn();
+        enemyList.Add(enemy);
     }
 
     private Vector3 GetValidSpawnPosition(Vector3 areaCenter, Vector3 areaSize, int area)
