@@ -2585,6 +2585,14 @@ PrefabInstance:
       propertyPath: m_AllowMSAA
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4114138342125646220, guid: 5c5645663db69094491e224d1272ad3c, type: 3}
+      propertyPath: field of view
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114138342125646220, guid: 5c5645663db69094491e224d1272ad3c, type: 3}
+      propertyPath: near clip plane
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6826832288403925631, guid: 5c5645663db69094491e224d1272ad3c, type: 3}
       propertyPath: m_LocalPosition.y
       value: 14
