@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rotationSpeed: 500
-  detectionRange: 15
+  detectionRange: 21
   attackRange: 2
   attackCooldown: 1
-  currentDestination: {x: 2.975977, y: 0.020708203, z: 4.1739154}
+  currentDestination: {x: 17.875446, y: 0.8730398, z: 37.40321}
   allowedAreas: -32
   updatePathInterval: 0.2
   stoppingDistance: 0.5
