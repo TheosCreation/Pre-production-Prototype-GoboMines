@@ -15,7 +15,7 @@ MonoBehaviour:
   moveSpeed: 4
   rotationSpeed: 500
   detectionRange: 10
-  attackRange: 1
+  attackRange: 2
   attackCooldown: 1
   currentDestination: {x: 0, y: 0, z: 0}
   allowedAreas: 8

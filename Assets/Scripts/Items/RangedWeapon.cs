@@ -23,7 +23,7 @@ public class RangedWeapon : Weapon
     private Timer reloadTimer;
     private Vector3 shotDirection;
 
-    private int ammoReserve = 500;
+    private int ammoReserve = 15;
     private int ammoInMag = 0;
     public int AmmoInMag
     {

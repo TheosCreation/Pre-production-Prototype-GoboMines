@@ -148,7 +148,7 @@ MonoBehaviour:
   isEquip: 0
   equipTime: 0.5
   equipSound: {fileID: 8300000, guid: e11b5d18715df4d4bbcd2965f4a810f3, type: 3}
-  damage: 20
+  damage: 60
   isAttacking: 0
   attacksPerSecond: 4
   attackingSounds:
