@@ -50,7 +50,7 @@ public class SpiralChasingStateSO : BaseState
         base.OnUpdate(enemy);
 
         Transform target = enemy.GetTarget();
-        if (target == null)
+        if (target == null || Vector3.Distance(target.transform.position, enemy.transform.position) > detectionRange)
         {
             enemy.ChangeState<RoamingStateSO>();
             return;
