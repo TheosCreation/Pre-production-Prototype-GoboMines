@@ -11,7 +11,7 @@ public class StalkingStateSO : BaseState
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
-        enemy.SetTarget(FindNearestPlayer(enemy));
+        enemy.SetTargetClientRpc(FindNearestPlayer(enemy));
     }
 
     public override void OnUpdate(EnemyAI enemy)
@@ -52,10 +52,10 @@ public class StalkingStateSO : BaseState
         return (Vector3.Dot(target.forward, toEnemy) > playerViewThreshold) && HasDirectLineOfSight(enemy);
     }
 
-    private Transform FindNearestPlayer(EnemyAI enemy)
+    private GameObject FindNearestPlayer(EnemyAI enemy)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        Transform nearest = null;
+        GameObject nearest = null;
         float minDist = Mathf.Infinity;
 
         foreach (GameObject player in players)
@@ -64,7 +64,7 @@ public class StalkingStateSO : BaseState
             if (dist < minDist)
             {
                 minDist = dist;
-                nearest = player.transform;
+                nearest = player;
             }
         }
         return nearest;

@@ -78,7 +78,7 @@ public class RoamingStateSO : BaseState
 
         if (closestTarget != null)
         {
-            enemy.SetTarget(closestTarget);
+            enemy.SetTargetClientRpc(closestTarget.gameObject);
         }
     }
 

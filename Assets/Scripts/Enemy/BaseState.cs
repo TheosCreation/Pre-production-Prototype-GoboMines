@@ -61,7 +61,7 @@ public abstract class BaseState : IEnemyState
         }
         if (closestPlayer != null)
         {
-            enemy.SetTarget(closestPlayer.transform);
+            enemy.SetTargetClientRpc(closestPlayer.gameObject);
         }
     }
 }

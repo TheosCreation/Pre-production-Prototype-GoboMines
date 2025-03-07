@@ -641,6 +641,9 @@ PrefabInstance:
     - {fileID: 8761816681910510722, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6843125003313155290, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1426086633}
+    - targetCorrespondingSourceObject: {fileID: 6843125003313155290, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1582245055}
     - targetCorrespondingSourceObject: {fileID: 2275499673753568065, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
@@ -1836,6 +1839,102 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1426086632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1426086633}
+  - component: {fileID: 1426086635}
+  - component: {fileID: 1426086634}
+  - component: {fileID: 1426086636}
+  m_Layer: 7
+  m_Name: FakeShop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1426086633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426086632}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -7.61, y: 37.99, z: 21.789}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 627508280}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1426086634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426086632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35bbfb120ad984d42a9fc66f9dd24929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  purchasableItems:
+  - {fileID: 1525639375827180996, guid: 114840c610addf242a79105b1c5efdc4, type: 3}
+  interactionText: Purchase Pistol
+--- !u!65 &1426086635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426086632}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8.36945, y: 4.4604034, z: 1.3454437}
+  m_Center: {x: 1.1651008, y: -0.30007172, z: -0.17272186}
+--- !u!114 &1426086636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426086632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3146754079
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &1582245054
 GameObject:
   m_ObjectHideFlags: 0
@@ -2572,7 +2671,7 @@ PrefabInstance:
       objectReference: {fileID: 747536626}
     - target: {fileID: 7090359629325720602, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8334888642671838948, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
       propertyPath: textBox

@@ -25,12 +25,14 @@ public class InventoryUiPage : UiPage
             if (displayedItems.ContainsKey(item.Key))
             {
                 displayedItems[item.Key].SetItemAmount(item.Value);
+                displayedItems[item.Key].SetSellValue(item.Key.saleValue * item.Value);
             }
             else
             {
                 ItemInventoryUi itemDisplay = Instantiate(itemDisplayPrefab, grid);
                 itemDisplay.SetIconImage(item.Key.icon);
                 itemDisplay.SetItemAmount(item.Value);
+                itemDisplay.SetSellValue(item.Key.saleValue * item.Value);
                 displayedItems[item.Key] = itemDisplay;
             }
         }
