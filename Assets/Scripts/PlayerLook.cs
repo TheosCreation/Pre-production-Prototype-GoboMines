@@ -167,8 +167,8 @@ public class PlayerLook : NetworkBehaviour
 
     public void TriggerScreenShake(float duration, float magnitude)
     {
-        shakeEndTime = Time.time + duration;
-        shakeMagnitude = magnitude * shakeAmount * scale;
+        shakeEndTime += Time.time + duration;
+        shakeMagnitude += magnitude * shakeAmount * scale;
     }
 
     public void ResetZoomLevel()

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9750fbf60578e469c3c4a3f42716f2, type: 3}
   m_Name: BrackenAttackingSO
   m_EditorClassIdentifier: Assembly-CSharp::AttackingStateSO
-  moveSpeed: 5
+  moveSpeed: 4
   rotationSpeed: 500
   detectionRange: 10
-  attackRange: 2
+  attackRange: 1
   attackCooldown: 1
   currentDestination: {x: 0, y: 0, z: 0}
   allowedAreas: 8

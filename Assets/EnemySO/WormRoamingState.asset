@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rotationSpeed: 500
-  detectionRange: 50
+  detectionRange: 25
   attackRange: 2
   attackCooldown: 1
-  currentDestination: {x: 32.639652, y: -0.12572479, z: 22.657158}
+  currentDestination: {x: 2.8619308, y: 34.95761, z: 19.737846}
   allowedAreas: 16
   roamRadius: 500
   nextState: {fileID: 11400000, guid: 4183da1606e9b4e42b264b37a0fc90c3, type: 2}
