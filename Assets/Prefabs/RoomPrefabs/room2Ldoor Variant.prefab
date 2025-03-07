@@ -971,7 +971,7 @@ PrefabInstance:
       addedObject: {fileID: 8227662937261754713}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1812156443962934016, guid: 86f973bf635098f4eacb72f8f04b70d2, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: -5188788123833662743}
   m_SourcePrefab: {fileID: 100100000, guid: 86f973bf635098f4eacb72f8f04b70d2, type: 3}
 --- !u!4 &5435740787855545393 stripped

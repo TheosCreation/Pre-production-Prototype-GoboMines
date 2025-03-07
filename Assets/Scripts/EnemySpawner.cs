@@ -42,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 outsideAreaSize;
 
     private Generator generator;
-    private List<GameObject> enemyList;
+    private List<GameObject> enemyList = new List<GameObject>();
    
     public void ResetEnemies()
     {

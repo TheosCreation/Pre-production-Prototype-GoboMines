@@ -46,7 +46,7 @@ public class Generator : MonoBehaviour
     }
     private List<Door> activeDoors = new List<Door>();
 
-    private bool isGenerating = false;
+    public bool isGenerating = false;
 
     public bool regenerateDungeon = false;
 
