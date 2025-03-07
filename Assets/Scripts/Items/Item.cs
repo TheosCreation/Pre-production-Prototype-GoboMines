@@ -25,6 +25,10 @@ public class Item : NetworkBehaviour, IInteractable
         rb = GetComponent<Rigidbody>();
     }
 
+    public virtual void Init()
+    {
+    }
+
     public virtual void StartAttacking() { }
     public virtual void EndAttacking() { }
     public virtual void StartAltAction() { }

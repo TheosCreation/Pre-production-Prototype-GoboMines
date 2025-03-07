@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Pickaxe
+    second: {fileID: 2100000, guid: be2cab51f9d12b84fa65e47242abb9e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: lambert1
     second: {fileID: 2100000, guid: 0e957a3fd1234324ba27460468be1656, type: 2}
   materials:
