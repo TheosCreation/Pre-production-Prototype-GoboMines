@@ -6,10 +6,9 @@ public class ElevatorManager : NetworkBehaviour
 {
     private NetworkVariable<bool> isMoving = new NetworkVariable<bool>(false);
     [SerializeField] private NetworkAnimator animator;
-    private bool isUp = true;
+    private NetworkVariable<bool> isUp = new NetworkVariable<bool>(true);
 
     [SerializeField] private ElevatorCollectPlayers collectPlayers;
-
 
     [ServerRpc(RequireOwnership = false)]
     public void ToggleElevatorServerRpc()
@@ -27,8 +26,8 @@ public class ElevatorManager : NetworkBehaviour
     public void FinishMoving()
     {
         isMoving.Value = false;
-        isUp = !isUp;
-        if (isUp)
+        isUp.Value = !isUp.Value;
+        if (isUp.Value)
         {
             GameManager.Instance.EndDay();
         }
