@@ -12,4 +12,5 @@ public class GameManager : SingletonPersistent<GameManager>
 {
     public GlobalPrefabs prefabs;
     public UnityEvent onHostEvent;
+    public int day = 1;
 }

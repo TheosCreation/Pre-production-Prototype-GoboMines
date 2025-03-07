@@ -133,4 +133,16 @@ public class NetworkSpawnHandler : NetworkBehaviour
 
         NetworkObjectDestroyer.Instance.DestroyNetObjWithDelay(netObj, audioClip.length + 0.1f);
     }
+
+    [ServerRpc]
+    public void UpdatePlayersConnectedServerRpc()
+    {
+        foreach (PlayerController player in playersConnected)
+        {
+            if(player == null)
+            {
+                playersConnected.Remove(player);
+            }
+        }
+    }
 }

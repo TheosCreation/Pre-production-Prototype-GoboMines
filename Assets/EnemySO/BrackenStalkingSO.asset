@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e12814517bd11b84ba04e7488213fd6c, type: 3}
   m_Name: BrackenStalkingSO
   m_EditorClassIdentifier: Assembly-CSharp::StalkingStateSO
-  moveSpeed: 2
+  moveSpeed: 1.5
   rotationSpeed: 500
-  detectionRange: 15
-  attackRange: 10
+  detectionRange: 20
+  attackRange: 5
   attackCooldown: 1
   currentDestination: {x: 0, y: 0, z: 0}
   allowedAreas: 8
