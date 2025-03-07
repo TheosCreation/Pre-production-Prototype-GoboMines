@@ -881,7 +881,6 @@ MonoBehaviour:
   hitSounds:
   - {fileID: 8300000, guid: 5473414c8705aee4689999564a5cc70f, type: 3}
   - {fileID: 8300000, guid: 1e56e51acf1a4c645b5afd6d7289d4bc, type: 3}
-  hurtSounds: []
   deathSound: {fileID: 8300000, guid: 8a1055e1a66c6da41bbbaa794f4baf37, type: 3}
   aud: {fileID: 3936411922092984459}
   health: 100
@@ -935,7 +934,7 @@ MonoBehaviour:
   movementSpeed: 4
   crouchSpeedMultiplier: 0.248
   movementThrashold: 0.01
-  jumpVelocity: 5
+  jumpVelocity: 8
   jumpTime: 0.5
   frictionAgainstFloor: 0.3
   acceleration: 20

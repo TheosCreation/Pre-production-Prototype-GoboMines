@@ -79,7 +79,6 @@ public class Generator : MonoBehaviour
             currentSeed = randomSeed;
             Random.InitState(randomSeed);
         }
-
         InitializeRoomTemplates();
         StartCoroutine(GenerateDungeon());
     }
