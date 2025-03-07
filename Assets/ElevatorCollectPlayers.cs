@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
 public class ElevatorCollectPlayers : MonoBehaviour
 {
-    private List<PlayerController> playerInRange;
+    private List<PlayerController> playerInRange = new List<PlayerController>();
 
     private void OnTriggerEnter(Collider other)
     {
