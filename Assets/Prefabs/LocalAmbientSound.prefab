@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e5f0b201ef92946b01f75f499a80d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClip:
+  audioClips:
   - {fileID: 8300000, guid: f19770e8ac95bed41b6751fac78a506d, type: 3}
   - {fileID: 8300000, guid: 9424e8eb8afa04d43b1c03bde0497ecc, type: 3}
   - {fileID: 8300000, guid: d08cc66859fcc1d419cd68af2ac77b64, type: 3}
   - {fileID: 8300000, guid: e8f658ba401e34a44a5b616a1a272898, type: 3}
   - {fileID: 8300000, guid: 3f83b16a26f0255478c5bff735ccfe4a, type: 3}
+  - {fileID: 8300000, guid: 8c119e1818eb74d45a05f4532b60a423, type: 3}
   - {fileID: 8300000, guid: c40cb51ece14ef24a9034cbf28ae42fb, type: 3}
 --- !u!82 &6765444664817505894
 AudioSource:
