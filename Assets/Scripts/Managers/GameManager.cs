@@ -20,6 +20,8 @@ public class GameManager : SingletonPersistent<GameManager>
     private EnemySpawner enemySpawner;
     [SerializeField] private GameObject ambientSource;
     private GameObject ambientTarget;
+    public int initialQuota = 180;
+    public int dailyQuota = 180;
 
     protected override void Awake()
     {
@@ -53,4 +55,10 @@ public class GameManager : SingletonPersistent<GameManager>
         enemySpawner.ResetEnemies();
         ambientTarget.SetActive(true);
     }
+
+    private void CalculateQuota()
+    {
+        dailyQuota = initialQuota * (int)(0.1f * Mathf.Pow((float)day, 1.3f) + 1f);
+    }
+
 }
