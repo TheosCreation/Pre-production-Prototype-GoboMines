@@ -1304,6 +1304,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DirtDigging
       objectReference: {fileID: 0}
+    - target: {fileID: 3225998189648456800, guid: 9c27285e8ac3b324793b3dbc1a0d34ea, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3676336127165114560, guid: 9c27285e8ac3b324793b3dbc1a0d34ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.27
@@ -1390,14 +1394,15 @@ MonoBehaviour:
   - {fileID: 1170687856599597479, guid: a764f8c29ed6f774aacb72b46fe15b34, type: 3}
   outsideEnemyPrefabs:
   - {fileID: 8825454334778365944, guid: 62ac8d818c6f02140915c1520f5662e0, type: 3}
-  insideEnemyCount: 3
-  outsideEnemyCount: 3
+  insideEnemyCount: 1
+  outsideEnemyCount: 1
   maxSpawnAttempts: 10
   spawnSampleRadius: 5
   fallbackInsideCenter: {x: 0, y: 0, z: 0}
   fallbackInsideSize: {x: 200, y: 0, z: 200}
   fallbackOutsideCenter: {x: 0, y: 0, z: 0}
   fallbackOutsideSize: {x: 200, y: 0, z: 200}
+  spawnInterval: 120
   spawnInterval: 10
 --- !u!4 &876357645
 Transform:
@@ -1990,11 +1995,13 @@ MonoBehaviour:
   - {fileID: 4681528460846642470, guid: 152c3304f0763d34f8ab53d12e6f7720, type: 3}
   initialRoom: {fileID: 627508279}
   maxRooms: 100
+  roomsIncreaseFactor: 20
   placementDelay: 0
   useSeed: 0
   seed: -564250748
   currentSeed: 0
   blockedDoorPrefab: {fileID: 0}
+  regenerateDungeon: 0
 --- !u!4 &1410642440
 Transform:
   m_ObjectHideFlags: 0
@@ -2551,7 +2558,7 @@ MonoBehaviour:
   - {fileID: 3483476277261664142, guid: 382328e96b73c534f9fd8b2315756220, type: 3}
   - {fileID: 3473289784376412868, guid: 70056fffdc4926946967e23770e8a4d9, type: 3}
   - {fileID: 8203850504880424587, guid: 073035e565c54cb4d8ff02d3aacdde9e, type: 3}
-  ShowGizmos: 0
+  ShowGizmos: 1
 --- !u!4 &2116731355
 Transform:
   m_ObjectHideFlags: 0
@@ -3549,4 +3556,5 @@ SceneRoots:
   - {fileID: 1423650146}
   - {fileID: 876357645}
   - {fileID: 496285884}
+  - {fileID: 868090382}
   - {fileID: 872242373}
