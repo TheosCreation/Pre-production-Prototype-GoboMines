@@ -107,7 +107,7 @@ public class RangedWeapon : Weapon
                     NetworkSpawnHandler.Instance.SpawnSound(hitSound, hit.point);
                 }
 
-                hitDamageable.TakeDamage(damage, player);
+                hitDamageable.TakeDamageServerRpc(damage, player.OwnerClientId);
                 SpawnHitParticles(hit.point, hit.normal, hitDamageable.HitParticlePrefab);
             }
             else

@@ -37,31 +37,33 @@ public class PlayerController : NetworkBehaviour, IDamageable
             health = value;
             if (health < 0)
             {
-                Die();
+                DieServerRpc();
             }
 
         }
     }
 
-    private void Die()
+    [ServerRpc(RequireOwnership = false)]
+    private void DieServerRpc()
     {
-        if (!IsOwner)
-        {
-            return;
-        }
-
-        LocalClientHandler.Instance.TempCamera(true);
-        LocalClientHandler.Instance.SetCameraToPlayer(0);
-
         if (NetworkSpawnHandler.Instance != null)
         {
             NetworkSpawnHandler.Instance.MarkPlayerToRespawnServerRpc(OwnerClientId, default);
         }
-
         NetworkSpawnHandler.Instance.SpawnSound(deathSound, transform.position);
 
+        DieClientRpc();
         NetworkObject.Despawn(gameObject);
         Destroy(gameObject);
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void DieClientRpc()
+    {
+        if(!IsOwner) return;
+
+        LocalClientHandler.Instance.TempCamera(true);
+        LocalClientHandler.Instance.SetCameraToPlayer(0);
     }
 
 
@@ -153,24 +155,25 @@ public class PlayerController : NetworkBehaviour, IDamageable
         UiManager.Instance.ToggleInventory();
     }
 
-    public void TakeDamage(int amount, PlayerController fromPlayer)
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(int amount, ulong fromPlayer)
     {
-        if(!IsOwner) return;
-
-        if (Time.time - lastDamageTime < damageCooldown)
-        {
-            return;
-        };
-
-        lastDamageTime = Time.time;
-
-        ulong attackerId = fromPlayer.OwnerClientId;
-        Health -= amount;
-        playerLook.TriggerScreenShake(0.2f, amount * 0.005f);
-        UiManager.Instance.playerHud.damageFlash.Play();
+        TakeDamageClientRpc(amount, fromPlayer);
     }
 
-    public void TakeDamage(int amount, GameObject fromObject)
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(int amount, NetworkObjectReference fromObject)
+    {
+        TakeDamageClientRpc(amount);
+    }
+
+    public void DropAllItems()
+    {
+        inventory.DropAllItems();
+    }
+
+    [ClientRpc]
+    public void TakeDamageClientRpc(int amount, ulong clientId = 100000)
     {
         if (!IsOwner) return;
 
@@ -181,12 +184,7 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
         lastDamageTime = Time.time;
         Health -= amount;
-        playerLook.TriggerScreenShake(0.2f, amount*0.005f);
         UiManager.Instance.playerHud.damageFlash.Play();
-    }
-
-    public void DropAllItems()
-    {
-        inventory.DropAllItems();
+        playerLook.TriggerScreenShake(0.2f, amount * 0.005f);
     }
 }

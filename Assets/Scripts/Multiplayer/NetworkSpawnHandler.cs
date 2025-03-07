@@ -90,21 +90,23 @@ public class NetworkSpawnHandler : NetworkBehaviour
         NotifyClientPlayerSpawnedClientRpc(clientId);
     }
 
-    [ClientRpc]
+    [ClientRpc(RequireOwnership = false)]
     private void NotifyClientPlayerSpawnedClientRpc(ulong clientId, ClientRpcParams clientRpcParams = default)
     {
-        // Check if this is the client that connected
-        if (NetworkManager.Singleton.LocalClientId == clientId)
-        {
-            Debug.Log($"Client {clientId} notified of player spawn.");
-            LocalClientHandler.Instance.HandlePlayerSpawned(clientId);
-        }
+        Debug.Log($"Client {clientId} notified of player spawn.");
+        LocalClientHandler.Instance.HandlePlayerSpawned(clientId);
     }
+
     [ServerRpc(RequireOwnership = false)]
     public void MarkPlayerToRespawnServerRpc(ulong clientId, ServerRpcParams serverRpcParams)
     {
         RemovePlayer(clientId);
         clientsToRespawn.Add(clientId);
+
+        if (playersAlive.Count <= 0)
+        {
+            GameManager.Instance.ResetLevel();
+        }
     }
 
     public void SpawnParticles(ParticleSystem prefab, Vector3 spawnPosition, Quaternion spawnRotation)

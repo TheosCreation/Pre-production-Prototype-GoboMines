@@ -122,13 +122,13 @@ public class Projectile : NetworkBehaviour
             if (contactPoint.otherCollider.gameObject.CompareTag("Head"))
             {
                 //m_weaponUser.OnHit(true); //for a hitmarker indicator
-                damageable.TakeDamage((int)(m_damage * headShotMultiplier), m_weaponUser);
+                damageable.TakeDamageServerRpc((int)(m_damage * headShotMultiplier), m_weaponUser.OwnerClientId);
                 HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSounds);
             }
             else
             {
                 // m_weaponUser.OnHit(false); // for a hitmarker indicator
-                damageable.TakeDamage(m_damage, m_weaponUser);
+                damageable.TakeDamageServerRpc(m_damage, m_weaponUser.OwnerClientId);
                 HitDamageable(hitPoint, hitNormal, damageable.HitParticlePrefab, damageable.HitSounds);
             }
         }

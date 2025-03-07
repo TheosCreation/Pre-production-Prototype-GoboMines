@@ -73,18 +73,52 @@ public class OreNode : NetworkBehaviour, IDamageable
         }
     }
 
-
-    public void TakeDamage(int amount, GameObject fromObject)
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(int amount, ulong fromPlayer)
     {
-        int oreToMine = Mathf.Min(totalOre.Value, amount); 
+        TakeDamageClientRpc(amount, fromPlayer);
+    }
 
-        if (oreToMine > 0)
-        {
-            totalOre.Value -= oreToMine;
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(int amount, NetworkObjectReference fromObject)
+    {
+        TakeDamageClientRpc(amount);
+    }
 
-            // Drop Ore At Object Location Or Give To Object Inventory
-        }
+    [ClientRpc]
+    public void TakeDamageClientRpc(int amount, ulong fromPlayer = 100000)
+    {
+        if (!IsOwner) return;
+        if (isDead) return;
+
+        // Deminishing Scale
+        float powerFactor = 1.5f;
+
+        // Calculate ore left based on current health BEFORE damage
+        int oreBeforeHit = Mathf.RoundToInt(initialOre * Mathf.Pow((float)Health / maxHealth, powerFactor));
 
         Health -= amount;
+
+        // And then AFTER damage
+        int oreAfterHit = Mathf.RoundToInt(initialOre * Mathf.Pow((float)Health / maxHealth, powerFactor));
+
+        int oreToMine = oreBeforeHit - oreAfterHit;
+        oreToMine = Mathf.Clamp(oreToMine, 0, totalOre.Value);
+
+        totalOre.Value -= oreToMine;
+
+        // Add the mined ore to the player's inventory
+        if (oreToMine > 0)
+        {
+            if(fromPlayer != 100000)
+            {
+                NetworkSpawnHandler.Instance.playersAlive[fromPlayer].inventory.AddItemToInventory(ore, oreToMine);
+            }
+            else
+            {
+                //Drop on ground
+            }
+            Debug.Log("Ore Mined: " + oreToMine);
+        }
     }
 }

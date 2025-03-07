@@ -38,7 +38,7 @@ public class Pickaxe : Weapon
 
                 NetworkSpawnHandler.Instance.SpawnParticles(damageable.HitParticlePrefab, hit.point, Quaternion.LookRotation(hit.normal));
 
-                damageable.TakeDamage(damage, player);
+                damageable.TakeDamageServerRpc(damage, player.OwnerClientId);
             }
         }
     }

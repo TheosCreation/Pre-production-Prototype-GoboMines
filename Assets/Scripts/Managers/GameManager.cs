@@ -18,6 +18,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
     private Generator generator;
     private EnemySpawner enemySpawner;
+    private ElevatorManager elevator;
     [SerializeField] private GameObject ambientSource;
     private GameObject ambientTarget;
     public int initialQuota = 180;
@@ -28,6 +29,7 @@ public class GameManager : SingletonPersistent<GameManager>
         base.Awake();
 
         generator = FindFirstObjectByType<Generator>();
+        elevator = FindFirstObjectByType<ElevatorManager>();
         enemySpawner = FindFirstObjectByType<EnemySpawner>();
 
         ambientTarget = Instantiate(ambientSource);
@@ -63,4 +65,10 @@ public class GameManager : SingletonPersistent<GameManager>
         dailyQuota = initialQuota * (int)(0.1f * Mathf.Pow((float)day, 1.3f) + 1f);
     }
 
+    public void ResetLevel()
+    {
+        elevator.Reset();
+        EndDay();
+        day = 0;
+    }
 }

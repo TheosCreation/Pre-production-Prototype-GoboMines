@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -35,5 +36,12 @@ public class ElevatorManager : NetworkBehaviour
         {
             GameManager.Instance.StartDay();
         }
+    }
+
+    public void Reset()
+    {
+        animator.SetTrigger("Reset");
+        isMoving.Value = false;
+        isUp.Value = true;
     }
 }

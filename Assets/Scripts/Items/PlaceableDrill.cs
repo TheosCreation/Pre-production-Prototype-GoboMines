@@ -49,7 +49,7 @@ public class PlacableDrill : Item
                     NetworkSpawnHandler.Instance.SpawnSound(hitSound, hit.point);
                 }
 
-                damageable.TakeDamage(damage, drill);
+                damageable.TakeDamageServerRpc(damage, drill);
             }
         }
     }

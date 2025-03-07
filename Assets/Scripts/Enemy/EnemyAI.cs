@@ -185,14 +185,9 @@ public class EnemyAI : NetworkBehaviour, IDamageable
                 AudioClip hitSound = damageable.HitSounds[Random.Range(0, damageable.HitSounds.Length)];
                 NetworkSpawnHandler.Instance.SpawnSound(hitSound, transform.position);
             }
-            damageable.TakeDamage(damage, gameObject);
+            damageable.TakeDamageServerRpc(damage, gameObject);
         }
         
-    }
-
-    public void TakeDamage(int amount, PlayerController fromPlayer)
-    {
-        Health -= amount;
     }
 
     public void Die()
@@ -200,8 +195,22 @@ public class EnemyAI : NetworkBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-    public void TakeDamage(int amount, GameObject fromObject)
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(int amount, NetworkObjectReference fromObject)
     {
-        throw new NotImplementedException();
+        TakeDamageClientRpc(amount);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(int amount, ulong clientId)
+    {
+        TakeDamageClientRpc(amount, clientId);
+    }
+
+    [ClientRpc]
+    public void TakeDamageClientRpc(int amount, ulong clientId = 100000)
+    {
+        if (!IsOwner) return;
+        Health -= amount;
     }
 }

@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 interface IDamageable
@@ -9,7 +10,12 @@ interface IDamageable
 
     int Health { get; set; }
 
-    void TakeDamage(int amount, PlayerController fromPlayer);
 
-    void TakeDamage(int amount, GameObject fromObject);
+    [ServerRpc(RequireOwnership = false)]
+    void TakeDamageServerRpc(int amount, ulong clientId);
+
+    [ServerRpc(RequireOwnership = false)]
+    void TakeDamageServerRpc(int amount, NetworkObjectReference fromObject);
+    [ClientRpc]
+    void TakeDamageClientRpc(int amount, ulong clientId = 100000);
 }
