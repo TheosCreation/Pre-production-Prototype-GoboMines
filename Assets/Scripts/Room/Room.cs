@@ -16,6 +16,7 @@ public class Room : NetworkBehaviour
     public Vector2Int size;
     [Range(0f, 1f)]
     public float spawnChance = 1f;
+    public List<GameObject> ores;
     private Vector3 CalculateCenter()
     {
         Bounds bounds = new Bounds();
@@ -71,6 +72,7 @@ public class Room : NetworkBehaviour
         OreNode oreSpawned = Instantiate(randomOre, transformToSpawn.position, transformToSpawn.rotation);
         oreSpawned.GetComponent<NetworkObject>().Spawn();
         oreSpawned.transform.parent = transform.parent;
+        ores.Add(oreSpawned.gameObject);
     }
 
     private void FindDoorsIterative(Vector3 center)
@@ -133,5 +135,15 @@ public class Room : NetworkBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(center, 0.1f);
 
+    }
+
+    public void DeleteOres()
+    {
+       foreach(GameObject ore in ores)
+       {
+            if(ore == null) {  continue; } 
+            ore.GetComponent<NetworkObject>().Despawn();
+            Destroy(ore);
+       }
     }
 }
