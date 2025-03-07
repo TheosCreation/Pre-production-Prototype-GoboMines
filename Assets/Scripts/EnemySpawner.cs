@@ -45,6 +45,7 @@ public class EnemySpawner : MonoBehaviour
     private List<GameObject> enemyList;
     private void Awake()
     {
+        enemyList = new List<GameObject>();
         generator = FindFirstObjectByType<Generator>();
 
         if (generator != null)

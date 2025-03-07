@@ -155,7 +155,6 @@ public class EnemyAI : NetworkBehaviour, IDamageable
         float distanceToTarget = Vector3.Distance(transform.position, target.position);
         /*  if (distanceToTarget > currentAttackRange)
               return;*/
-        Debug.Log("Attacking");
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * currentRotationSpeed);
