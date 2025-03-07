@@ -18,6 +18,8 @@ public class GameManager : SingletonPersistent<GameManager>
 
     private Generator generator;
     private EnemySpawner enemySpawner;
+    [SerializeField] private GameObject ambientSource;
+    private GameObject ambientTarget;
 
     protected override void Awake()
     {
@@ -25,6 +27,8 @@ public class GameManager : SingletonPersistent<GameManager>
 
         generator = FindFirstObjectByType<Generator>();
         enemySpawner = FindFirstObjectByType<EnemySpawner>();
+
+        ambientTarget = Instantiate(ambientSource);
     }
 
     public void Update()
@@ -38,6 +42,7 @@ public class GameManager : SingletonPersistent<GameManager>
         timeOfDay = 0;
         isDayProgressing = true;
         enemySpawner.HandleGenerationComplete();
+        ambientTarget.SetActive(true);
     }
 
     public void EndDay()
@@ -46,5 +51,6 @@ public class GameManager : SingletonPersistent<GameManager>
         day++;
         generator.ResetDungeon();
         enemySpawner.ResetEnemies();
+        ambientTarget.SetActive(true);
     }
 }
