@@ -27,7 +27,13 @@ public class SpiralChasingStateSO : BaseState
     private float pathUpdateTimer = 0f;
     private float spiralAngle = 0f;
     private bool transitionTriggered = false;
-    private int outsideLayer = LayerMask.NameToLayer("Outside");
+    private int outsideLayer;
+
+    public void OnEnable()
+    {
+        outsideLayer = LayerMask.NameToLayer("Outside");
+    }
+
     public override void OnEnter(EnemyAI enemy)
     {
         base.OnEnter(enemy);
@@ -134,7 +140,7 @@ public class SpiralChasingStateSO : BaseState
         else
         {
             NavMeshHit hit;
-            Vector3 randomDirection = Random.insideUnitSphere * maxChaseRadius + enemy.transform.position;
+            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * maxChaseRadius + enemy.transform.position;
             if (NavMesh.SamplePosition(randomDirection, out hit, maxChaseRadius, agent.areaMask))
             {
                 currentDestination = hit.position;
