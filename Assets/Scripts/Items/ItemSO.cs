@@ -6,5 +6,5 @@ public class ItemSO : ScriptableObject
     public Sprite icon;
     public string itemName;
     public float weight;
-    public float saleValue = 1.0f;
+    public int saleValue = 1;
 }

@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class CurrencyManager : Singleton<CurrencyManager>
 {
-    private float totalMoney = 0f;
+    private int totalMoney = 0;
 
-    public event Action<float> OnMoneyChanged;
+    public event Action<int> OnMoneyChanged;
 
-    public void AddMoney(float saleValue)
+    public void AddMoney(int saleValue)
     {
         totalMoney += saleValue;
         OnMoneyChanged?.Invoke(totalMoney);
     }
 
-    public float GetTotalMoney()
+    public int GetTotalMoney()
     {
         return totalMoney;
     }

@@ -30,7 +30,10 @@ public class RangedWeapon : Weapon
         get => ammoInMag;
         set
         {
+            if (!IsOwner) return;
+
             ammoInMag = value;
+
             if(ammoInMag == 0)
             {
                 animator.SetBool("Empty", true);

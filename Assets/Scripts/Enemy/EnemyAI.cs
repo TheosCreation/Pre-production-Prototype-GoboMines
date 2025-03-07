@@ -17,7 +17,8 @@ public class EnemyAI : NetworkBehaviour, IDamageable
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Vector3 homePosition;
-    [SerializeField] private Transform target;
+    [SerializeField]
+    private Transform target;
     [SerializeField] public Timer timer;
 
     [Header("Combat")]
@@ -145,7 +146,14 @@ public class EnemyAI : NetworkBehaviour, IDamageable
     public NavMeshAgent GetAgent() => agent;
     public Vector3 GetHomePosition() => homePosition;
     public Transform GetTarget() => target;
-    public void SetTarget(Transform newTarget) => target = newTarget;
+    [ClientRpc]
+    public void SetTargetClientRpc(NetworkObjectReference newTargetReference)
+    {
+        if (newTargetReference.TryGet(out NetworkObject networkObject))
+        {
+            target = networkObject.transform;
+        }
+    }
 
     public void PerformAttack()
     {

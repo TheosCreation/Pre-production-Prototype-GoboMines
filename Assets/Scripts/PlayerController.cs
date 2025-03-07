@@ -144,6 +144,8 @@ public class PlayerController : NetworkBehaviour, IDamageable
 
     private void OpenCloseInventory()
     {
+        if(!IsOwner) return;
+
         UiManager.Instance.ToggleInventory();
     }
 
