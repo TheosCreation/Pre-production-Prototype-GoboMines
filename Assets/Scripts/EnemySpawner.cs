@@ -43,21 +43,8 @@ public class EnemySpawner : MonoBehaviour
 
     private Generator generator;
     private List<GameObject> enemyList;
-    private void Awake()
-    {
-        generator = FindFirstObjectByType<Generator>();
-
-        if (generator != null)
-        {
-            generator.OnGenerationComplete += HandleGenerationComplete;
-            generator.OnGenerationReset += ResetEnemies;
-        }
-        else
-        {
-            Debug.LogError("EnemySpawner: No Generator instance found in the scene!");
-        }
-    }
-    private void ResetEnemies()
+   
+    public void ResetEnemies()
     {
         foreach (GameObject enemy in enemyList)
         {
@@ -65,16 +52,8 @@ public class EnemySpawner : MonoBehaviour
             enemy.GetComponent<EnemyAI>().Die();
         }
     }
-    private void OnDestroy()
-    {
-        if (generator != null)
-        {
-            generator.OnGenerationComplete -= HandleGenerationComplete;
-            generator.OnGenerationReset -= ResetEnemies;
-        }
-    }
 
-    private void HandleGenerationComplete()
+    public void HandleGenerationComplete()
     {
         if (insideSurface != null)
         { 

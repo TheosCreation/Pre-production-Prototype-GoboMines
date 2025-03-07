@@ -16,23 +16,35 @@ public class GameManager : SingletonPersistent<GameManager>
     public float timeOfDay = 0;
     public bool isDayProgressing = false;
 
+    private Generator generator;
+    private EnemySpawner enemySpawner;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        generator = FindFirstObjectByType<Generator>();
+        enemySpawner = FindFirstObjectByType<EnemySpawner>();
+    }
+
     public void Update()
     {
         timeOfDay += Time.deltaTime;
     }
 
+
     public void StartDay()
     {
         timeOfDay = 0;
         isDayProgressing = true;
-        // Start Spawning Of Enemies and Timer
-
+        enemySpawner.HandleGenerationComplete();
     }
 
     public void EndDay()
     {
         isDayProgressing = false;
         day++;
-        // Generator.CreateNewMap
+        generator.ResetDungeon();
+        enemySpawner.ResetEnemies();
     }
 }

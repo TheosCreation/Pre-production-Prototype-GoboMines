@@ -425,7 +425,7 @@ public class Generator : MonoBehaviour
         }
     }
 
-    private void ResetDungeon()
+    public void ResetDungeon()
     {
         OnGenerationReset?.Invoke();
         currentMaxRooms = maxRooms + (GameManager.Instance.day * roomsIncreaseFactor);
