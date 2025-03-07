@@ -11,7 +11,7 @@ public class MoneyDisplayText : MonoBehaviour
         CurrencyManager.Instance.OnMoneyChanged += UpdateText;
     }
 
-    private void UpdateText(float money)
+    private void UpdateText(int money)
     {
         m_textbox.text = "Total Cash: " + money.ToString();
     }
