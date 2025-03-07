@@ -608,6 +608,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 800005831}
+    - target: {fileID: 9044660509844930922, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
+      propertyPath: collectPlayers
+      value: 
+      objectReference: {fileID: 631225706}
     m_RemovedComponents:
     - {fileID: 2417515677568419230, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
     - {fileID: 8616080578598858695, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
@@ -1523,11 +1527,13 @@ MonoBehaviour:
   - {fileID: 4681528460846642470, guid: 152c3304f0763d34f8ab53d12e6f7720, type: 3}
   initialRoom: {fileID: 627508279}
   maxRooms: 100
+  roomsIncreaseFactor: 20
   placementDelay: 0
   useSeed: 0
   seed: -564250748
   currentSeed: 0
   blockedDoorPrefab: {fileID: 0}
+  regenerateDungeon: 0
 --- !u!4 &1410642440
 Transform:
   m_ObjectHideFlags: 0
