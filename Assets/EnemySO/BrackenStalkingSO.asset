@@ -25,3 +25,10 @@ MonoBehaviour:
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  footstepSounds:
+  - {fileID: 8300000, guid: 74cea718473ccbe438efa15788b74a7b, type: 3}
+  footstepTimer: 0
+  scream:
+  - {fileID: 8300000, guid: d06407d2020429f4c942d2d5448edf55, type: 3}
+  - {fileID: 8300000, guid: 169442e4f2316ad4f86d0088f70db4bc, type: 3}
+  - {fileID: 8300000, guid: 70c3e03eb2a12fc4192d518bf1f7dfec, type: 3}

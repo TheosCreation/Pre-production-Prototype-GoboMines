@@ -30,6 +30,7 @@ public class EnemyAI : NetworkBehaviour, IDamageable
     [SerializeField] private int damage = 10;
 
 
+    
 
     private float currentMoveSpeed;
     private float currentRotationSpeed;
@@ -213,4 +214,6 @@ public class EnemyAI : NetworkBehaviour, IDamageable
         if (!IsOwner) return;
         Health -= amount;
     }
+
+  
 }

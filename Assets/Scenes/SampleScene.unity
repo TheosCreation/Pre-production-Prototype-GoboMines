@@ -895,7 +895,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1353618937}
+    m_TransformParent: {fileID: 891805528}
     m_Modifications:
     - target: {fileID: 4197787512389962108, guid: afa87964c1fc2034f8c884e85c1fcf9a, type: 3}
       propertyPath: m_Pivot.x
@@ -2908,9 +2908,6 @@ PrefabInstance:
       insertIndex: 0
       addedObject: {fileID: 914828379}
     - targetCorrespondingSourceObject: {fileID: 4653079938979260016, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 747536625}
-    - targetCorrespondingSourceObject: {fileID: 4653079938979260016, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2035659169}
     - targetCorrespondingSourceObject: {fileID: 1219259755563159991, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
@@ -2922,6 +2919,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5065647184808783466, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 240446044}
+    - targetCorrespondingSourceObject: {fileID: 5065647184808783466, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 747536625}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90119123124a967458a6dd5ecf56a4bf, type: 3}
 --- !u!1001 &3556525052424019858
