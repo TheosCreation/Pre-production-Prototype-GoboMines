@@ -79,6 +79,7 @@ MonoBehaviour:
   IkRightHandOn: 1
   isHeld: 0
   canSell: 0
+  holdable: 1
   itemSO: {fileID: 0}
   interactionText: Pickup Pickaxe
   isEquip: 0
@@ -375,8 +376,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5428819847830291728}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.10042344, y: -0.6541997, z: -0.74928254, w: 0.022662494}
-  m_LocalPosition: {x: -0.064, y: -0.0833, z: -0.0225}
+  m_LocalRotation: {x: -0.22657198, y: -0.73400253, z: -0.6125788, w: -0.18615216}
+  m_LocalPosition: {x: -0.0212, y: -0.1561, z: -0.0053}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -406,8 +407,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9064497450792492707}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.05665929, y: -0.63710016, z: -0.76543474, w: -0.07073032}
-  m_LocalPosition: {x: 0.0338, y: -0.0096, z: -0.0074}
+  m_LocalRotation: {x: -0.34410742, y: -0.53708106, z: -0.77006495, w: -0.011579249}
+  m_LocalPosition: {x: 0.0192, y: -0.0096, z: -0.0075}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

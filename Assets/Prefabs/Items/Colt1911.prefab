@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4626680242056822518}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05027629, y: 0.6768567, z: 0.704755, w: -0.20653735}
-  m_LocalPosition: {x: 0.0057, y: -0.0183, z: -0.0835}
+  m_LocalRotation: {x: 0.2657121, y: 0.55307114, z: 0.7774058, w: 0.13838254}
+  m_LocalPosition: {x: 0.0316, y: -0.0344, z: -0.0917}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -142,6 +142,7 @@ MonoBehaviour:
   IkRightHandOn: 1
   isHeld: 0
   canSell: 0
+  holdable: 1
   itemSO: {fileID: 0}
   interactionText: Pickup Colt 1911
   isEquip: 0
@@ -442,8 +443,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8649647559187871336}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.04891302, y: -0.30876288, z: -0.66955143, w: 0.6737759}
-  m_LocalPosition: {x: -0.062374726, y: -0.07259613, z: -0.023845986}
+  m_LocalRotation: {x: -0.06798915, y: -0.39737067, z: -0.47723114, w: 0.7808486}
+  m_LocalPosition: {x: -0.054, y: -0.1051, z: -0.0711}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
