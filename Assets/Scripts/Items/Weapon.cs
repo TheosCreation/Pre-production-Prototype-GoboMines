@@ -49,7 +49,13 @@ public class Weapon : Item
         equipTimer = gameObject.AddComponent<Timer>();
         pickupTimer = gameObject.AddComponent<Timer>();
         unJamTimer = gameObject.AddComponent<Timer>();
-        player = GetComponentInParent<PlayerController>();   
+    }
+
+    public override void Init()
+    {
+        base.Init();
+
+        player = GetComponentInParent<PlayerController>();
     }
 
 
