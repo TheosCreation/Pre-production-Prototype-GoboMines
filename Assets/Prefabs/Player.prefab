@@ -942,8 +942,8 @@ MonoBehaviour:
   deceleration: 20
   airDeceleration: 20
   groundCheckerThrashold: 0.4
-  maxGroundDistance: 0.64
-  groundStickSmooth: 15
+  maxGroundDistance: 0.5
+  groundStickSmooth: 1
   fallDistanceDamageThreshold: 2
   minimumFallDistanceToLandEvent: 0.5
   minimumHorizontalSpeedToFastEvent: 0

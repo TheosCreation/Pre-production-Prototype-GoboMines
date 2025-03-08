@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     public int day = 1;
     public float timeOfDay = 0;
     public bool isDayProgressing = false;
+    public bool dummy = true;
 
     private Generator generator;
     [SerializeField] private DayDisplayText dayDisplay;
@@ -46,8 +47,13 @@ public class GameManager : Singleton<GameManager>
     {
         timeOfDay = 0;
         isDayProgressing = true;
-        enemySpawner.BakeNavMeshAndSpawnsClientRpc();
-        enemySpawner.SpawnEnemies();
+        if(dummy)
+        {
+            generator.OnGenerationComplete += enemySpawner.BakeNavMeshAndSpawnsClientRpc;
+            generator.OnGenerationComplete += enemySpawner.SpawnEnemies;
+            dummy = false;
+        }
+        generator.ResetDungeon();
         ambientTarget.SetActive(true);
     }
 
@@ -56,7 +62,6 @@ public class GameManager : Singleton<GameManager>
         isDayProgressing = false;
         day++;
         dayDisplay.UpdateText(day);
-        generator.ResetDungeon();
         enemySpawner.ResetEnemies();
         ambientTarget.SetActive(true);
         NetworkSpawnHandler.Instance.RespawnConnectedPlayersServerRpc();
