@@ -117,12 +117,6 @@ public class Weapon : Item
         if (!IsOwner) return;
     }
 
-
-    private void OnEnable()
-    {
-        Equip();
-    }
-
     private void OnDisable()
     {
         if (!IsOwner) return;

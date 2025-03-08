@@ -8,7 +8,10 @@ using UnityEngine.InputSystem;
 
 public class ItemHolder : NetworkBehaviour
 {
+    [SerializeField] private List<Item> startingItems = new List<Item>();
     [SerializeField] private List<Item> currentHoldableItems = new List<Item>();
+    [SerializeField] private NetworkList<ulong> heldItemIds = new NetworkList<ulong>();
+
     public Transform idlePosition;
     [SerializeField] private Item currentItem;
     private int currentItemIndex = 0;
@@ -57,17 +60,28 @@ public class ItemHolder : NetworkBehaviour
 
         currentItemIndexNetwork.OnValueChanged += OnItemIndexChanged;
 
-        // Select the current item based on the network variable
-        SelectItem(currentItemIndexNetwork.Value);
-        foreach (Item item in currentHoldableItems)
+        if (IsServer)
         {
-            item.Attach(idlePosition);
+            foreach (Item item in startingItems)
+            {
+                Item spawnedItem = Instantiate(item, idlePosition.position, idlePosition.rotation);
+                spawnedItem.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
+                this.AddItemServerRpc(spawnedItem.NetworkObjectId);
+            }
+        }
+        else
+        {
+            // For new clients, attach items from the already synchronized list
+            foreach (ulong id in heldItemIds)
+            {
+                AttachItemFromId(id);
+            }
         }
 
-        if (IsOwner)
-        {
-            currentItem?.Equip();
-        }
+        // Select the current item based on the network variable
+        SelectItem(currentItemIndexNetwork.Value);
+
+        currentItem?.Equip();
     }
 
     public override void OnDestroy()
@@ -98,7 +112,7 @@ public class ItemHolder : NetworkBehaviour
 
     private void ItemSwitch(Vector2 direction)
     {
-        if (!IsOwner || isSwitching || currentHoldableItems.Count == 0) return;
+        if (!IsOwner || isSwitching || currentHoldableItems.Count <= 1) return;
 
         StartCoroutine(ItemSwitchDelayed(direction));
     }
@@ -163,6 +177,11 @@ public class ItemHolder : NetworkBehaviour
         {
             item.gameObject.SetActive(item == currentItem);
         }
+
+        if(currentItem != null)
+        {
+            currentItem.Equip();
+        }
     }
 
 
@@ -211,15 +230,66 @@ public class ItemHolder : NetworkBehaviour
             handTarget.rotation = ikHandPos.rotation;
         }
     }
-
-    public void Add(Item item)
+    [ServerRpc(RequireOwnership = false)]
+    public void AddItemServerRpc(ulong newItemId)
     {
-        currentHoldableItems.Add(item);
-        item.Attach(idlePosition);
+        if(!heldItemIds.Contains(newItemId))
+        {
+            heldItemIds.Add(newItemId);
+        }
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(newItemId, out NetworkObject netObj))
+        {
+            Item newItem = netObj.GetComponent<Item>();
+            if (!currentHoldableItems.Contains(newItem))
+            {
+                currentHoldableItems.Add(newItem);
+                newItem.Attach(idlePosition);
+                newItem.Init();
 
-        // Automatically switch to the newly picked up item
-        currentItemIndex = currentHoldableItems.Count - 1;
-        SelectItem(currentItemIndex);
+                currentItemIndex = currentHoldableItems.Count - 1;
+                SelectItem(currentItemIndex);
+            }
+            AddItemClientRpc(newItemId);
+        }
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void AddItemClientRpc(ulong networkObjectId)
+    {
+        if (!heldItemIds.Contains(networkObjectId))
+        {
+            heldItemIds.Add(networkObjectId);
+        }
+        // Find the spawned item on the client using its NetworkObjectId
+        NetworkObject netObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[networkObjectId];
+        if (netObj != null)
+        {
+            Item clientItem = netObj.GetComponent<Item>();
+
+            if(!currentHoldableItems.Contains(clientItem))
+            {
+                currentHoldableItems.Add(clientItem);
+                clientItem.Attach(idlePosition);
+                clientItem.Init(); 
+                currentItemIndex = currentHoldableItems.Count - 1;
+                SelectItem(currentItemIndex);
+            }
+        }
+    }
+    private void AttachItemFromId(ulong itemId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(itemId, out NetworkObject netObj))
+        {
+            Item item = netObj.GetComponent<Item>();
+            if (!currentHoldableItems.Contains(item))
+            {
+                currentHoldableItems.Add(item);
+                item.Attach(idlePosition);
+                item.Init();
+                currentItemIndex = currentHoldableItems.Count - 1;
+                SelectItem(currentItemIndex);
+            }
+        }
     }
 
     public void DropCurrentItem()

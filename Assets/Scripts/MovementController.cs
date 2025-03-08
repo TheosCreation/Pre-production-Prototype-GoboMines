@@ -140,6 +140,8 @@ public class MovementController : NetworkBehaviour
     private void Awake()
     {
         m_rigidbody = this.GetComponent<Rigidbody>();
+        m_rigidbody.solverIterations *= 5;
+        m_rigidbody.solverVelocityIterations *= 5;
         m_collider = this.GetComponent<CapsuleCollider>();
         originalColliderHeight = m_collider.height;
 

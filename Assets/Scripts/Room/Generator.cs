@@ -193,7 +193,6 @@ public class Generator : MonoBehaviour
     {
         isGenerating = false;
         OnGenerationComplete?.Invoke();
-        UiManager.Instance.OpenPlayerHud();
     }
 
     // Starts gen coroutine if not already generating

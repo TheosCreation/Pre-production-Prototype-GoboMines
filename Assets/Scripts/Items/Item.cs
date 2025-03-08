@@ -44,7 +44,7 @@ public class Item : NetworkBehaviour, IInteractable
     {
         if(holdable)
         {
-            player.itemHolder.Add(this);
+            player.itemHolder.AddItemServerRpc(this.NetworkObjectId);
         }
         else
         {

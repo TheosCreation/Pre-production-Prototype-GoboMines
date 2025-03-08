@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -64,6 +65,8 @@ public class LocalClientHandler : Singleton<LocalClientHandler>
 
     public void HandlePlayerSpawned(ulong clientId)
     {
+        if(NetworkManager.Singleton.LocalClientId != clientId) return;
+
         TempCamera(false);
         PauseManager.Instance.SetPaused(false);
         UiManager.Instance.OpenPlayerHud();

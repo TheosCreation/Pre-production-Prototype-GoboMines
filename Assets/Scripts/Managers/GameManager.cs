@@ -8,7 +8,7 @@ public struct GlobalPrefabs
     public ParticleSystem hitWallPrefab;
 }
 
-public class GameManager : SingletonPersistent<GameManager>
+public class GameManager : Singleton<GameManager>
 {
     public GlobalPrefabs prefabs;
     public UnityEvent onHostEvent;
@@ -17,6 +17,7 @@ public class GameManager : SingletonPersistent<GameManager>
     public bool isDayProgressing = false;
 
     private Generator generator;
+    [SerializeField] private DayDisplayText dayDisplay;
     private EnemySpawner enemySpawner;
     private ElevatorManager elevator;
     [SerializeField] private GameObject ambientSource;
@@ -54,6 +55,7 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         isDayProgressing = false;
         day++;
+        dayDisplay.UpdateText(day);
         generator.ResetDungeon();
         enemySpawner.ResetEnemies();
         ambientTarget.SetActive(true);

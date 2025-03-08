@@ -27,8 +27,9 @@ public class Shop : NetworkBehaviour, IInteractable
             {
                 // Instantiate the prefab at the player's item holder position.
                 Item itemInstance = Instantiate(selectedItem, player.itemHolder.transform.position, Quaternion.identity);
-                player.itemHolder.Add(itemInstance);
-                itemInstance.Init();
+                itemInstance.GetComponent<NetworkObject>().SpawnWithOwnership(player.OwnerClientId);
+                player.itemHolder.AddItemServerRpc(itemInstance.NetworkObjectId);
+
             }
             else
             {

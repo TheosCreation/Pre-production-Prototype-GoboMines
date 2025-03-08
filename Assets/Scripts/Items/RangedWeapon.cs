@@ -203,8 +203,8 @@ public class RangedWeapon : Weapon
         {
             int bulletsNeeded = magSize - ammoInMag;
             int bulletsToReload = Mathf.Min(ammoReserve, bulletsNeeded);
-            AmmoInMag += bulletsToReload;
             ammoReserve -= bulletsToReload;
+            AmmoInMag += bulletsToReload;
 
             isReloading.Value = false;
         }

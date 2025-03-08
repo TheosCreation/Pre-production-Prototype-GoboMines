@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CurrencyManager : Singleton<CurrencyManager>
 {
-    private int totalMoney = 0;
+    [SerializeField] private int totalMoney = 0;
 
     public event Action<int> OnMoneyChanged;
 
