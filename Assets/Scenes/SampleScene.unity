@@ -2131,7 +2131,7 @@ GameObject:
   - component: {fileID: 925711720}
   - component: {fileID: 925711722}
   - component: {fileID: 925711721}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sell Area (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
