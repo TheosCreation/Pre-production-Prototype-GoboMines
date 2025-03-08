@@ -765,7 +765,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2426177703999683733, guid: 10ddff18bec6a0147aa207583fc3eb14, type: 3}
       propertyPath: totalMoney
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2982517339667746426, guid: 10ddff18bec6a0147aa207583fc3eb14, type: 3}
       propertyPath: m_Name
@@ -1034,6 +1034,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2275499673753568065, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1007116110}
+    - targetCorrespondingSourceObject: {fileID: 2275499673753568065, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 780466732}
     - targetCorrespondingSourceObject: {fileID: 4775317589753164904, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1022620878}
@@ -1606,6 +1609,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3763494, y: 2.2030268, z: 0.15515138}
   m_Center: {x: 0.12610021, y: 0.028450906, z: -0.07926471}
+--- !u!1 &780466731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 780466732}
+  - component: {fileID: 780466733}
+  m_Layer: 0
+  m_Name: BoxCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &780466732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780466731}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0.00004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 511288726}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &780466733
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780466731}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.019997556, y: 0.021053862, z: 0.0011866284}
+  m_Center: {x: -0.0006929858, y: -0.00012698471, z: -0.0003320655}
 --- !u!1 &800005824 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2187766402796927694, guid: 7fd9c1c558635ff489e3109ab2a010a7, type: 3}
@@ -1872,14 +1928,14 @@ MonoBehaviour:
   outsideEnemyPrefabs:
   - {fileID: 8825454334778365944, guid: 62ac8d818c6f02140915c1520f5662e0, type: 3}
   insideEnemyCount: 1
-  outsideEnemyCount: 6
+  outsideEnemyCount: 1
   maxSpawnAttempts: 10
   spawnSampleRadius: 5
   fallbackInsideCenter: {x: 0, y: 0, z: 0}
   fallbackInsideSize: {x: 200, y: 0, z: 200}
   fallbackOutsideCenter: {x: 0, y: 0, z: 0}
   fallbackOutsideSize: {x: 200, y: 0, z: 200}
-  spawnInterval: 32.12
+  spawnInterval: 60
 --- !u!4 &876357645
 Transform:
   m_ObjectHideFlags: 0
